@@ -1,0 +1,181 @@
+/* Extra wallpaper gradients (paired: .zone-atmosphere + .wall-thumb) */
+
+.zone-atmosphere[data-wallpaper="fjord"]::before,
+.wall-thumb[data-wallpaper="fjord"]::before {
+  background-color: #061018;
+  background-image:
+    radial-gradient(ellipse 100% 65% at 50% -20%, rgb(56 189 248 / 0.14), transparent 55%),
+    radial-gradient(ellipse 45% 40% at 12% 60%, rgb(20 83 45 / 0.22), transparent 50%),
+    radial-gradient(ellipse 50% 42% at 88% 40%, rgb(14 116 144 / 0.18), transparent 52%),
+    linear-gradient(198deg, #0c1a22 0%, #061018 45%, #020608 100%);
+}
+
+.zone-atmosphere[data-wallpaper="glacier"]::before,
+.wall-thumb[data-wallpaper="glacier"]::before {
+  background-color: #0a1016;
+  background-image:
+    radial-gradient(ellipse 95% 70% at 50% -18%, rgb(224 242 254 / 0.12), transparent 58%),
+    radial-gradient(ellipse 40% 38% at 20% 75%, rgb(125 211 252 / 0.1), transparent 48%),
+    radial-gradient(ellipse 42% 44% at 85% 30%, rgb(148 163 184 / 0.14), transparent 50%),
+    linear-gradient(185deg, #121c28 0%, #0a1016 42%, #040608 100%);
+}
+
+.zone-atmosphere[data-wallpaper="borealis"]::before,
+.wall-thumb[data-wallpaper="borealis"]::before {
+  background-color: #050d12;
+  background-image:
+    radial-gradient(ellipse 90% 55% at 50% -15%, rgb(52 211 153 / 0.2), transparent 52%),
+    radial-gradient(ellipse 35% 50% at 75% 45%, rgb(192 132 252 / 0.18), transparent 48%),
+    radial-gradient(ellipse 40% 45% at 15% 55%, rgb(34 197 94 / 0.12), transparent 50%),
+    linear-gradient(200deg, #0a1620 0%, #050d12 40%, #020508 100%);
+}
+
+.zone-atmosphere[data-wallpaper="forge"]::before,
+.wall-thumb[data-wallpaper="forge"]::before {
+  background-color: #140805;
+  background-image:
+    radial-gradient(ellipse 70% 50% at 50% 100%, rgb(251 146 60 / 0.35), transparent 55%),
+    radial-gradient(ellipse 50% 40% at 50% -10%, rgb(248 113 113 / 0.22), transparent 50%),
+    radial-gradient(ellipse 38% 35% at 92% 70%, rgb(234 88 12 / 0.2), transparent 48%),
+    linear-gradient(178deg, #1c0c08 0%, #140805 38%, #060302 100%);
+}
+
+.zone-atmosphere[data-wallpaper="obsidian"]::before,
+.wall-thumb[data-wallpaper="obsidian"]::before {
+  background-color: #08060e;
+  background-image:
+    radial-gradient(ellipse 85% 60% at 50% -12%, rgb(167 139 250 / 0.12), transparent 54%),
+    radial-gradient(ellipse 38% 42% at 88% 78%, rgb(88 28 135 / 0.2), transparent 48%),
+    radial-gradient(ellipse 44% 38% at 8% 25%, rgb(30 27 75 / 0.25), transparent 50%),
+    linear-gradient(192deg, #100c18 0%, #08060e 44%, #020104 100%);
+}
+
+.zone-atmosphere[data-wallpaper="moss"]::before,
+.wall-thumb[data-wallpaper="moss"]::before {
+  background-color: #07100a;
+  background-image:
+    radial-gradient(ellipse 100% 68% at 50% -16%, rgb(74 222 128 / 0.1), transparent 56%),
+    radial-gradient(ellipse 48% 44% at 10% 70%, rgb(22 101 52 / 0.28), transparent 50%),
+    radial-gradient(ellipse 42% 40% at 90% 35%, rgb(63 98 65 / 0.18), transparent 52%),
+    linear-gradient(188deg, #0e1a12 0%, #07100a 41%, #030604 100%);
+}
+
+.zone-atmosphere[data-wallpaper="hearth"]::before,
+.wall-thumb[data-wallpaper="hearth"]::before {
+  background-color: #100a06;
+  background-image:
+    radial-gradient(ellipse 55% 45% at 50% 100%, rgb(251 191 36 / 0.28), transparent 50%),
+    radial-gradient(ellipse 100% 50% at 50% -5%, rgb(180 83 9 / 0.15), transparent 55%),
+    radial-gradient(ellipse 40% 38% at 15% 40%, rgb(69 26 3 / 0.35), transparent 48%),
+    linear-gradient(182deg, #1a100c 0%, #100a06 40%, #050302 100%);
+}
+
+.zone-atmosphere[data-wallpaper="storm"]::before,
+.wall-thumb[data-wallpaper="storm"]::before {
+  background-color: #0c0e12;
+  background-image:
+    radial-gradient(ellipse 95% 55% at 50% -20%, rgb(148 163 184 / 0.14), transparent 54%),
+    radial-gradient(ellipse 30% 25% at 72% 28%, rgb(226 232 240 / 0.08), transparent 45%),
+    radial-gradient(ellipse 50% 48% at 20% 80%, rgb(51 65 85 / 0.22), transparent 52%),
+    linear-gradient(190deg, #141820 0%, #0c0e12 43%, #050506 100%);
+}
+
+.zone-atmosphere[data-wallpaper="wine"]::before,
+.wall-thumb[data-wallpaper="wine"]::before {
+  background-color: #0f0608;
+  background-image:
+    radial-gradient(ellipse 90% 62% at 50% -15%, rgb(190 18 60 / 0.14), transparent 54%),
+    radial-gradient(ellipse 44% 42% at 85% 65%, rgb(127 29 29 / 0.22), transparent 50%),
+    radial-gradient(ellipse 40% 40% at 12% 40%, rgb(69 10 10 / 0.3), transparent 48%),
+    linear-gradient(186deg, #1a0a10 0%, #0f0608 42%, #040102 100%);
+}
+
+.zone-atmosphere[data-wallpaper="slate"]::before,
+.wall-thumb[data-wallpaper="slate"]::before {
+  background-color: #0a0c10;
+  background-image:
+    radial-gradient(ellipse 100% 65% at 50% -18%, rgb(100 116 139 / 0.16), transparent 56%),
+    radial-gradient(ellipse 42% 40% at 78% 72%, rgb(71 85 105 / 0.2), transparent 50%),
+    radial-gradient(ellipse 38% 38% at 15% 30%, rgb(30 41 59 / 0.25), transparent 48%),
+    linear-gradient(194deg, #12151c 0%, #0a0c10 44%, #030304 100%);
+}
+
+.zone-atmosphere[data-wallpaper="lagoon"]::before,
+.wall-thumb[data-wallpaper="lagoon"]::before {
+  background-color: #05161a;
+  background-image:
+    radial-gradient(ellipse 95% 60% at 50% -12%, rgb(34 211 238 / 0.16), transparent 54%),
+    radial-gradient(ellipse 45% 42% at 88% 55%, rgb(6 182 212 / 0.14), transparent 50%),
+    radial-gradient(ellipse 40% 45% at 10% 70%, rgb(8 145 178 / 0.12), transparent 48%),
+    linear-gradient(188deg, #0a2428 0%, #05161a 41%, #02080a 100%);
+}
+
+.zone-atmosphere[data-wallpaper="amethyst"]::before,
+.wall-thumb[data-wallpaper="amethyst"]::before {
+  background-color: #0c0614;
+  background-image:
+    radial-gradient(ellipse 88% 58% at 50% -14%, rgb(196 181 253 / 0.14), transparent 54%),
+    radial-gradient(ellipse 40% 44% at 82% 38%, rgb(147 51 234 / 0.18), transparent 50%),
+    radial-gradient(ellipse 42% 40% at 18% 75%, rgb(88 28 135 / 0.2), transparent 48%),
+    linear-gradient(196deg, #140a1e 0%, #0c0614 43%, #030208 100%);
+}
+
+.zone-atmosphere[data-wallpaper="blossom"]::before,
+.wall-thumb[data-wallpaper="blossom"]::before {
+  background-color: #100818;
+  background-image:
+    radial-gradient(ellipse 92% 58% at 50% -12%, rgb(244 114 182 / 0.14), transparent 54%),
+    radial-gradient(ellipse 38% 40% at 22% 65%, rgb(219 39 119 / 0.12), transparent 48%),
+    radial-gradient(ellipse 44% 42% at 88% 40%, rgb(168 85 247 / 0.1), transparent 50%),
+    linear-gradient(188deg, #180c22 0%, #100818 42%, #06040c 100%);
+}
+
+.zone-atmosphere[data-wallpaper="void"]::before,
+.wall-thumb[data-wallpaper="void"]::before {
+  background-color: #020204;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% 50%, rgb(30 27 75 / 0.35), transparent 55%),
+    radial-gradient(ellipse 50% 45% at 20% 20%, rgb(49 46 129 / 0.15), transparent 48%),
+    radial-gradient(ellipse 45% 40% at 90% 85%, rgb(15 23 42 / 0.5), transparent 52%),
+    linear-gradient(210deg, #080818 0%, #020204 50%, #000000 100%);
+}
+
+.zone-atmosphere[data-wallpaper="rust"]::before,
+.wall-thumb[data-wallpaper="rust"]::before {
+  background-color: #120806;
+  background-image:
+    radial-gradient(ellipse 100% 62% at 50% -16%, rgb(180 83 9 / 0.12), transparent 54%),
+    radial-gradient(ellipse 42% 40% at 75% 70%, rgb(153 27 27 / 0.18), transparent 50%),
+    radial-gradient(ellipse 48% 44% at 12% 38%, rgb(120 53 15 / 0.22), transparent 52%),
+    linear-gradient(182deg, #1a0e0a 0%, #120806 41%, #050302 100%);
+}
+
+.zone-atmosphere[data-wallpaper="ocean"]::before,
+.wall-thumb[data-wallpaper="ocean"]::before {
+  background-color: #030a18;
+  background-image:
+    radial-gradient(ellipse 100% 55% at 50% -22%, rgb(59 130 246 / 0.12), transparent 56%),
+    radial-gradient(ellipse 48% 50% at 15% 60%, rgb(30 58 138 / 0.28), transparent 52%),
+    radial-gradient(ellipse 44% 42% at 88% 35%, rgb(12 74 110 / 0.2), transparent 50%),
+    linear-gradient(188deg, #081428 0%, #030a18 44%, #010308 100%);
+}
+
+.zone-atmosphere[data-wallpaper="velvet"]::before,
+.wall-thumb[data-wallpaper="velvet"]::before {
+  background-color: #0c0408;
+  background-image:
+    radial-gradient(ellipse 90% 58% at 50% -12%, rgb(190 24 93 / 0.12), transparent 54%),
+    radial-gradient(ellipse 42% 44% at 85% 72%, rgb(131 24 67 / 0.22), transparent 50%),
+    radial-gradient(ellipse 40% 38% at 10% 35%, rgb(76 5 25 / 0.28), transparent 48%),
+    linear-gradient(184deg, #160810 0%, #0c0408 42%, #030102 100%);
+}
+
+.zone-atmosphere[data-wallpaper="sand"]::before,
+.wall-thumb[data-wallpaper="sand"]::before {
+  background-color: #100e0a;
+  background-image:
+    radial-gradient(ellipse 100% 62% at 50% -18%, rgb(254 240 138 / 0.08), transparent 54%),
+    radial-gradient(ellipse 46% 42% at 22% 75%, rgb(180 83 9 / 0.1), transparent 50%),
+    radial-gradient(ellipse 44% 40% at 85% 30%, rgb(120 113 108 / 0.14), transparent 52%),
+    linear-gradient(178deg, #1a1812 0%, #100e0a 40%, #060504 100%);
+}

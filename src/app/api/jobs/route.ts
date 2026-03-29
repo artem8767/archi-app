@@ -1,0 +1,47 @@
+import { NextResponse } from "next/server";
+import { z } from "zod";
+import { prisma } from "@/lib/prisma";
+import { requireVerifiedUserForWrite } from "@/lib/session-guard";
+
+export async function GET() {
+  const jobs = await prisma.job.findMany({
+    orderBy: { createdAt: "desc" },
+    include: {
+      user: { select: { id: true, name: true, email: true } },
+    },
+  });
+  return NextResponse.json({ jobs });
+}
+
+const postSchema = z.object({
+  city: z.string().min(1).max(200),
+  vacancy: z.string().min(1).max(300),
+  pay: z.string().min(1).max(120),
+  phone: z.string().min(5).max(40),
+  photo: z.string().max(600_000).optional().nullable(),
+});
+
+export async function POST(req: Request) {
+  const auth = await requireVerifiedUserForWrite(req);
+  if (!auth.ok) return auth.response;
+  const { userId } = auth;
+  const body = await req.json();
+  const parsed = postSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json({ error: "Невірні дані" }, { status: 400 });
+  }
+  const job = await prisma.job.create({
+    data: {
+      userId,
+      city: parsed.data.city,
+      vacancy: parsed.data.vacancy,
+      pay: parsed.data.pay,
+      phone: parsed.data.phone,
+      photo: parsed.data.photo ?? null,
+    },
+    include: {
+      user: { select: { id: true, name: true, email: true } },
+    },
+  });
+  return NextResponse.json({ job });
+}

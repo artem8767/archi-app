@@ -1,0 +1,118 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                  String   @id @default(cuid())
+  email               String   @unique
+  phone               String   @unique
+  passwordHash        String
+  name                String?
+  emailVerified       Boolean  @default(false)
+  phoneVerified       Boolean  @default(false)
+  locale              String   @default("en")
+  autoTranslate       Boolean  @default(false)
+  notificationLevel   Int      @default(100)
+  lat                 Float?
+  lng                 Float?
+  addressLabel        String?
+  wallpaperId         String   @default("original")
+  uiTheme             String   @default("stalker")
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  verificationCodes VerificationCode[]
+  newsPosts         NewsPost[]
+  listings          Listing[]
+  jobs              Job[]
+  comments          Comment[]
+  messages          ChatMessage[]
+}
+
+model VerificationCode {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  kind      String
+  code      String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId, kind])
+}
+
+model NewsPost {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title      String
+  body       String
+  imagesJson String   @default("[]")
+  videoUrl   String?
+  createdAt  DateTime @default(now())
+}
+
+model Listing {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category    String
+  // Маркетплейс-розділ (slug): auto_moto, real_estate, …
+  section     String   @default("general")
+  title       String
+  description String
+  price       String
+  phone       String
+  photosJson  String   @default("[]")
+  createdAt   DateTime @default(now())
+}
+
+model Job {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  city      String
+  vacancy   String
+  pay       String
+  phone     String
+  photo     String?
+  createdAt DateTime @default(now())
+}
+
+model Comment {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  targetType String
+  targetId   String
+  body       String
+  createdAt  DateTime @default(now())
+
+  @@index([targetType, targetId])
+}
+
+model ChatRoom {
+  id       String        @id @default(cuid())
+  name     String
+  messages ChatMessage[]
+}
+
+model ChatMessage {
+  id        String   @id @default(cuid())
+  roomId    String
+  room      ChatRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // text | image | video | link | audio
+  kind      String   @default("text")
+  // Текст, підпис або URL (для link).
+  text      String   @default("")
+  // data: URL для фото / відео / аудіо.
+  mediaData String   @default("")
+  createdAt DateTime @default(now())
+}

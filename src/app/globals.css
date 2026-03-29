@@ -1,0 +1,542 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "leaflet/dist/leaflet.css";
+@import "./wallpaper-presets.css";
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+  html {
+    scroll-behavior: smooth;
+    scrollbar-color: rgb(var(--tw-scrollbar-thumb) / 0.5)
+      rgb(var(--tw-scrollbar-track) / 0.92);
+  }
+  ::selection {
+    background-color: rgb(var(--tw-selection-bg) / 0.42);
+    color: rgb(var(--tw-selection-fg));
+  }
+}
+
+html[data-ui-theme="viking"] {
+  --tw-zone-void: 8 11 15;
+  --tw-zone-deep: 15 20 28;
+  --tw-zone-panel: 21 28 39;
+  --tw-zone-edge: 42 53 69;
+  --tw-zone-muted: 124 138 154;
+  --tw-zone-fog: 221 228 238;
+  --tw-archi-50: 251 247 235;
+  --tw-archi-100: 240 230 208;
+  --tw-archi-200: 224 203 165;
+  --tw-archi-300: 204 168 110;
+  --tw-archi-400: 184 137 69;
+  --tw-archi-500: 159 112 40;
+  --tw-archi-600: 131 90 31;
+  --tw-archi-700: 107 72 25;
+  --tw-archi-800: 79 54 20;
+  --tw-archi-900: 46 32 12;
+  --tw-shadow-zone: 0 0 0 1px rgb(58 72 92 / 0.55),
+    inset 0 1px 0 rgb(201 169 92 / 0.07), 0 14px 48px rgb(0 0 0 / 0.55);
+  --tw-shadow-zone-glow: 0 0 28px rgb(201 169 92 / 0.14),
+    0 0 1px rgb(232 208 150 / 0.22);
+  --tw-rad-glow: radial-gradient(
+    ellipse 90% 50% at 50% -20%,
+    rgb(201 169 92 / 0.18),
+    transparent 55%
+  );
+  --tw-brand-glow-1: 232 208 150;
+  --tw-brand-glow-2: 159 112 40;
+  --tw-brand-glow-3: 240 220 180;
+  --tw-brand-glow-4: 201 169 92;
+  --tw-brand-glow-5: 251 247 235;
+  --tw-scrollbar-thumb: 159 112 40;
+  --tw-scrollbar-track: 12 16 22;
+  --tw-selection-bg: 159 112 40;
+  --tw-selection-fg: 251 247 235;
+  --tw-focus-outline: 201 169 92;
+}
+
+html[data-ui-theme="zone"] {
+  --tw-zone-void: 10 12 9;
+  --tw-zone-deep: 18 21 16;
+  --tw-zone-panel: 26 31 23;
+  --tw-zone-edge: 47 56 40;
+  --tw-zone-muted: 139 146 132;
+  --tw-zone-fog: 210 214 200;
+  --tw-archi-50: 244 248 236;
+  --tw-archi-100: 228 237 212;
+  --tw-archi-200: 205 223 179;
+  --tw-archi-300: 173 201 138;
+  --tw-archi-400: 143 181 95;
+  --tw-archi-500: 114 158 63;
+  --tw-archi-600: 90 133 40;
+  --tw-archi-700: 71 107 33;
+  --tw-archi-800: 58 86 28;
+  --tw-archi-900: 42 64 21;
+  --tw-shadow-zone: 0 0 0 1px rgb(100 120 80 / 0.35),
+    inset 0 1px 0 rgb(255 255 255 / 0.05), 0 12px 40px rgb(0 0 0 / 0.5);
+  --tw-shadow-zone-glow: 0 0 24px rgb(114 158 63 / 0.12),
+    0 0 1px rgb(173 201 138 / 0.2);
+  --tw-rad-glow: radial-gradient(
+    ellipse 90% 50% at 50% -20%,
+    rgb(114 158 63 / 0.2),
+    transparent 55%
+  );
+  --tw-brand-glow-1: 173 201 138;
+  --tw-brand-glow-2: 114 158 63;
+  --tw-brand-glow-3: 173 201 138;
+  --tw-brand-glow-4: 114 158 63;
+  --tw-brand-glow-5: 228 237 212;
+  --tw-scrollbar-thumb: 90 133 40;
+  --tw-scrollbar-track: 18 21 16;
+  --tw-selection-bg: 114 158 63;
+  --tw-selection-fg: 244 248 236;
+  --tw-focus-outline: 114 158 63;
+}
+
+/* S.T.A.L.K.E.R. — Зона: бруд, бетон, «хворе» зелене ПДА, легкий аномальний відтінок */
+html[data-ui-theme="stalker"] {
+  --tw-zone-void: 18 20 14;
+  --tw-zone-deep: 28 32 22;
+  --tw-zone-panel: 38 44 30;
+  --tw-zone-edge: 58 66 45;
+  --tw-zone-muted: 138 134 118;
+  --tw-zone-fog: 208 206 188;
+  --tw-archi-50: 236 238 226;
+  --tw-archi-100: 212 218 192;
+  --tw-archi-200: 182 192 158;
+  --tw-archi-300: 152 166 128;
+  --tw-archi-400: 128 145 102;
+  --tw-archi-500: 105 120 78;
+  --tw-archi-600: 86 98 62;
+  --tw-archi-700: 68 78 48;
+  --tw-archi-800: 52 58 36;
+  --tw-archi-900: 32 36 22;
+  --tw-shadow-zone: 0 0 0 1px rgb(45 52 35 / 0.75),
+    inset 0 1px 0 rgb(130 150 85 / 0.09), 0 16px 52px rgb(0 0 0 / 0.58);
+  --tw-shadow-zone-glow: 0 0 32px rgb(105 120 78 / 0.18),
+    0 0 1px rgb(170 185 120 / 0.2);
+  --tw-rad-glow: radial-gradient(
+    ellipse 88% 48% at 50% -18%,
+    rgb(120 140 75 / 0.22),
+    transparent 55%
+  );
+  --tw-brand-glow-1: 190 205 130;
+  --tw-brand-glow-2: 105 120 78;
+  --tw-brand-glow-3: 210 220 160;
+  --tw-brand-glow-4: 130 150 85;
+  --tw-brand-glow-5: 236 238 226;
+  --tw-scrollbar-thumb: 105 120 78;
+  --tw-scrollbar-track: 22 26 18;
+  --tw-selection-bg: 105 120 78;
+  --tw-selection-fg: 236 238 226;
+  --tw-focus-outline: 152 166 128;
+}
+
+html[data-ui-theme="stalker"] .font-display {
+  font-family: var(--font-stalker-hud), ui-monospace, monospace;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+}
+
+body {
+  font-feature-settings: "kern" 1;
+}
+
+html[data-ui-theme="viking"] body.zone-atmosphere::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+html[data-ui-theme="stalker"] body.zone-atmosphere::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.055;
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 1px,
+      rgb(0 0 0 / 0.14) 1px,
+      rgb(0 0 0 / 0.14) 2px
+    );
+  background-size:
+    auto,
+    100% 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-ui-theme="stalker"] body.zone-atmosphere::after {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.045;
+  }
+}
+
+.zone-atmosphere {
+  position: relative;
+  isolation: isolate;
+  background-color: rgb(var(--tw-zone-void));
+}
+
+.zone-atmosphere::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+}
+
+html[data-ui-theme="viking"] .zone-atmosphere[data-wallpaper="original"]::before,
+html[data-ui-theme="viking"] .zone-atmosphere:not([data-wallpaper])::before,
+html[data-ui-theme="viking"] .wall-thumb[data-wallpaper="original"]::before {
+  background-color: rgb(8 11 15);
+  background-image:
+    radial-gradient(
+      ellipse 118% 72% at 50% -22%,
+      rgb(160 185 210 / 0.1),
+      transparent 58%
+    ),
+    radial-gradient(
+      ellipse 42% 36% at 88% 18%,
+      rgb(201 169 92 / 0.14),
+      transparent 52%
+    ),
+    radial-gradient(
+      ellipse 48% 42% at 12% 78%,
+      rgb(120 40 38 / 0.16),
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 55% 48% at 72% 48%,
+      rgb(35 48 64 / 0.35),
+      transparent 55%
+    ),
+    linear-gradient(188deg, #141c28 0%, #080b0f 40%, #030406 100%);
+}
+
+html[data-ui-theme="zone"] .zone-atmosphere[data-wallpaper="original"]::before,
+html[data-ui-theme="zone"] .zone-atmosphere:not([data-wallpaper])::before,
+html[data-ui-theme="zone"] .wall-thumb[data-wallpaper="original"]::before {
+  background-color: rgb(10 12 9);
+  background-image:
+    radial-gradient(
+      ellipse 115% 75% at 50% -20%,
+      rgb(95 140 48 / 0.26),
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 45% 40% at 8% 70%,
+      rgb(60 75 45 / 0.18),
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 50% 45% at 92% 32%,
+      rgb(139 90 43 / 0.1),
+      transparent 52%
+    ),
+    linear-gradient(188deg, #151a12 0%, #0a0c09 38%, #050604 100%);
+}
+
+html[data-ui-theme="stalker"] .zone-atmosphere[data-wallpaper="original"]::before,
+html[data-ui-theme="stalker"] .zone-atmosphere:not([data-wallpaper])::before,
+html[data-ui-theme="stalker"] .wall-thumb[data-wallpaper="original"]::before {
+  background-color: #12150e;
+  background-image:
+    radial-gradient(
+      ellipse 118% 68% at 50% -20%,
+      rgb(165 155 85 / 0.1),
+      transparent 56%
+    ),
+    radial-gradient(
+      ellipse 48% 42% at 12% 78%,
+      rgb(55 50 32 / 0.42),
+      transparent 52%
+    ),
+    radial-gradient(
+      ellipse 40% 36% at 88% 28%,
+      rgb(95 110 55 / 0.14),
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 22% 18% at 68% 52%,
+      rgb(120 70 160 / 0.07),
+      transparent 45%
+    ),
+    linear-gradient(186deg, #1c1f14 0%, #12150e 41%, #060703 100%);
+}
+
+.zone-atmosphere[data-wallpaper="aurora"]::before,
+.wall-thumb[data-wallpaper="aurora"]::before {
+  background-color: #0b1220;
+  background-image:
+    radial-gradient(
+      ellipse 100% 70% at 50% -18%,
+      rgba(45, 212, 191, 0.22),
+      transparent 58%
+    ),
+    radial-gradient(
+      ellipse 40% 38% at 85% 25%,
+      rgba(167, 139, 250, 0.18),
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 35% 45% at 12% 78%,
+      rgba(30, 58, 138, 0.14),
+      transparent 48%
+    ),
+    linear-gradient(195deg, #0f172a 0%, #0b1020 42%, #050810 100%);
+}
+
+.zone-atmosphere[data-wallpaper="ember"]::before,
+.wall-thumb[data-wallpaper="ember"]::before {
+  background-color: #120a08;
+  background-image:
+    radial-gradient(
+      ellipse 110% 65% at 50% -15%,
+      rgba(251, 113, 133, 0.2),
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 45% 42% at 88% 35%,
+      rgba(234, 88, 12, 0.14),
+      transparent 52%
+    ),
+    radial-gradient(
+      ellipse 40% 40% at 10% 70%,
+      rgba(180, 83, 9, 0.1),
+      transparent 48%
+    ),
+    linear-gradient(188deg, #1c0f0c 0%, #0f0908 40%, #060403 100%);
+}
+
+.zone-atmosphere[data-wallpaper="midnight"]::before,
+.wall-thumb[data-wallpaper="midnight"]::before {
+  background-color: #060912;
+  background-image:
+    radial-gradient(
+      ellipse 100% 72% at 50% -20%,
+      rgba(56, 189, 248, 0.18),
+      transparent 58%
+    ),
+    radial-gradient(
+      ellipse 42% 40% at 15% 30%,
+      rgba(37, 99, 235, 0.14),
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 38% 48% at 90% 75%,
+      rgba(30, 64, 175, 0.12),
+      transparent 48%
+    ),
+    linear-gradient(192deg, #0c1528 0%, #080d18 45%, #030508 100%);
+}
+
+.zone-atmosphere[data-wallpaper="sage"]::before,
+.wall-thumb[data-wallpaper="sage"]::before {
+  background-color: #0a0f0d;
+  background-image:
+    radial-gradient(
+      ellipse 105% 68% at 50% -16%,
+      rgba(134, 239, 172, 0.12),
+      transparent 56%
+    ),
+    radial-gradient(
+      ellipse 48% 42% at 12% 68%,
+      rgba(74, 93, 78, 0.2),
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 44% 44% at 90% 38%,
+      rgba(120, 140, 125, 0.14),
+      transparent 52%
+    ),
+    linear-gradient(190deg, #121a15 0%, #0a0f0c 40%, #050706 100%);
+}
+
+.zone-atmosphere[data-wallpaper="copper"]::before,
+.wall-thumb[data-wallpaper="copper"]::before {
+  background-color: #100c09;
+  background-image:
+    radial-gradient(
+      ellipse 100% 70% at 50% -18%,
+      rgba(217, 119, 6, 0.16),
+      transparent 56%
+    ),
+    radial-gradient(
+      ellipse 42% 40% at 82% 28%,
+      rgba(180, 83, 9, 0.18),
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 40% 42% at 8% 72%,
+      rgba(120, 53, 15, 0.12),
+      transparent 48%
+    ),
+    linear-gradient(187deg, #18120e 0%, #0c0a08 42%, #040302 100%);
+}
+
+.zone-atmosphere[data-wallpaper="dune"]::before,
+.wall-thumb[data-wallpaper="dune"]::before {
+  background-color: #0f0d0a;
+  background-image:
+    radial-gradient(
+      ellipse 108% 68% at 50% -15%,
+      rgba(253, 224, 71, 0.1),
+      transparent 54%
+    ),
+    radial-gradient(
+      ellipse 46% 44% at 78% 65%,
+      rgba(180, 140, 80, 0.14),
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 44% 38% at 18% 35%,
+      rgba(120, 95, 60, 0.12),
+      transparent 52%
+    ),
+    linear-gradient(185deg, #16130f 0%, #0d0b09 41%, #060504 100%);
+}
+
+.wallpaper-picker-scroll {
+  scrollbar-color: rgb(var(--tw-archi-500) / 0.35) rgb(var(--tw-zone-deep) / 0.6);
+  scrollbar-width: thin;
+}
+
+.wallpaper-picker-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.wallpaper-picker-scroll::-webkit-scrollbar-track {
+  border-radius: 999px;
+  background: rgb(var(--tw-zone-deep) / 0.55);
+}
+
+.wallpaper-picker-scroll::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgb(var(--tw-archi-500) / 0.35);
+}
+
+.wall-thumb {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 0.65rem;
+  overflow: hidden;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.15s ease;
+  isolation: isolate;
+}
+
+@media (hover: hover) {
+  .wall-thumb:hover {
+    transform: translateY(-1px);
+  }
+}
+
+.wall-thumb::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: 0;
+}
+
+.wall-thumb:focus-visible {
+  outline: 2px solid rgb(var(--tw-focus-outline) / 0.75);
+  outline-offset: 2px;
+}
+
+.leaflet-container {
+  font-family: inherit;
+  border-radius: 0.75rem;
+  filter: saturate(0.84) brightness(0.91) contrast(1.04);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zone-scanlines,
+  .animate-scan-breathe,
+  .animate-rad-glow-soft,
+  .animate-pda-enter,
+  .animate-zone-flicker {
+    animation: none !important;
+  }
+}
+
+@layer components {
+  /** Панелі форм */
+  .pda-panel,
+  /** Картки стрічок (новини, оголошення, вакансії) */
+  .pda-card {
+    @apply rounded-xl border border-zone-edge/90 bg-zone-panel/95 text-zone-fog shadow-lg shadow-black/25 ring-1 ring-white/[0.03] transition-[border-color,box-shadow] duration-300;
+  }
+
+  html[data-ui-theme="viking"] .pda-panel,
+  html[data-ui-theme="viking"] .pda-card {
+    box-shadow:
+      inset 0 1px 0 rgb(201 169 92 / 0.06),
+      0 0 0 1px rgb(20 28 40 / 0.65);
+  }
+
+  html[data-ui-theme="stalker"] .pda-panel,
+  html[data-ui-theme="stalker"] .pda-card {
+    box-shadow:
+      inset 0 1px 0 rgb(130 150 85 / 0.08),
+      0 0 0 1px rgb(28 32 22 / 0.85),
+      inset 0 0 40px rgb(0 0 0 / 0.12);
+  }
+
+  .pda-card {
+    @apply overflow-hidden;
+  }
+
+  @media (hover: hover) {
+    .pda-panel:hover,
+    .pda-card:hover {
+      @apply border-archi-700/40;
+    }
+  }
+
+  .pda-input {
+    @apply rounded-lg border border-zone-edge bg-zone-deep/85 px-3 py-2 text-zone-fog transition-[border-color,box-shadow] duration-200 placeholder:text-zone-muted/60 focus:border-archi-500 focus:outline-none focus:ring-2 focus:ring-archi-400/50;
+  }
+
+  /** Кнопка «Обрати файл» у темній темі */
+  .pda-file {
+    @apply mt-1 w-full text-sm text-zone-muted file:mr-3 file:cursor-pointer file:rounded-lg file:border file:border-zone-edge file:bg-zone-deep file:px-3 file:py-2 file:text-sm file:font-medium file:text-zone-fog file:transition-colors hover:file:border-archi-700/45 hover:file:bg-zone-edge/40;
+  }
+
+  .pda-inset {
+    @apply rounded-xl border border-zone-edge/70 bg-zone-deep/50 transition-[border-color,background-color,box-shadow] duration-300;
+  }
+
+  @media (hover: hover) {
+    .pda-inset:hover {
+      @apply border-archi-800/30 bg-zone-deep/60;
+    }
+  }
+
+  /** Повідомлення в чаті */
+  .pda-chat-bubble {
+    @apply rounded-lg border border-zone-edge/55 bg-zone-deep/50 px-3 py-2.5 transition-[border-color,box-shadow] duration-200;
+  }
+
+  @media (hover: hover) {
+    .pda-chat-bubble:hover {
+      @apply border-archi-800/35;
+    }
+  }
+}
