@@ -1,4 +1,4 @@
-export const UI_THEME_IDS = ["stalker", "viking", "zone"] as const;
+export const UI_THEME_IDS = ["stalker"] as const;
 
 export type UiThemeId = (typeof UI_THEME_IDS)[number];
 

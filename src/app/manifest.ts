@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
-import { getPlayStoreUrl } from "@/lib/app-stores";
 import { routing } from "@/i18n/routing";
+import { getPlayStoreUrl } from "@/lib/app-stores";
+import { APP_BRAND_NAME } from "@/lib/brand";
 
 export default function manifest(): MetadataRoute.Manifest {
   const playUrl = getPlayStoreUrl();
@@ -8,8 +9,8 @@ export default function manifest(): MetadataRoute.Manifest {
   const appId = playUrl ? extractPlayAppId(playUrl) : undefined;
 
   return {
-    name: "АРЧІ",
-    short_name: "АРЧІ",
+    name: APP_BRAND_NAME,
+    short_name: APP_BRAND_NAME,
     description: "News, classifieds, chat",
     start_url: `/${routing.defaultLocale}`,
     display: "standalone",

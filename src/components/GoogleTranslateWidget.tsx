@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useTranslations } from "next-intl";
+import { BRAND_NO_TRANSLATE_SELECTOR } from "@/lib/brand";
 import { LOCALE_CODES } from "@/i18n/locale-config";
 
 declare global {
@@ -26,7 +28,26 @@ export function GoogleTranslateWidget({
   enabled: boolean;
   pageLanguage?: string;
 }) {
+  const t = useTranslations("common");
   const injected = useRef(false);
+
+  /** Google Translate змінює DOM; повторно фіксуємо маркери «не перекладати» для бренду. */
+  useEffect(() => {
+    if (!enabled) return;
+    const mark = () => {
+      document.querySelectorAll(BRAND_NO_TRANSLATE_SELECTOR).forEach((el) => {
+        el.classList.add("notranslate");
+        el.setAttribute("translate", "no");
+        if (el instanceof HTMLElement && !el.getAttribute("lang")) {
+          el.setAttribute("lang", "en");
+        }
+      });
+    };
+    mark();
+    const mo = new MutationObserver(() => mark());
+    mo.observe(document.body, { childList: true, subtree: true });
+    return () => mo.disconnect();
+  }, [enabled]);
 
   useEffect(() => {
     if (!enabled || injected.current) return;
@@ -63,7 +84,7 @@ export function GoogleTranslateWidget({
 
   return (
     <div className="fixed bottom-2 right-2 z-[9999] max-w-[200px] rounded-lg border border-zone-edge bg-zone-panel p-2">
-      <p className="mb-1 text-xs text-zone-muted">Google Translate</p>
+      <p className="mb-1 text-xs text-zone-muted">{t("googleTranslateLabel")}</p>
       <div id="google_translate_element" />
     </div>
   );

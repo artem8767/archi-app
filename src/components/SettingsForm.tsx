@@ -6,14 +6,6 @@ import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { useSession } from "./SessionProvider";
 import { LocationPicker } from "./LocationPicker";
 import { localeNames, routing } from "@/i18n/routing";
-import {
-  WALLPAPER_IDS,
-  WALLPAPER_MESSAGE_KEYS,
-  type WallpaperId,
-  isWallpaperId,
-} from "@/lib/wallpapers";
-import { type UiThemeId, isUiThemeId } from "@/lib/ui-theme";
-
 function SettingsSection({
   title,
   children,
@@ -42,8 +34,6 @@ export function SettingsForm() {
   const [lat, setLat] = useState(50.0755);
   const [lng, setLng] = useState(14.4378);
   const [addressLabel, setAddressLabel] = useState("");
-  const [uiTheme, setUiTheme] = useState<UiThemeId>("stalker");
-  const [wallpaperId, setWallpaperId] = useState<WallpaperId>("original");
   const [saved, setSaved] = useState(false);
   const [geoMsg, setGeoMsg] = useState<string | null>(null);
 
@@ -69,7 +59,12 @@ export function SettingsForm() {
 
   useEffect(() => {
     if (!user) return;
-    setLocale(user.locale);
+    const loc = user.locale;
+    setLocale(
+      routing.locales.includes(loc as (typeof routing.locales)[number])
+        ? loc
+        : routing.defaultLocale,
+    );
     setAutoTranslate(user.autoTranslate);
     setNotificationLevel(user.notificationLevel);
     if (user.lat != null && user.lng != null) {
@@ -77,14 +72,6 @@ export function SettingsForm() {
       setLng(user.lng);
     }
     setAddressLabel(user.addressLabel ?? "");
-    setWallpaperId(
-      user.wallpaperId && isWallpaperId(user.wallpaperId)
-        ? user.wallpaperId
-        : "original"
-    );
-    setUiTheme(
-      user.uiTheme && isUiThemeId(user.uiTheme) ? user.uiTheme : "stalker"
-    );
   }, [user]);
 
   const save = useCallback(async () => {
@@ -101,8 +88,8 @@ export function SettingsForm() {
         lat,
         lng,
         addressLabel: addressLabel || null,
-        wallpaperId,
-        uiTheme,
+        wallpaperId: "original",
+        uiTheme: "stalker",
       }),
     });
     if (r.ok) {
@@ -121,8 +108,6 @@ export function SettingsForm() {
     lat,
     lng,
     addressLabel,
-    wallpaperId,
-    uiTheme,
     refresh,
     router,
     pathname,
@@ -134,7 +119,7 @@ export function SettingsForm() {
 
   return (
     <div className="pda-panel mx-auto max-w-3xl space-y-5 p-5 sm:p-6">
-      <h1 className="font-display text-2xl font-semibold tracking-wide text-archi-100">
+      <h1 className="font-display text-xl font-semibold leading-snug tracking-normal text-archi-100 sm:text-2xl">
         {t("title")}
       </h1>
 
@@ -165,62 +150,6 @@ export function SettingsForm() {
           <span className="text-sm text-zone-fog/95">{t("autoTranslate")}</span>
         </label>
         <p className="text-xs text-zone-muted">{t("autoTranslateHint")}</p>
-      </SettingsSection>
-
-      <SettingsSection title={t("sectionAppearance")}>
-        <div>
-          <p className="text-sm font-medium text-zone-fog">{t("uiTheme")}</p>
-          <p className="mt-0.5 text-xs text-zone-muted">{t("uiThemeHint")}</p>
-          <div className="mt-2 flex flex-wrap gap-2">
-            {(
-              [
-                { id: "stalker" as const, label: t("uiThemeStalker") },
-                { id: "viking" as const, label: t("uiThemeViking") },
-                { id: "zone" as const, label: t("uiThemeZone") },
-              ] as const
-            ).map(({ id, label }) => (
-              <button
-                key={id}
-                type="button"
-                onClick={() => setUiTheme(id)}
-                aria-pressed={uiTheme === id}
-                className={`rounded-lg border px-4 py-2 text-sm font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-archi-500 ${
-                  uiTheme === id
-                    ? "border-archi-500 bg-archi-600 text-black"
-                    : "border-zone-edge/80 bg-zone-panel/80 text-zone-fog hover:border-archi-700/50 hover:bg-zone-edge/40"
-                }`}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-        </div>
-        <div>
-          <p className="text-sm font-medium text-zone-fog">{t("wallpaper")}</p>
-          <p className="mt-0.5 text-xs text-zone-muted">{t("wallpaperHint")}</p>
-          <div className="wallpaper-picker-scroll mt-3 max-h-[min(52vh,440px)] overflow-y-auto overflow-x-hidden rounded-xl border border-zone-edge/45 bg-zone-deep/30 p-3 pr-2">
-            <div className="grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6">
-              {WALLPAPER_IDS.map((id) => (
-                <button
-                  key={id}
-                  type="button"
-                  data-wallpaper={id}
-                  className={`wall-thumb text-left ${
-                    wallpaperId === id
-                      ? "border-archi-500 ring-2 ring-archi-500/70"
-                      : "border-zone-edge/40 hover:border-archi-700/50"
-                  }`}
-                  onClick={() => setWallpaperId(id)}
-                  aria-pressed={wallpaperId === id}
-                >
-                  <span className="relative z-[1] flex h-full min-h-[2.75rem] items-end bg-gradient-to-t from-black/60 to-transparent px-1.5 py-1.5 text-[0.58rem] font-medium leading-tight text-zone-fog/95 sm:min-h-[3rem] sm:text-[0.62rem]">
-                    {t(WALLPAPER_MESSAGE_KEYS[id])}
-                  </span>
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
       </SettingsSection>
 
       <SettingsSection title={t("sectionLocation")}>

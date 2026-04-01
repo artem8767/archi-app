@@ -29,10 +29,10 @@ export async function POST(req: Request) {
       );
     }
 
-    if (!user.emailVerified || !user.phoneVerified) {
+    if (!user.phoneVerified) {
       return NextResponse.json(
         {
-          error: "Спочатку підтвердіть email та телефон",
+          error: "Спочатку підтвердіть номер телефону (код з SMS)",
           needVerification: true,
         },
         { status: 403 }

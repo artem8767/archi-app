@@ -7,6 +7,7 @@ import {
   MAX_MEDIA_CHARS,
   MAX_TEXT,
 } from "@/lib/chat-media";
+import { moderateUserText } from "@/lib/content-moderation";
 import { prisma } from "@/lib/prisma";
 import { requireVerifiedUserForWrite } from "@/lib/session-guard";
 
@@ -84,6 +85,14 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Порожнє повідомлення" }, { status: 400 });
     }
     kind = "text";
+  }
+
+  const check = await moderateUserText(text);
+  if (!check.ok) {
+    return NextResponse.json(
+      { error: "moderation", code: "moderation", reason: check.reason },
+      { status: 422 },
+    );
   }
 
   const room = await getOrCreateGeneralRoom();

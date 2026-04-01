@@ -5,6 +5,7 @@ import { routing } from "@/i18n/routing";
 import { AppShell } from "@/components/AppShell";
 import { HtmlLang } from "@/components/HtmlLang";
 import { SessionProvider } from "@/components/SessionProvider";
+import { SplashGate } from "@/components/SplashGate";
 import { getSiteDeveloperCredit } from "@/lib/site-credits";
 
 export function generateStaticParams() {
@@ -30,7 +31,9 @@ export default async function LocaleLayout({
     <NextIntlClientProvider messages={messages}>
       <HtmlLang />
       <SessionProvider>
-        <AppShell developerCredit={developerCredit}>{children}</AppShell>
+        <SplashGate>
+          <AppShell developerCredit={developerCredit}>{children}</AppShell>
+        </SplashGate>
       </SessionProvider>
     </NextIntlClientProvider>
   );

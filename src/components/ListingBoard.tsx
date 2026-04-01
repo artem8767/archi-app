@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useFormatter, useTranslations } from "next-intl";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import {
@@ -9,6 +9,7 @@ import {
 } from "@/lib/marketplace-sections";
 import { useSession } from "./SessionProvider";
 import { CommentThread } from "./CommentThread";
+import { FilePickerInput } from "./FilePickerInput";
 
 type Listing = {
   id: string;
@@ -46,6 +47,8 @@ const navTitleKey: Record<
 export function ListingBoard({ category }: { category: ListingCategory }) {
   const t = useTranslations("listing");
   const tNav = useTranslations("nav");
+  const tCommon = useTranslations("common");
+  const format = useFormatter();
   const { user } = useSession();
   const [items, setItems] = useState<Listing[]>([]);
   const [title, setTitle] = useState("");
@@ -58,6 +61,8 @@ export function ListingBoard({ category }: { category: ListingCategory }) {
     "all",
   );
   const [newSection, setNewSection] = useState<ListingSectionId>("general");
+  const [postError, setPostError] = useState<string | null>(null);
+  const [fileInputKey, setFileInputKey] = useState(0);
 
   const apiCat = catMap[category];
 
@@ -91,6 +96,7 @@ export function ListingBoard({ category }: { category: ListingCategory }) {
       )
     );
     setPhotos(results);
+    setPostError(null);
   }
 
   async function publish(e: React.FormEvent) {
@@ -111,12 +117,21 @@ export function ListingBoard({ category }: { category: ListingCategory }) {
       }),
     });
     if (r.ok) {
+      setPostError(null);
       setTitle("");
       setDescription("");
       setPrice("");
       setPhone("");
       setPhotos([]);
+      setFileInputKey((k) => k + 1);
       load();
+    } else if (r.status === 422) {
+      const j = (await r.json()) as { code?: string };
+      setPostError(
+        j.code === "moderation" ? tCommon("moderationBlocked") : null,
+      );
+    } else {
+      setPostError(null);
     }
   }
 
@@ -149,7 +164,7 @@ export function ListingBoard({ category }: { category: ListingCategory }) {
 
   return (
     <div className="space-y-8">
-      <h1 className="font-display text-2xl font-semibold tracking-wide text-archi-100">
+      <h1 className="font-display text-xl font-semibold leading-snug tracking-normal text-archi-100 sm:text-2xl">
         {tNav(navTitleKey[category])}
       </h1>
 
@@ -192,6 +207,11 @@ export function ListingBoard({ category }: { category: ListingCategory }) {
           className="pda-panel p-6"
         >
           <h2 className="mb-4 text-lg font-semibold">{t("new")}</h2>
+          {postError ? (
+            <p className="mb-3 text-sm text-red-400/90" role="alert">
+              {postError}
+            </p>
+          ) : null}
           <div className="grid gap-3 sm:grid-cols-2">
             <label className="block sm:col-span-2">
               <span className="text-sm text-zone-muted">
@@ -216,7 +236,10 @@ export function ListingBoard({ category }: { category: ListingCategory }) {
               <input
                 className="mt-1 w-full pda-input"
                 value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                onChange={(e) => {
+                  setTitle(e.target.value);
+                  setPostError(null);
+                }}
                 required
               />
             </label>
@@ -226,7 +249,10 @@ export function ListingBoard({ category }: { category: ListingCategory }) {
                 className="mt-1 w-full pda-input"
                 rows={4}
                 value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                onChange={(e) => {
+                  setDescription(e.target.value);
+                  setPostError(null);
+                }}
                 required
               />
             </label>
@@ -235,7 +261,10 @@ export function ListingBoard({ category }: { category: ListingCategory }) {
               <input
                 className="mt-1 w-full pda-input"
                 value={price}
-                onChange={(e) => setPrice(e.target.value)}
+                onChange={(e) => {
+                  setPrice(e.target.value);
+                  setPostError(null);
+                }}
                 required
               />
             </label>
@@ -250,11 +279,10 @@ export function ListingBoard({ category }: { category: ListingCategory }) {
             </label>
             <label className="sm:col-span-2">
               <span className="text-sm text-zone-muted">{t("photos")}</span>
-              <input
-                type="file"
+              <FilePickerInput
+                key={fileInputKey}
                 accept="image/*"
                 multiple
-                className="pda-file"
                 onChange={onFiles}
               />
             </label>
@@ -290,7 +318,10 @@ export function ListingBoard({ category }: { category: ListingCategory }) {
                   </h3>
                   <p className="mt-1 text-sm text-zone-muted">
                     {item.user.name || item.user.email} ·{" "}
-                    {new Date(item.createdAt).toLocaleString()}
+                    {format.dateTime(new Date(item.createdAt), {
+                      dateStyle: "short",
+                      timeStyle: "short",
+                    })}
                   </p>
                   <p className="mt-3 whitespace-pre-wrap text-zone-fog/95">
                     {item.description}

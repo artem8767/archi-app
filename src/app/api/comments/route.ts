@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { moderateUserText } from "@/lib/content-moderation";
 import { prisma } from "@/lib/prisma";
 import { requireVerifiedUserForWrite } from "@/lib/session-guard";
 
@@ -40,6 +41,13 @@ export async function POST(req: Request) {
   const parsed = postSchema.safeParse(body);
   if (!parsed.success) {
     return NextResponse.json({ error: "Невірні дані" }, { status: 400 });
+  }
+  const mod = await moderateUserText(parsed.data.body);
+  if (!mod.ok) {
+    return NextResponse.json(
+      { error: "moderation", code: "moderation", reason: mod.reason },
+      { status: 422 },
+    );
   }
   const comment = await prisma.comment.create({
     data: {

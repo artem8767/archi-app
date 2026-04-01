@@ -1,12 +1,13 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useFormatter, useTranslations } from "next-intl";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { isDirectVideoUrl, parseYoutubeVideoId } from "@/lib/news-video";
 import { CommentThread } from "./CommentThread";
 import { ShareNewsPost } from "./ShareNewsPost";
 import { useSession } from "./SessionProvider";
+import { FilePickerInput } from "./FilePickerInput";
 
 type Post = {
   id: string;
@@ -68,6 +69,8 @@ function NewsVideoBlock({ url }: { url: string }) {
 
 export function NewsFeed() {
   const t = useTranslations("news");
+  const tCommon = useTranslations("common");
+  const format = useFormatter();
   const { user } = useSession();
   const [posts, setPosts] = useState<Post[]>([]);
   const [title, setTitle] = useState("");
@@ -75,6 +78,8 @@ export function NewsFeed() {
   const [images, setImages] = useState<string[]>([]);
   const [videoUrl, setVideoUrl] = useState("");
   const [loading, setLoading] = useState(true);
+  const [postError, setPostError] = useState<string | null>(null);
+  const [fileInputKey, setFileInputKey] = useState(0);
 
   const load = useCallback(async () => {
     const r = await fetch("/api/news");
@@ -131,29 +136,46 @@ export function NewsFeed() {
       }),
     });
     if (r.ok) {
+      setPostError(null);
       setTitle("");
       setBody("");
       setImages([]);
       setVideoUrl("");
+      setFileInputKey((k) => k + 1);
       load();
+    } else if (r.status === 422) {
+      const j = (await r.json()) as { code?: string };
+      setPostError(
+        j.code === "moderation" ? tCommon("moderationBlocked") : null,
+      );
+    } else {
+      setPostError(null);
     }
   }
 
   return (
     <div className="space-y-8">
-      <h1 className="font-display text-2xl font-semibold tracking-wide text-archi-100">
+      <h1 className="font-display text-xl font-semibold leading-snug tracking-normal text-archi-100 sm:text-2xl">
         {t("title")}
       </h1>
 
       {user && (
         <form onSubmit={publish} className="pda-panel p-6">
           <h2 className="mb-4 text-lg font-semibold">{t("newPost")}</h2>
+          {postError ? (
+            <p className="mb-3 text-sm text-red-400/90" role="alert">
+              {postError}
+            </p>
+          ) : null}
           <label className="block">
             <span className="text-sm text-zone-muted">{t("postTitle")}</span>
             <input
               className="mt-1 w-full pda-input"
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e) => {
+                setTitle(e.target.value);
+                setPostError(null);
+              }}
               required
             />
           </label>
@@ -163,17 +185,19 @@ export function NewsFeed() {
               className="mt-1 w-full pda-input"
               rows={5}
               value={body}
-              onChange={(e) => setBody(e.target.value)}
+              onChange={(e) => {
+                setBody(e.target.value);
+                setPostError(null);
+              }}
               required
             />
           </label>
           <label className="mt-3 block">
             <span className="text-sm text-zone-muted">{t("photos")}</span>
-            <input
-              type="file"
+            <FilePickerInput
+              key={fileInputKey}
               accept="image/*"
               multiple
-              className="mt-1 block w-full text-sm text-zone-muted file:mr-3 file:rounded-md file:border-0 file:bg-archi-800 file:px-3 file:py-1.5 file:text-archi-100"
               onChange={(e) => void onImageFiles(e)}
             />
           </label>
@@ -195,7 +219,10 @@ export function NewsFeed() {
               type="url"
               className="mt-1 w-full pda-input"
               value={videoUrl}
-              onChange={(e) => setVideoUrl(e.target.value)}
+              onChange={(e) => {
+                setVideoUrl(e.target.value);
+                setPostError(null);
+              }}
               placeholder="https://..."
             />
             <span className="mt-1 block text-xs text-zone-muted">{t("videoUrlHint")}</span>
@@ -221,7 +248,10 @@ export function NewsFeed() {
                   <h3 className="text-xl font-semibold text-zone-fog">{post.title}</h3>
                   <p className="mt-1 text-sm text-zone-muted">
                     {post.user.name || post.user.email} ·{" "}
-                    {new Date(post.createdAt).toLocaleString()}
+                    {format.dateTime(new Date(post.createdAt), {
+                      dateStyle: "short",
+                      timeStyle: "short",
+                    })}
                   </p>
                   <p className="mt-4 whitespace-pre-wrap text-zone-fog/95">{post.body}</p>
                   {imgs.length > 0 && (

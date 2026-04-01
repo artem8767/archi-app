@@ -7,7 +7,9 @@ import { GoogleTranslateWidget } from "./GoogleTranslateWidget";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { HeaderAccountMenu } from "./HeaderAccountMenu";
 import { MobileAppNav } from "./MobileAppNav";
+import { LogoArci } from "./LogoArci";
 import { IconSettings } from "./icons/AppIcons";
+import { APP_BRAND_NAME } from "@/lib/brand";
 import type { SiteDeveloperCredit } from "@/lib/site-credits";
 
 const navKeys = [
@@ -56,17 +58,23 @@ export function AppShell({
       >
         {tCommon("skipToContent")}
       </a>
-      <header className="sticky top-0 z-40 -mx-3 mb-5 border-b border-zone-edge/80 bg-zone-deep/95 px-3 py-3 shadow-md shadow-black/20 ring-1 ring-white/[0.04] backdrop-blur-md sm:-mx-6 sm:px-6">
+      <header className="sticky top-0 z-40 -mx-3 mb-8 border-b border-zone-edge/80 bg-zone-deep/95 px-3 py-3 shadow-md shadow-black/20 ring-1 ring-white/[0.04] backdrop-blur-md sm:-mx-6 sm:px-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
           <Link
             href="/"
-            className="animate-rad-glow-soft font-display text-2xl font-semibold uppercase tracking-[0.38em] text-archi-100 transition hover:text-archi-50"
+            translate="no"
+            data-notranslate-brand
+            className="notranslate group block shrink-0 rounded-lg px-1.5 py-1 ring-1 ring-archi-500/25 transition hover:opacity-95 hover:ring-archi-400/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-archi-500 sm:px-2 sm:py-1.5 sm:ring-archi-400/30"
+            aria-label={APP_BRAND_NAME}
           >
-            АРЧІ
+            <LogoArci
+              size="md"
+              className="drop-shadow-[0_0_18px_rgb(105_120_78/0.42)] transition group-hover:drop-shadow-[0_0_26px_rgb(130_150_85/0.5)]"
+            />
           </Link>
           <nav
-            aria-label="Головна навігація"
-            className="flex max-w-full gap-2 overflow-x-auto pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] sm:flex-wrap sm:overflow-visible [&::-webkit-scrollbar]:hidden"
+            aria-label={t("mainNavAria")}
+            className="flex max-w-full flex-wrap gap-1.5 pb-0.5 sm:gap-2"
           >
             {navKeys.map((key) => {
               const path = ROUTES[key];
@@ -75,7 +83,7 @@ export function AppShell({
                 <Link
                   key={key}
                   href={path}
-                  className={`shrink-0 rounded-md px-3 py-1.5 text-sm font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-archi-500 ${
+                  className={`rounded-md px-2 py-1.5 text-xs font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-archi-500 sm:px-2.5 sm:text-sm ${
                     active
                       ? "bg-archi-600 text-black"
                       : "bg-zone-panel/80 text-zone-muted ring-1 ring-zone-edge/80 transition hover:bg-zone-edge/50 hover:text-zone-fog hover:ring-archi-700/40"

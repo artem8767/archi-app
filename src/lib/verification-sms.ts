@@ -1,3 +1,5 @@
+import { APP_BRAND_NAME } from "@/lib/brand";
+
 /**
  * SMS для кодів підтвердження: Twilio або Vonage (Nexmo).
  * Номер у форматі E.164 (+380…). Без «+» у полі вводу — додається код країни з
@@ -68,7 +70,7 @@ function resolveSmsBackend(): SmsBackend {
 }
 
 function smsText(code: string): string {
-  return `АРЧІ: код підтвердження телефону ${code}. Дійсний 15 хв.`;
+  return `${APP_BRAND_NAME}: код підтвердження телефону ${code}. Дійсний 15 хв.`;
 }
 
 async function sendViaTwilio(phone: string, code: string): Promise<void> {

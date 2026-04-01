@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useFormatter, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { useSession } from "./SessionProvider";
@@ -22,9 +22,12 @@ export function CommentThread({
   const t = useTranslations("news");
   const tList = useTranslations("listing");
   const tAuth = useTranslations("auth");
+  const tCommon = useTranslations("common");
+  const format = useFormatter();
   const { user } = useSession();
   const [comments, setComments] = useState<Comment[]>([]);
   const [text, setText] = useState("");
+  const [postError, setPostError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   const load = useCallback(async () => {
@@ -49,8 +52,16 @@ export function CommentThread({
       body: JSON.stringify({ targetType, targetId, body: text.trim() }),
     });
     if (r.ok) {
+      setPostError(null);
       setText("");
       load();
+    } else if (r.status === 422) {
+      const j = (await r.json()) as { code?: string };
+      setPostError(
+        j.code === "moderation" ? tCommon("moderationBlocked") : null,
+      );
+    } else {
+      setPostError(null);
     }
   }
 
@@ -70,7 +81,11 @@ export function CommentThread({
               </span>
               <span className="text-zone-muted">
                 {" "}
-                · {new Date(c.createdAt).toLocaleString()}
+                ·{" "}
+                {format.dateTime(new Date(c.createdAt), {
+                  dateStyle: "short",
+                  timeStyle: "short",
+                })}
               </span>
               <p className="mt-0.5 text-zone-fog/95">{c.body}</p>
             </li>
@@ -78,11 +93,20 @@ export function CommentThread({
         </ul>
       )}
       {user ? (
-        <form onSubmit={send} className="mt-3 flex gap-2">
+        <form onSubmit={send} className="mt-3 flex flex-col gap-2">
+          {postError ? (
+            <p className="text-sm text-red-400/90" role="alert">
+              {postError}
+            </p>
+          ) : null}
+          <div className="flex gap-2">
           <input
             className="flex-1 pda-input text-sm"
             value={text}
-            onChange={(e) => setText(e.target.value)}
+            onChange={(e) => {
+              setText(e.target.value);
+              setPostError(null);
+            }}
             placeholder={t("addComment")}
           />
           <button
@@ -91,6 +115,7 @@ export function CommentThread({
           >
             {t("send")}
           </button>
+          </div>
         </form>
       ) : (
         <p className="mt-2 text-sm text-zone-muted">

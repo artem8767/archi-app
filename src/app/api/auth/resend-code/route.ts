@@ -4,10 +4,6 @@ import { randomDigits } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { exposeVerificationCodesInApiResponse } from "@/lib/verification-flags";
 import {
-  isEmailDeliveryConfigured,
-  sendVerificationEmail,
-} from "@/lib/verification-email";
-import {
   isSmsDeliveryConfigured,
   sendVerificationSms,
 } from "@/lib/verification-sms";
@@ -16,12 +12,7 @@ const RESEND_COOLDOWN_MS = 60_000;
 
 const bodySchema = z.object({
   email: z.string().trim().email("Некоректний email"),
-  channel: z.enum(["email", "sms"]),
 });
-
-function kindForChannel(channel: "email" | "sms"): "email" | "phone" {
-  return channel === "email" ? "email" : "phone";
-}
 
 export async function POST(req: Request) {
   try {
@@ -42,8 +33,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: msg }, { status: 400 });
     }
 
-    const { email, channel } = parsed.data;
-    const kind = kindForChannel(channel);
+    const { email } = parsed.data;
 
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
@@ -53,13 +43,14 @@ export async function POST(req: Request) {
       );
     }
 
-    if (user.emailVerified && user.phoneVerified) {
+    if (user.phoneVerified) {
       return NextResponse.json(
         { error: "Обліковий запис уже підтверджено" },
         { status: 400 }
       );
     }
 
+    const kind = "phone" as const;
     const now = new Date();
     const last = await prisma.verificationCode.findFirst({
       where: { userId: user.id, kind },
@@ -84,58 +75,30 @@ export async function POST(req: Request) {
     const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
     const showDevCode = exposeVerificationCodesInApiResponse();
 
-    if (channel === "email") {
-      if (isEmailDeliveryConfigured()) {
-        try {
-          await sendVerificationEmail(user.email, newCode, user.name);
-        } catch (e) {
-          console.error("[resend-code email]", e);
-          return NextResponse.json(
-            {
-              error:
-                "Не вдалося надіслати лист. Перевірте Resend/SMTP та EMAIL_FROM.",
-              ...(process.env.NODE_ENV !== "production" && e instanceof Error
-                ? { detail: e.message }
-                : {}),
-            },
-            { status: 502 }
-          );
-        }
-      } else if (process.env.NODE_ENV === "production") {
+    if (isSmsDeliveryConfigured()) {
+      try {
+        await sendVerificationSms(user.phone, newCode);
+      } catch (e) {
+        console.error("[resend-code sms]", e);
         return NextResponse.json(
           {
             error:
-              "Відправка email не налаштована. Додайте Resend або SMTP у .env.",
+              "Не вдалося надіслати SMS. Перевірте Twilio/Vonage та номер телефону.",
+            ...(process.env.NODE_ENV !== "production" && e instanceof Error
+              ? { detail: e.message }
+              : {}),
           },
-          { status: 503 }
+          { status: 502 }
         );
       }
-    } else {
-      if (isSmsDeliveryConfigured()) {
-        try {
-          await sendVerificationSms(user.phone, newCode);
-        } catch (e) {
-          console.error("[resend-code sms]", e);
-          return NextResponse.json(
-            {
-              error:
-                "Не вдалося надіслати SMS. Перевірте Twilio/Vonage та номер телефону.",
-              ...(process.env.NODE_ENV !== "production" && e instanceof Error
-                ? { detail: e.message }
-                : {}),
-            },
-            { status: 502 }
-          );
-        }
-      } else if (process.env.NODE_ENV === "production") {
-        return NextResponse.json(
-          {
-            error:
-              "Відправка SMS не налаштована. Додайте Twilio або Vonage у .env.",
-          },
-          { status: 503 }
-        );
-      }
+    } else if (process.env.NODE_ENV === "production") {
+      return NextResponse.json(
+        {
+          error:
+            "Відправка SMS не налаштована. Додайте Twilio або Vonage у .env.",
+        },
+        { status: 503 }
+      );
     }
 
     await prisma.$transaction([
@@ -154,17 +117,10 @@ export async function POST(req: Request) {
 
     const payload: Record<string, unknown> = {
       ok: true,
-      message:
-        channel === "email"
-          ? "Новий код надіслано на email."
-          : "Новий код надіслано в SMS.",
+      message: "Новий код надіслано в SMS.",
     };
 
-    if (
-      showDevCode &&
-      ((channel === "email" && !isEmailDeliveryConfigured()) ||
-        (channel === "sms" && !isSmsDeliveryConfigured()))
-    ) {
+    if (showDevCode && !isSmsDeliveryConfigured()) {
       payload.devCode = newCode;
       payload.message =
         "Провайдер не налаштовано — код для тесту в відповіді API.";

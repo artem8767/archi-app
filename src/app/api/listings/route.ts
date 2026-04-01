@@ -4,6 +4,7 @@ import {
   isListingSectionId,
   LISTING_SECTION_IDS,
 } from "@/lib/marketplace-sections";
+import { moderateCombinedText } from "@/lib/content-moderation";
 import { prisma } from "@/lib/prisma";
 import { requireVerifiedUserForWrite } from "@/lib/session-guard";
 
@@ -61,6 +62,17 @@ export async function POST(req: Request) {
     if (p.length > 600_000) {
       return NextResponse.json({ error: "Фото занадто велике" }, { status: 400 });
     }
+  }
+  const mod = await moderateCombinedText([
+    parsed.data.title,
+    parsed.data.description,
+    parsed.data.price,
+  ]);
+  if (!mod.ok) {
+    return NextResponse.json(
+      { error: "moderation", code: "moderation", reason: mod.reason },
+      { status: 422 },
+    );
   }
   const listing = await prisma.listing.create({
     data: {

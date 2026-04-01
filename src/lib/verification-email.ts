@@ -1,7 +1,8 @@
 import nodemailer from "nodemailer";
+import { APP_BRAND_NAME } from "@/lib/brand";
 
 function subject() {
-  return "АРЧІ — код підтвердження email";
+  return `${APP_BRAND_NAME} — код підтвердження email`;
 }
 
 function htmlBody(code: string, name?: string | null) {
@@ -11,7 +12,7 @@ function htmlBody(code: string, name?: string | null) {
 <html>
 <body style="font-family: system-ui, sans-serif; line-height: 1.5; color: #1e293b;">
   <p>${greet}</p>
-  <p>Ваш код підтвердження email для <strong>АРЧІ</strong>:</p>
+  <p>Ваш код підтвердження email для <strong>${APP_BRAND_NAME}</strong>:</p>
   <p style="font-size: 28px; font-weight: bold; letter-spacing: 0.2em;">${code}</p>
   <p style="color: #64748b; font-size: 14px;">Код дійсний 15 хвилин. Якщо ви не реєструвалися — проігноруйте лист.</p>
 </body>
@@ -20,7 +21,7 @@ function htmlBody(code: string, name?: string | null) {
 
 function textBody(code: string, name?: string | null) {
   const greet = name ? `Вітаємо, ${name}!` : "Вітаємо!";
-  return `${greet}\n\nКод підтвердження email для АРЧІ: ${code}\n\nДійсний 15 хвилин.`;
+  return `${greet}\n\nКод підтвердження email для ${APP_BRAND_NAME}: ${code}\n\nДійсний 15 хвилин.`;
 }
 
 export function isEmailDeliveryConfigured(): boolean {

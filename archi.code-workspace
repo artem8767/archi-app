@@ -1,0 +1,13 @@
+{
+  "folders": [
+    {
+      "name": "archi-app",
+      "path": "archi-app"
+    },
+    {
+      "name": "archi-mobile",
+      "path": "archi-mobile"
+    }
+  ],
+  "settings": {}
+}

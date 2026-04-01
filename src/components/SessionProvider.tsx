@@ -12,7 +12,6 @@ import { isUiThemeId } from "@/lib/ui-theme";
 
 const WALLPAPER_STORAGE_KEY = "archi-wallpaper";
 const UI_THEME_STORAGE_KEY = "archi-ui-theme";
-
 export type SessionUser = {
   id: string;
   email: string;

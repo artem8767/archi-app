@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { BrandName } from "@/components/BrandName";
 import { getPlayStoreUrl, hasApkDownloadConfigured } from "@/lib/app-stores";
 
 export default async function HomePage() {
@@ -23,10 +24,15 @@ export default async function HomePage() {
         <p className="font-mono text-[10px] uppercase tracking-[0.38em] text-archi-400/95 md:text-xs">
           {t("hudActions")}
         </p>
-        <h1 className="font-display mt-3 text-3xl font-semibold uppercase tracking-wide text-archi-50 md:text-4xl md:tracking-[0.12em]">
-          {t("welcome")}
+        <h1 className="font-display mt-5 text-2xl font-semibold uppercase tracking-wide text-archi-50 sm:text-3xl md:tracking-[0.07em] leading-snug">
+          {t.rich("welcomeHeading", {
+            prefix: (chunks) => (
+              <span className="text-[0.88em] font-medium leading-snug">{chunks}</span>
+            ),
+            brand: () => <BrandName variant="hero" />,
+          })}
         </h1>
-        <p className="mt-5 max-w-xl text-base leading-relaxed text-zone-muted md:text-lg md:leading-relaxed">
+        <p className="mt-7 max-w-xl text-base leading-relaxed text-zone-muted md:text-lg md:leading-relaxed">
           {t("subtitle")}
         </p>
         <p className="mt-4 max-w-xl text-sm leading-relaxed text-zone-muted/90 md:text-base md:leading-relaxed">

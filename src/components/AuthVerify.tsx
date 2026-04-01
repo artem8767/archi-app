@@ -36,37 +36,26 @@ function VerifyInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const emailParam = searchParams.get("email") ?? "";
-  const [emailCode, setEmailCode] = useState("");
   const [phoneCode, setPhoneCode] = useState("");
   const [err, setErr] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const [emailResendSec, setEmailResendSec] = useState(0);
   const [smsResendSec, setSmsResendSec] = useState(0);
   const [resendMsg, setResendMsg] = useState("");
 
   useEffect(() => {
-    if (emailResendSec <= 0) return;
-    const t = setInterval(() => {
-      setEmailResendSec((s) => (s <= 1 ? 0 : s - 1));
-    }, 1000);
-    return () => clearInterval(t);
-  }, [emailResendSec]);
-
-  useEffect(() => {
     if (smsResendSec <= 0) return;
-    const t = setInterval(() => {
+    const id = setInterval(() => {
       setSmsResendSec((s) => (s <= 1 ? 0 : s - 1));
     }, 1000);
-    return () => clearInterval(t);
+    return () => clearInterval(id);
   }, [smsResendSec]);
 
-  const startCooldown = useCallback((channel: "email" | "sms", sec: number) => {
+  const startCooldown = useCallback((sec: number) => {
     const s = Math.min(Math.max(sec, 1), RESEND_COOLDOWN_SEC);
-    if (channel === "email") setEmailResendSec(s);
-    else setSmsResendSec(s);
+    setSmsResendSec(s);
   }, []);
 
-  async function resend(channel: "email" | "sms") {
+  async function resend() {
     setErr("");
     setResendMsg("");
     const email = emailParam.trim();
@@ -78,25 +67,20 @@ function VerifyInner() {
       const r = await fetch("/api/auth/resend-code", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, channel }),
+        body: JSON.stringify({ email }),
       });
       const j = await parseApiResponse(r);
       if (!r.ok) {
         if (r.status === 429 && j.retryAfterSec) {
-          startCooldown(channel, j.retryAfterSec);
+          startCooldown(j.retryAfterSec);
         }
         setErr(j.error ?? "Помилка");
         return;
       }
-      startCooldown(channel, RESEND_COOLDOWN_SEC);
+      startCooldown(RESEND_COOLDOWN_SEC);
       if (j.devCode) {
-        if (channel === "email") setEmailCode(j.devCode);
-        else setPhoneCode(j.devCode);
-        setResendMsg(
-          channel === "email"
-            ? `${t("resendDevHintEmail")}: ${j.devCode}`
-            : `${t("resendDevHintSms")}: ${j.devCode}`
-        );
+        setPhoneCode(j.devCode);
+        setResendMsg(`${t("resendDevHintSms")}: ${j.devCode}`);
       } else {
         setResendMsg(j.message ?? t("resendOk"));
       }
@@ -109,10 +93,9 @@ function VerifyInner() {
     e.preventDefault();
     setErr("");
     const email = emailParam.trim();
-    const ec = digitsOnly(emailCode, 6);
     const pc = digitsOnly(phoneCode, 6);
-    if (ec.length !== 6 || pc.length !== 6) {
-      setErr("Обидва коди мають містити по 6 цифр");
+    if (pc.length !== 6) {
+      setErr(t("phoneCodeLength"));
       return;
     }
     if (!email) {
@@ -124,7 +107,7 @@ function VerifyInner() {
       const r = await fetch("/api/auth/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, emailCode: ec, phoneCode: pc }),
+        body: JSON.stringify({ email, phoneCode: pc }),
       });
       const j = await parseApiResponse(r);
       if (!r.ok) {
@@ -142,31 +125,11 @@ function VerifyInner() {
   return (
     <div className="pda-panel mx-auto max-w-md p-6">
       <h1 className="text-xl font-bold">{t("verifyTitle")}</h1>
-      <p className="mt-2 break-all text-sm text-zone-muted">{emailParam.trim() || "—"}</p>
+      <p className="mt-2 text-sm text-zone-muted">{t("verifyPhoneOnlyHint")}</p>
+      <p className="mt-1 break-all text-sm text-zone-muted">
+        {emailParam.trim() || "—"}
+      </p>
       <form onSubmit={onSubmit} className="mt-4 space-y-3">
-        <label className="block">
-          <span className="text-sm text-zone-muted">{t("emailCode")}</span>
-          <input
-            className="mt-1 w-full pda-input"
-            value={emailCode}
-            onChange={(e) => setEmailCode(digitsOnly(e.target.value, 6))}
-            required
-            maxLength={6}
-            inputMode="numeric"
-            autoComplete="one-time-code"
-            placeholder="000000"
-          />
-          <button
-            type="button"
-            disabled={emailResendSec > 0}
-            onClick={() => resend("email")}
-            className="mt-2 text-sm font-medium text-archi-400 underline decoration-archi-600/50 hover:text-archi-300 disabled:cursor-not-allowed disabled:no-underline disabled:opacity-50"
-          >
-            {emailResendSec > 0
-              ? t("resendWait", { seconds: emailResendSec })
-              : t("resendEmail")}
-          </button>
-        </label>
         <label className="block">
           <span className="text-sm text-zone-muted">{t("phoneCode")}</span>
           <input
@@ -182,7 +145,7 @@ function VerifyInner() {
           <button
             type="button"
             disabled={smsResendSec > 0}
-            onClick={() => resend("sms")}
+            onClick={() => resend()}
             className="mt-2 text-sm font-medium text-archi-400 underline decoration-archi-600/50 hover:text-archi-300 disabled:cursor-not-allowed disabled:no-underline disabled:opacity-50"
           >
             {smsResendSec > 0

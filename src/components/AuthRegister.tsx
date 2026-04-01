@@ -9,7 +9,7 @@ type RegisterApiJson = {
   ok?: boolean;
   error?: string;
   detail?: string;
-  devCodes?: { email: string; phone: string };
+  devCodes?: { phone: string };
 };
 
 async function parseApiResponse(r: Response): Promise<RegisterApiJson> {
@@ -34,10 +34,7 @@ export function AuthRegister() {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [err, setErr] = useState("");
-  const [devCodes, setDevCodes] = useState<{
-    email: string;
-    phone: string;
-  } | null>(null);
+  const [devCodes, setDevCodes] = useState<{ phone: string } | null>(null);
   const [done, setDone] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
@@ -83,11 +80,11 @@ export function AuthRegister() {
       <div className="pda-panel mx-auto max-w-md p-6">
         <h1 className="text-xl font-bold">{t("verifyTitle")}</h1>
         <p className="mt-2 text-sm text-zone-muted">
-          {devCodes ? t("codesShownBelow") : t("checkEmailSms")}
+          {devCodes ? t("codesShownBelow") : t("checkSms")}
         </p>
         {devCodes && (
           <div className="mt-3 rounded-lg border border-amber-900/40 bg-amber-950/40 p-3 text-sm text-amber-200/90">
-            Email: {devCodes.email} · SMS: {devCodes.phone}
+            SMS: {devCodes.phone}
           </div>
         )}
         <button
@@ -104,7 +101,7 @@ export function AuthRegister() {
   return (
     <div className="pda-panel mx-auto max-w-md p-6">
       <h1 className="text-xl font-bold">{t("register")}</h1>
-      <p className="mt-2 text-sm text-zone-muted">{t("devHint")}</p>
+      <p className="mt-2 text-sm text-zone-muted">{t("devHintSms")}</p>
       <form onSubmit={onSubmit} className="mt-4 space-y-3">
         <label className="block">
           <span className="text-sm text-zone-muted">{t("email")}</span>

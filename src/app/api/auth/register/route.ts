@@ -5,18 +5,12 @@ import { hashPassword, randomDigits } from "@/lib/auth";
 import { registerRequestSchema } from "@/lib/schemas/register";
 import { exposeVerificationCodesInApiResponse } from "@/lib/verification-flags";
 import {
-  deliverRegistrationCodes,
-  isOtpDeliveryFullyConfigured,
+  deliverRegistrationSmsOnly,
+  isRegistrationSmsConfigured,
 } from "@/lib/verification-delivery";
 
-/**
- * Справжня відправка email + SMS, якщо обидва канали налаштовані в .env.
- * У development раніше потрібно було ще й SEND_OTP_IN_DEV=true — тепер достатньо ключів.
- * SEND_OTP_IN_DEV=true лишається для спроби відправки, коли провайдери ще не повністю задані
- * (може повернути 502, якщо один із каналів впаде).
- */
-function shouldSendOtp(): boolean {
-  if (isOtpDeliveryFullyConfigured()) {
+function shouldSendSms(): boolean {
+  if (isRegistrationSmsConfigured()) {
     return true;
   }
   if (process.env.NODE_ENV !== "production") {
@@ -49,11 +43,11 @@ export async function POST(req: Request) {
     if (process.env.NODE_ENV === "production") {
       const allowWithoutProviders =
         process.env.SHOW_VERIFICATION_CODES === "true";
-      if (!allowWithoutProviders && !isOtpDeliveryFullyConfigured()) {
+      if (!allowWithoutProviders && !isRegistrationSmsConfigured()) {
         return NextResponse.json(
           {
             error:
-              "Реєстрація тимчасово недоступна: налаштуйте відправку email та SMS (див. .env.example) або SHOW_VERIFICATION_CODES=true.",
+              "Реєстрація тимчасово недоступна: налаштуйте відправку SMS (Twilio/Vonage, див. .env.example) або SHOW_VERIFICATION_CODES=true.",
           },
           { status: 503 }
         );
@@ -71,7 +65,6 @@ export async function POST(req: Request) {
     }
 
     const passwordHash = await hashPassword(password);
-    const emailCode = randomDigits(6);
     const phoneCode = randomDigits(6);
     const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
 
@@ -83,11 +76,9 @@ export async function POST(req: Request) {
           phone,
           passwordHash,
           name: name ?? null,
+          emailVerified: true,
           verificationCodes: {
-            create: [
-              { kind: "email", code: emailCode, expiresAt },
-              { kind: "phone", code: phoneCode, expiresAt },
-            ],
+            create: [{ kind: "phone", code: phoneCode, expiresAt }],
           },
         },
       });
@@ -104,28 +95,20 @@ export async function POST(req: Request) {
       throw e;
     }
 
-    const sendOtp = shouldSendOtp();
+    const sendSms = shouldSendSms();
     const showCodes = exposeVerificationCodesInApiResponse();
 
-    if (sendOtp) {
-      const delivery = await deliverRegistrationCodes({
-        email,
+    if (sendSms) {
+      const delivery = await deliverRegistrationSmsOnly({
         phone,
-        emailCode,
         phoneCode,
-        name,
       });
       if (!delivery.ok) {
         await prisma.user.delete({ where: { id: user.id } });
-        const hint =
-          delivery.reason === "email"
-            ? "Не вдалося надіслати лист. Перевірте Resend/SMTP та EMAIL_FROM."
-            : delivery.reason === "sms"
-              ? "Не вдалося надіслати SMS. Перевірте Twilio або Vonage (.env), SMS_PROVIDER, формат номера (+380…)."
-              : "Не вдалося надіслати коди на email і телефон.";
         return NextResponse.json(
           {
-            error: hint,
+            error:
+              "Не вдалося надіслати SMS. Перевірте Twilio або Vonage (.env), SMS_PROVIDER, формат номера (+380…).",
             ...(process.env.NODE_ENV !== "production"
               ? { detail: delivery.message }
               : {}),
@@ -140,13 +123,13 @@ export async function POST(req: Request) {
       userId: user.id,
       ...(showCodes
         ? {
-            devCodes: { email: emailCode, phone: phoneCode },
-            message: sendOtp
-              ? "Коди надіслано на email та SMS. (У відповіді також показано для зручності.)"
-              : "Коди підтвердження (режим розробки): введіть їх на сторінці підтвердження.",
+            devCodes: { phone: phoneCode },
+            message: sendSms
+              ? "Код надіслано в SMS. (У відповіді також показано для зручності.)"
+              : "Код підтвердження телефону (режим розробки): введіть його на сторінці підтвердження.",
           }
         : {
-            message: "На email та телефон надіслано коди підтвердження.",
+            message: "На телефон надіслано код підтвердження.",
           }),
     });
   } catch (e) {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useFormatter, useTranslations } from "next-intl";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
@@ -26,10 +26,13 @@ type PendingMedia = {
 
 export function ChatPanel() {
   const t = useTranslations("chat");
+  const tCommon = useTranslations("common");
+  const format = useFormatter();
   const { user } = useSession();
   const [messages, setMessages] = useState<Msg[]>([]);
   const [text, setText] = useState("");
   const [pending, setPending] = useState<PendingMedia | null>(null);
+  const [postError, setPostError] = useState<string | null>(null);
   const bottom = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLInputElement>(null);
   const vidRef = useRef<HTMLInputElement>(null);
@@ -91,9 +94,17 @@ export function ChatPanel() {
         }),
       });
       if (r.ok) {
+        setPostError(null);
         setText("");
         setPending(null);
         load();
+      } else if (r.status === 422) {
+        const j = (await r.json()) as { code?: string };
+        setPostError(
+          j.code === "moderation" ? tCommon("moderationBlocked") : null,
+        );
+      } else {
+        setPostError(null);
       }
       return;
     }
@@ -112,8 +123,16 @@ export function ChatPanel() {
       ),
     });
     if (r.ok) {
+      setPostError(null);
       setText("");
       load();
+    } else if (r.status === 422) {
+      const j = (await r.json()) as { code?: string };
+      setPostError(
+        j.code === "moderation" ? tCommon("moderationBlocked") : null,
+      );
+    } else {
+      setPostError(null);
     }
   }
 
@@ -208,7 +227,7 @@ export function ChatPanel() {
             </span>
             <span className="text-zone-muted/70">
               {" "}
-              {new Date(m.createdAt).toLocaleTimeString()}
+              {format.dateTime(new Date(m.createdAt), { timeStyle: "short" })}
             </span>
             <MessageBody m={m} />
           </div>
@@ -291,12 +310,20 @@ export function ChatPanel() {
               {t("attachAudio")}
             </button>
           </div>
+          {postError ? (
+            <p className="mb-2 text-sm text-red-400/90" role="alert">
+              {postError}
+            </p>
+          ) : null}
           <div className="flex gap-2">
             <input
               className="flex-1 pda-input"
               placeholder={t("placeholder")}
               value={text}
-              onChange={(e) => setText(e.target.value)}
+              onChange={(e) => {
+                setText(e.target.value);
+                setPostError(null);
+              }}
             />
             <button
               type="submit"

@@ -4,6 +4,17 @@ import { routing } from "./i18n/routing";
 
 const intlMiddleware = createMiddleware(routing);
 
+/** Dev uses `-H 127.0.0.1`; next-intl rewrites use `request.url` as base. If the client hits `localhost`, rewrites become `http://localhost:…` and Next tries to HTTP-proxy to ::1, which fails. */
+function normalizeDevHost(request: NextRequest): NextRequest {
+  const hostname = request.nextUrl.hostname;
+  if (hostname !== "localhost" && hostname !== "::1") {
+    return request;
+  }
+  const url = request.nextUrl.clone();
+  url.hostname = "127.0.0.1";
+  return new NextRequest(url, { headers: request.headers, method: request.method });
+}
+
 const CORS_HEADERS: Record<string, string> = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, PATCH, DELETE, OPTIONS",
@@ -23,7 +34,7 @@ export default function middleware(request: NextRequest) {
     Object.entries(CORS_HEADERS).forEach(([k, v]) => res.headers.set(k, v));
     return res;
   }
-  return intlMiddleware(request);
+  return intlMiddleware(normalizeDevHost(request));
 }
 
 export const config = {

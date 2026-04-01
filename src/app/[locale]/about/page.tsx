@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { BrandName } from "@/components/BrandName";
+import { APP_BRAND_NAME } from "@/lib/brand";
 import { getSiteDeveloperCredit } from "@/lib/site-credits";
 
 const FEATURE_KEYS = [
@@ -17,8 +19,8 @@ type Props = { params: { locale: string } };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const t = await getTranslations({ locale: params.locale, namespace: "site" });
   return {
-    title: t("metaTitle"),
-    description: t("intro"),
+    title: `${t("metaTitlePrefix")} ${APP_BRAND_NAME}`,
+    description: `${APP_BRAND_NAME} ${t("introBody")}`,
   };
 }
 
@@ -36,16 +38,25 @@ export default async function AboutPage() {
         <p className="font-mono text-[10px] uppercase tracking-[0.38em] text-archi-400/95 md:text-xs">
           {t("kicker")}
         </p>
-        <h1 className="font-display mt-3 text-3xl font-semibold uppercase tracking-wide text-archi-50 md:text-4xl md:tracking-[0.1em]">
-          {t("headline")}
+        <h1 className="font-display mt-5 flex flex-wrap items-baseline gap-x-2.5 gap-y-1 text-2xl font-semibold uppercase tracking-wide text-archi-50 sm:text-3xl md:tracking-[0.07em] leading-snug">
+          {t.rich("aboutHeadline", {
+            brand: () => <BrandName variant="hero" />,
+            tail: (chunks) => (
+              <span className="max-w-[min(100%,42rem)] text-[0.86em] font-medium leading-snug sm:text-[0.88em]">
+                {chunks}
+              </span>
+            ),
+          })}
         </h1>
-        <p className="mt-6 max-w-2xl text-base leading-relaxed text-zone-muted md:text-lg md:leading-relaxed">
-          {t("intro")}
+        <p className="mt-8 max-w-2xl text-base leading-relaxed text-zone-muted md:text-lg md:leading-relaxed">
+          <BrandName variant="inline" />
+          {" "}
+          {t("introBody")}
         </p>
       </section>
 
       <section className="rounded-xl border border-zone-edge/70 bg-zone-deep/40 p-8 md:p-10">
-        <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-archi-100 md:text-2xl">
+        <h2 className="font-display text-lg font-semibold uppercase tracking-wide text-archi-100 sm:text-xl">
           {t("featuresTitle")}
         </h2>
         <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:max-w-4xl">
@@ -66,7 +77,7 @@ export default async function AboutPage() {
 
       {developerCredit ? (
         <section className="rounded-xl border border-zone-edge/70 bg-zone-panel/60 p-8 md:p-10">
-          <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-archi-100 md:text-2xl">
+          <h2 className="font-display text-lg font-semibold uppercase tracking-wide text-archi-100 sm:text-xl">
             {t("developerTitle")}
           </h2>
           <p className="mt-4 max-w-2xl text-sm leading-relaxed text-zone-fog md:text-base">

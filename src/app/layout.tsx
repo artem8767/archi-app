@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Sans, Oswald, Share_Tech_Mono } from "next/font/google";
 import { getPlayStoreUrl } from "@/lib/app-stores";
+import { APP_BRAND_NAME } from "@/lib/brand";
 import { getSiteDeveloperCredit } from "@/lib/site-credits";
 import { getSiteUrl } from "@/lib/site-url";
 import "./globals.css";
@@ -31,7 +32,7 @@ const siteUrl = getSiteUrl();
 const jsonLdWebApp = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  name: "ARCHI",
+  name: APP_BRAND_NAME,
   description: "News, classifieds, chat",
   url: siteUrl,
   applicationCategory: "SocialNetworkingApplication",
@@ -42,7 +43,7 @@ const jsonLdWebApp = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
-  title: "ARCHI",
+  title: APP_BRAND_NAME,
   description: "News, classifieds, chat",
   ...(developerCredit
     ? {
@@ -62,11 +63,11 @@ export const metadata: Metadata = {
   openGraph: {
     locale: "en_US",
     type: "website",
-    siteName: "ARCHI",
+    siteName: APP_BRAND_NAME,
   },
   appleWebApp: {
     capable: true,
-    title: "АРЧІ",
+    title: APP_BRAND_NAME,
     statusBarStyle: "black-translucent",
   },
 };

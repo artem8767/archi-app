@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { moderateCombinedText } from "@/lib/content-moderation";
 import { prisma } from "@/lib/prisma";
 import { requireVerifiedUserForWrite } from "@/lib/session-guard";
 
@@ -37,6 +38,18 @@ export async function POST(req: Request) {
   }
   const videoUrl =
     parsed.data.videoUrl?.trim() === "" ? null : parsed.data.videoUrl?.trim() ?? null;
+
+  const mod = await moderateCombinedText([
+    parsed.data.title,
+    parsed.data.body,
+    videoUrl ?? "",
+  ]);
+  if (!mod.ok) {
+    return NextResponse.json(
+      { error: "moderation", code: "moderation", reason: mod.reason },
+      { status: 422 },
+    );
+  }
 
   const post = await prisma.newsPost.create({
     data: {
