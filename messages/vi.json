@@ -58,7 +58,8 @@
     "password": "Mật khẩu",
     "showPassword": "Hiện",
     "hidePassword": "Ẩn",
-    "name": "Tên",
+    "name": "Tên hoặc biệt danh",
+    "nameHint": "Người khác sẽ thấy tên này trong chat, bình luận và tin đăng.",
     "submitLogin": "Đăng nhập",
     "submitRegister": "Đăng ký",
     "verifyTitle": "Xác minh",
@@ -142,7 +143,8 @@
     "sec_kids": "Trẻ em",
     "sec_pets": "Thú cưng",
     "sec_business_industrial": "Kinh doanh & thiết bị",
-    "comments": "Bình luận"
+    "comments": "Bình luận",
+    "deleteConfirm": "Xóa tin này? Hành động này không thể hoàn tác."
   },
   "job": {
     "title": "Việc làm",
@@ -177,6 +179,8 @@
     "error": "Lỗi",
     "save": "Lưu",
     "cancel": "Hủy",
+    "reply": "Trả lời",
+    "replyingTo": "Trả lời cho {name}",
     "delete": "Xóa",
     "anonymous": "Người dùng",
     "home": "Trang chủ",

@@ -58,7 +58,8 @@
     "password": "Mot de passe",
     "showPassword": "Afficher",
     "hidePassword": "Masquer",
-    "name": "Nom",
+    "name": "Nom ou pseudo",
+    "nameHint": "Les autres le verront dans le chat, les commentaires et les annonces.",
     "submitLogin": "Se connecter",
     "submitRegister": "S’inscrire",
     "verifyTitle": "Vérification",
@@ -142,7 +143,8 @@
     "sec_kids": "Enfants",
     "sec_pets": "Animaux",
     "sec_business_industrial": "Pro & équipement",
-    "comments": "Commentaires"
+    "comments": "Commentaires",
+    "deleteConfirm": "Supprimer cette annonce ? Cette action est irréversible."
   },
   "job": {
     "title": "Emploi",
@@ -177,6 +179,8 @@
     "error": "Erreur",
     "save": "Enregistrer",
     "cancel": "Annuler",
+    "reply": "Répondre",
+    "replyingTo": "Réponse à {name}",
     "delete": "Supprimer",
     "anonymous": "Utilisateur",
     "home": "Accueil",

@@ -8,6 +8,7 @@ import {
   parseYouTubeEmbed,
   type ChatMessageKind,
 } from "@/lib/chat-media";
+import { ReplyToBar } from "./ReplyToBar";
 import { useSession } from "./SessionProvider";
 
 type Msg = {
@@ -33,7 +34,17 @@ export function ChatPanel() {
   const [text, setText] = useState("");
   const [pending, setPending] = useState<PendingMedia | null>(null);
   const [postError, setPostError] = useState<string | null>(null);
+  const [replyTo, setReplyTo] = useState<{ label: string } | null>(null);
   const bottom = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!user) setReplyTo(null);
+  }, [user]);
+
+  function withReplyPrefix(trimmed: string): string {
+    if (!replyTo) return trimmed;
+    return `${replyTo.label}, ${trimmed}`;
+  }
   const imgRef = useRef<HTMLInputElement>(null);
   const vidRef = useRef<HTMLInputElement>(null);
   const audRef = useRef<HTMLInputElement>(null);
@@ -89,7 +100,7 @@ export function ChatPanel() {
         credentials: "include",
         body: JSON.stringify({
           kind: pending.kind,
-          text: trimmed,
+          text: withReplyPrefix(trimmed),
           mediaData: pending.dataUrl,
         }),
       });
@@ -97,6 +108,7 @@ export function ChatPanel() {
         setPostError(null);
         setText("");
         setPending(null);
+        setReplyTo(null);
         load();
       } else if (r.status === 422) {
         const j = (await r.json()) as { code?: string };
@@ -118,13 +130,14 @@ export function ChatPanel() {
       credentials: "include",
       body: JSON.stringify(
         asLink
-          ? { kind: "link", text: trimmed }
-          : { kind: "text", text: trimmed },
+          ? { kind: "link", text: withReplyPrefix(trimmed) }
+          : { kind: "text", text: withReplyPrefix(trimmed) },
       ),
     });
     if (r.ok) {
       setPostError(null);
       setText("");
+      setReplyTo(null);
       load();
     } else if (r.status === 422) {
       const j = (await r.json()) as { code?: string };
@@ -222,13 +235,28 @@ export function ChatPanel() {
       <div className="h-[420px] overflow-y-auto px-4 py-3">
         {messages.map((m) => (
           <div key={m.id} className="pda-chat-bubble mb-3 text-sm">
-            <span className="font-medium text-archi-400">
-              {m.user.name || m.user.email}
-            </span>
-            <span className="text-zone-muted/70">
-              {" "}
-              {format.dateTime(new Date(m.createdAt), { timeStyle: "short" })}
-            </span>
+            <div className="flex flex-wrap items-baseline justify-between gap-2">
+              <div>
+                <span className="font-medium text-archi-400">
+                  {m.user.name || m.user.email}
+                </span>
+                <span className="text-zone-muted/70">
+                  {" "}
+                  {format.dateTime(new Date(m.createdAt), { timeStyle: "short" })}
+                </span>
+              </div>
+              {user && user.id !== m.user.id ? (
+                <button
+                  type="button"
+                  onClick={() =>
+                    setReplyTo({ label: m.user.name || m.user.email })
+                  }
+                  className="shrink-0 text-xs text-archi-500 hover:text-archi-300 hover:underline"
+                >
+                  {tCommon("reply")}
+                </button>
+              ) : null}
+            </div>
             <MessageBody m={m} />
           </div>
         ))}
@@ -256,6 +284,12 @@ export function ChatPanel() {
                 {t("clearAttachment")}
               </button>
             </div>
+          ) : null}
+          {replyTo ? (
+            <ReplyToBar
+              label={replyTo.label}
+              onCancel={() => setReplyTo(null)}
+            />
           ) : null}
           <div className="mb-2 flex flex-wrap gap-2">
             <input

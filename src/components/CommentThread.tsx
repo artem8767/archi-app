@@ -3,6 +3,7 @@
 import { useFormatter, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useCallback, useEffect, useState } from "react";
+import { ReplyToBar } from "./ReplyToBar";
 import { useSession } from "./SessionProvider";
 
 type Comment = {
@@ -29,6 +30,11 @@ export function CommentThread({
   const [text, setText] = useState("");
   const [postError, setPostError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [replyTo, setReplyTo] = useState<{ label: string } | null>(null);
+
+  useEffect(() => {
+    if (!user) setReplyTo(null);
+  }, [user]);
 
   const load = useCallback(async () => {
     const r = await fetch(
@@ -45,15 +51,20 @@ export function CommentThread({
   async function send(e: React.FormEvent) {
     e.preventDefault();
     if (!user || !text.trim()) return;
+    const trimmed = text.trim();
+    const body = replyTo
+      ? `${replyTo.label}, ${trimmed}`
+      : trimmed;
     const r = await fetch("/api/comments", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
-      body: JSON.stringify({ targetType, targetId, body: text.trim() }),
+      body: JSON.stringify({ targetType, targetId, body }),
     });
     if (r.ok) {
       setPostError(null);
       setText("");
+      setReplyTo(null);
       load();
     } else if (r.status === 422) {
       const j = (await r.json()) as { code?: string };
@@ -76,17 +87,32 @@ export function CommentThread({
         <ul className="space-y-2">
           {comments.map((c) => (
             <li key={c.id} className="text-sm">
-              <span className="font-medium text-archi-400">
-                {c.user.name || c.user.email}
-              </span>
-              <span className="text-zone-muted">
-                {" "}
-                ·{" "}
-                {format.dateTime(new Date(c.createdAt), {
-                  dateStyle: "short",
-                  timeStyle: "short",
-                })}
-              </span>
+              <div className="flex flex-wrap items-baseline justify-between gap-2">
+                <div>
+                  <span className="font-medium text-archi-400">
+                    {c.user.name || c.user.email}
+                  </span>
+                  <span className="text-zone-muted">
+                    {" "}
+                    ·{" "}
+                    {format.dateTime(new Date(c.createdAt), {
+                      dateStyle: "short",
+                      timeStyle: "short",
+                    })}
+                  </span>
+                </div>
+                {user && user.id !== c.user.id ? (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setReplyTo({ label: c.user.name || c.user.email })
+                    }
+                    className="shrink-0 text-xs font-normal text-archi-500 hover:text-archi-300 hover:underline"
+                  >
+                    {tCommon("reply")}
+                  </button>
+                ) : null}
+              </div>
               <p className="mt-0.5 text-zone-fog/95">{c.body}</p>
             </li>
           ))}
@@ -94,6 +120,12 @@ export function CommentThread({
       )}
       {user ? (
         <form onSubmit={send} className="mt-3 flex flex-col gap-2">
+          {replyTo ? (
+            <ReplyToBar
+              label={replyTo.label}
+              onCancel={() => setReplyTo(null)}
+            />
+          ) : null}
           {postError ? (
             <p className="text-sm text-red-400/90" role="alert">
               {postError}

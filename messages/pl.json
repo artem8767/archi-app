@@ -58,7 +58,8 @@
     "password": "Hasło",
     "showPassword": "Pokaż",
     "hidePassword": "Ukryj",
-    "name": "Imię",
+    "name": "Imię lub pseudonim",
+    "nameHint": "Inni zobaczą je na czacie, w komentarzach i ogłoszeniach.",
     "submitLogin": "Zaloguj się",
     "submitRegister": "Zarejestruj się",
     "verifyTitle": "Weryfikacja",
@@ -142,7 +143,8 @@
     "sec_kids": "Dzieci",
     "sec_pets": "Zwierzęta",
     "sec_business_industrial": "Firma i sprzęt",
-    "comments": "Komentarze"
+    "comments": "Komentarze",
+    "deleteConfirm": "Usunąć to ogłoszenie? Tej operacji nie można cofnąć."
   },
   "job": {
     "title": "Praca",
@@ -177,6 +179,8 @@
     "error": "Błąd",
     "save": "Zapisz",
     "cancel": "Anuluj",
+    "reply": "Odpowiedz",
+    "replyingTo": "Odpowiedź do {name}",
     "delete": "Usuń",
     "anonymous": "Użytkownik",
     "home": "Strona główna",

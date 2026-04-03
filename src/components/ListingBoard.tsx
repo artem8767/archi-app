@@ -63,6 +63,7 @@ export function ListingBoard({ category }: { category: ListingCategory }) {
   const [newSection, setNewSection] = useState<ListingSectionId>("general");
   const [postError, setPostError] = useState<string | null>(null);
   const [fileInputKey, setFileInputKey] = useState(0);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const apiCat = catMap[category];
 
@@ -132,6 +133,21 @@ export function ListingBoard({ category }: { category: ListingCategory }) {
       );
     } else {
       setPostError(null);
+    }
+  }
+
+  async function deleteListing(id: string) {
+    if (!user) return;
+    if (!window.confirm(t("deleteConfirm"))) return;
+    setDeletingId(id);
+    try {
+      const r = await fetch(`/api/listings/${encodeURIComponent(id)}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+      if (r.ok) await load();
+    } finally {
+      setDeletingId(null);
     }
   }
 
@@ -310,9 +326,23 @@ export function ListingBoard({ category }: { category: ListingCategory }) {
             return (
               <li key={item.id} className="pda-card">
                 <div className="p-4">
-                  <p className="text-xs font-medium uppercase tracking-wide text-archi-400/95">
-                    {sectionLabel(item.section || "general")}
-                  </p>
+                  <div className="flex flex-wrap items-start justify-between gap-2">
+                    <p className="text-xs font-medium uppercase tracking-wide text-archi-400/95">
+                      {sectionLabel(item.section || "general")}
+                    </p>
+                    {user && user.id === item.user.id ? (
+                      <button
+                        type="button"
+                        onClick={() => void deleteListing(item.id)}
+                        disabled={deletingId === item.id}
+                        className="shrink-0 rounded-lg border border-red-900/80 bg-red-950/40 px-3 py-1 text-xs font-medium text-red-200/95 hover:bg-red-900/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500 disabled:opacity-50"
+                      >
+                        {deletingId === item.id
+                          ? tCommon("loading")
+                          : tCommon("delete")}
+                      </button>
+                    ) : null}
+                  </div>
                   <h3 className="mt-1 text-xl font-semibold text-zone-fog">
                     {item.title}
                   </h3>

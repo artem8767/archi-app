@@ -58,7 +58,8 @@
     "password": "Password",
     "showPassword": "Show",
     "hidePassword": "Hide",
-    "name": "Name",
+    "name": "Name or nickname",
+    "nameHint": "Others will see this in chat, comments, and listings.",
     "submitLogin": "Log in",
     "submitRegister": "Register",
     "verifyTitle": "Verification",
@@ -142,7 +143,8 @@
     "sec_kids": "Kids",
     "sec_pets": "Pets",
     "sec_business_industrial": "Business & equipment",
-    "comments": "Comments"
+    "comments": "Comments",
+    "deleteConfirm": "Delete this listing? This cannot be undone."
   },
   "job": {
     "title": "Jobs",
@@ -177,6 +179,8 @@
     "error": "Error",
     "save": "Save",
     "cancel": "Cancel",
+    "reply": "Reply",
+    "replyingTo": "Replying to {name}",
     "delete": "Delete",
     "anonymous": "User",
     "home": "Home",

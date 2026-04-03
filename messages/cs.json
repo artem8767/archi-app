@@ -58,7 +58,8 @@
     "password": "Heslo",
     "showPassword": "Zobrazit",
     "hidePassword": "Skrýt",
-    "name": "Jméno",
+    "name": "Jméno nebo přezdívka",
+    "nameHint": "Ostatní vás tak uvidí v chatu, komentářích a inzerátech.",
     "submitLogin": "Přihlásit se",
     "submitRegister": "Zaregistrovat se",
     "verifyTitle": "Ověření",
@@ -142,7 +143,8 @@
     "sec_kids": "Děti",
     "sec_pets": "Zvířata",
     "sec_business_industrial": "Podnikání a technika",
-    "comments": "Komentáře"
+    "comments": "Komentáře",
+    "deleteConfirm": "Smazat tento inzerát? Tuto akci nelze vrátit zpět."
   },
   "job": {
     "title": "Práce",
@@ -177,6 +179,8 @@
     "error": "Chyba",
     "save": "Uložit",
     "cancel": "Zrušit",
+    "reply": "Odpovědět",
+    "replyingTo": "Odpověď pro {name}",
     "delete": "Smazat",
     "anonymous": "Uživatel",
     "home": "Domů",

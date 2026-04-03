@@ -18,9 +18,8 @@ export const registerRequestSchema = z.object({
   name: z
     .string()
     .trim()
-    .max(120, "Ім'я занадто довге")
-    .optional()
-    .transform((v) => (v && v.length > 0 ? v : undefined)),
+    .min(1, "Вкажіть ім'я — так інші бачитимуть вас у чаті та коментарях")
+    .max(120, "Ім'я занадто довге"),
 });
 
 export type RegisterRequestInput = z.input<typeof registerRequestSchema>;

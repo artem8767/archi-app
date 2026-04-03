@@ -50,7 +50,7 @@ export function AuthRegister() {
           email: email.trim(),
           phone: phone.trim(),
           password,
-          name: name.trim() || undefined,
+          name: name.trim(),
         }),
       });
       const j = await parseApiResponse(r);
@@ -115,6 +115,20 @@ export function AuthRegister() {
           />
         </label>
         <label className="block">
+          <span className="text-sm text-zone-muted">{t("name")}</span>
+          <input
+            type="text"
+            autoComplete="name"
+            className="mt-1 w-full pda-input"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            minLength={1}
+            maxLength={120}
+          />
+          <p className="mt-1 text-xs text-zone-muted/90">{t("nameHint")}</p>
+        </label>
+        <label className="block">
           <span className="text-sm text-zone-muted">{t("phone")}</span>
           <input
             type="tel"
@@ -135,16 +149,6 @@ export function AuthRegister() {
           required
           minLength={8}
         />
-        <label className="block">
-          <span className="text-sm text-zone-muted">{t("name")}</span>
-          <input
-            type="text"
-            autoComplete="name"
-            className="mt-1 w-full pda-input"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </label>
         {err && <p className="text-sm text-red-600">{err}</p>}
         <button
           type="submit"
