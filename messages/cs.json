@@ -47,7 +47,13 @@
     "developerFooter": "Vývojář: {name}",
     "developerFooterPrefix": "Vývojář:",
     "developerEmailLabel": "E-mail",
-    "developerPhoneLabel": "Telefon"
+    "developerPhoneLabel": "Telefon",
+    "privacyPolicy": "Zásady ochrany osobních údajů",
+    "privacyPageTitle": "Zásady ochrany osobních údajů",
+    "privacyPageDescription": "Jak ARCHI shromažďuje, používá a ukládá vaše osobní údaje.",
+    "privacyUpdatedLabel": "Naposledy aktualizováno:",
+    "privacyUpdatedDate": "4. dubna 2026",
+    "privacyLegalNotice": "Úplné znění zásad ochrany osobních údajů je níže v angličtině."
   },
   "auth": {
     "login": "Přihlásit se",

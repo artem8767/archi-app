@@ -7,6 +7,7 @@ import { getSiteUrl } from "@/lib/site-url";
 const PATHS = [
   "",
   "/about",
+  "/privacy",
   "/news",
   "/chat",
   "/sell",

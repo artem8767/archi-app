@@ -47,7 +47,13 @@
     "developerFooter": "Разработчик: {name}",
     "developerFooterPrefix": "Разработчик:",
     "developerEmailLabel": "Эл. почта",
-    "developerPhoneLabel": "Телефон"
+    "developerPhoneLabel": "Телефон",
+    "privacyPolicy": "Политика конфиденциальности",
+    "privacyPageTitle": "Политика конфиденциальности",
+    "privacyPageDescription": "Как ARCHI собирает, использует и хранит ваши персональные данные.",
+    "privacyUpdatedLabel": "Последнее обновление:",
+    "privacyUpdatedDate": "4 апреля 2026 г.",
+    "privacyLegalNotice": "Полный текст политики конфиденциальности приведён ниже на английском языке."
   },
   "auth": {
     "login": "Войти",

@@ -47,7 +47,13 @@
     "developerFooter": "Nhà phát triển: {name}",
     "developerFooterPrefix": "Nhà phát triển:",
     "developerEmailLabel": "E-mail",
-    "developerPhoneLabel": "Điện thoại"
+    "developerPhoneLabel": "Điện thoại",
+    "privacyPolicy": "Chính sách quyền riêng tư",
+    "privacyPageTitle": "Chính sách quyền riêng tư",
+    "privacyPageDescription": "Cách ARCHI thu thập, sử dụng và lưu trữ dữ liệu cá nhân của bạn.",
+    "privacyUpdatedLabel": "Cập nhật lần cuối:",
+    "privacyUpdatedDate": "4 tháng 4, 2026",
+    "privacyLegalNotice": "Bản chính sách quyền riêng tư đầy đủ được hiển thị bên dưới bằng tiếng Anh."
   },
   "auth": {
     "login": "Đăng nhập",

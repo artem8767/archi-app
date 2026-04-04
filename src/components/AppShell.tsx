@@ -133,9 +133,17 @@ export function AppShell({
       <main className="flex-1" id="main-content">
         {children}
       </main>
-      {developerCredit ? (
-        <footer className="mt-10 border-t border-zone-edge/50 pt-6 text-center">
-          <p className="text-xs text-zone-muted">
+      <footer className="mt-10 border-t border-zone-edge/50 pt-6 text-center">
+        <p className="text-xs">
+          <Link
+            href="/privacy"
+            className="font-medium text-archi-400 underline decoration-archi-600/40 underline-offset-2 transition hover:text-archi-300"
+          >
+            {tSite("privacyPolicy")}
+          </Link>
+        </p>
+        {developerCredit ? (
+          <p className="mt-3 text-xs text-zone-muted">
             {developerCredit.url ? (
               <>
                 {tSite("developerFooterPrefix")}{" "}
@@ -162,8 +170,8 @@ export function AppShell({
               tSite("developerFooter", { name: developerCredit.name })
             )}
           </p>
-        </footer>
-      ) : null}
+        ) : null}
+      </footer>
       <MobileAppNav />
       <GoogleTranslateWidget
         key={`${user?.autoTranslate ? "1" : "0"}-${user?.locale ?? "en"}`}

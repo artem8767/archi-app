@@ -47,7 +47,13 @@
     "developerFooter": "Developer: {name}",
     "developerFooterPrefix": "Developer:",
     "developerEmailLabel": "Email",
-    "developerPhoneLabel": "Phone"
+    "developerPhoneLabel": "Phone",
+    "privacyPolicy": "Privacy Policy",
+    "privacyPageTitle": "Privacy Policy",
+    "privacyPageDescription": "How ARCHI collects, uses, and stores your personal data when you use the service.",
+    "privacyUpdatedLabel": "Last updated:",
+    "privacyUpdatedDate": "4 April 2026",
+    "privacyLegalNotice": ""
   },
   "auth": {
     "login": "Log in",
