@@ -7,9 +7,9 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eas:login": "eas-cli login",
-    "eas:configure": "eas-cli build:configure",
-    "build:aab": "eas-cli build -p android --profile production"
+    "eas:login": "eas login",
+    "eas:configure": "eas build:configure",
+    "build:aab": "eas build -p android --profile production"
   },
   "dependencies": {
     "expo": "~54.0.33",
