@@ -2,7 +2,7 @@
   "expo": {
     "name": "ARCHI",
     "slug": "archi",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "default",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
@@ -17,6 +17,7 @@
       "bundleIdentifier": "com.archi.app"
     },
     "android": {
+      "versionCode": 2,
       "package": "com.archi.app",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
@@ -27,6 +28,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "187527cf-aa61-4a71-9503-503b4142c8a5"
+      }
     }
   }
 }
