@@ -12,7 +12,7 @@ const host = process.env.DEV_HOST || "0.0.0.0";
 const port = parseInt(process.env.PORT || process.env.DEV_PORT || "3000", 10);
 const openPath =
   process.env.DEV_OPEN_PATH ||
-  (process.env.DEV_OPEN_LOCALE ? `/${process.env.DEV_OPEN_LOCALE}` : "/uk");
+  (process.env.DEV_OPEN_LOCALE ? `/${process.env.DEV_OPEN_LOCALE}` : "/en");
 const openUrl =
   process.env.DEV_OPEN_URL ||
   `http://${process.env.DEV_OPEN_HOST || "127.0.0.1"}:${port}${openPath}`;

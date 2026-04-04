@@ -1,15 +1,14 @@
 /**
- * Єдине джерело підтримуваних мов (cs, uk, pl, de, sk, vi, en, fr, ru).
- * Основна мова — англійська (див. routing.defaultLocale).
+ * Єдине джерело підтримуваних мов. Перша — англійська (routing.defaultLocale, порядок у перемикачах).
  */
 export const LOCALE_CODES = [
+  "en",
   "cs",
   "uk",
   "pl",
   "de",
   "sk",
   "vi",
-  "en",
   "fr",
   "ru",
 ] as const;
@@ -23,13 +22,13 @@ export const LOCALE_CODES_FOR_ZOD = LOCALE_CODES as unknown as [
 ];
 
 export const LOCALE_LABELS: Record<AppLocale, string> = {
+  en: "English",
   cs: "Čeština",
   uk: "Українська (Україна)",
   pl: "Polski",
   de: "Deutsch",
   sk: "Slovenčina",
   vi: "Tiếng Việt",
-  en: "English",
   fr: "Français",
   ru: "Русский",
 };

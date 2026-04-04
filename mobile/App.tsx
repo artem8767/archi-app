@@ -10,7 +10,7 @@ const SITE_URL =
   process.env.EXPO_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
   "http://127.0.0.1:3000";
 
-const START_PATH = process.env.EXPO_PUBLIC_SITE_PATH || "/uk";
+const START_PATH = process.env.EXPO_PUBLIC_SITE_PATH || "/en";
 const uri = `${SITE_URL}${START_PATH.startsWith("/") ? "" : "/"}${START_PATH}`;
 
 export default function App() {

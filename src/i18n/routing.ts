@@ -5,6 +5,8 @@ export const routing = defineRouting({
   locales: [...LOCALE_CODES],
   defaultLocale: "en",
   localePrefix: "always",
+  /** Без автопідбору за Accept-Language / cookie — стартова мова завжди `defaultLocale` (en), доки користувач не обере іншу в URL або в налаштуваннях. */
+  localeDetection: false,
 });
 
 export type Locale = AppLocale;
