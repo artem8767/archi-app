@@ -44,7 +44,10 @@ AAB збирається в хмарі Expo (EAS). Файл .aab з’являє
   Забули пароль: expo.dev/forgot-password
 
 Крок 2 — прив’язати проєкт (якщо ще не робили)
-  npm run eas:configure
+  npm run eas:configure   (або npm.cmd run eas:configure)
+  Якщо питає «Would you like to automatically create an EAS project for @…/archi?»
+  — відповідайте YES (так). Якщо обрали NO, з’явиться «Run eas init» / скасування:
+  запустіть eas:configure знову і погодьтесь створити проєкт, або: npm.cmd exec -- eas init
   Це додасть projectId у app.json.
 
 Крок 3 — змінні для WebView (важливо для релізу)
