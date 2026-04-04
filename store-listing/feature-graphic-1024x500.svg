@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="500" viewBox="0 0 1024 500" role="img" aria-label="ARCHI">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#121510"/>
+      <stop offset="55%" stop-color="#1c2218"/>
+      <stop offset="100%" stop-color="#0a0c08"/>
+    </linearGradient>
+    <linearGradient id="txt" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#eceee2"/>
+      <stop offset="100%" stop-color="#a4b082"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="500" fill="url(#bg)"/>
+  <text x="72" y="220" fill="url(#txt)" font-family="ui-monospace, Consolas, monospace" font-size="92" font-weight="600" letter-spacing="0.12em">ARCHI</text>
+  <text x="72" y="290" fill="#98a680" font-family="system-ui, Segoe UI, sans-serif" font-size="28" opacity="0.92">News · Listings · Chat</text>
+  <text x="72" y="340" fill="#69784e" font-family="system-ui, Segoe UI, sans-serif" font-size="22" opacity="0.85">One app. Many languages.</text>
+  <rect x="700" y="80" width="256" height="340" rx="28" fill="#242a1c" stroke="#69784e" stroke-opacity="0.45" stroke-width="2"/>
+  <path fill="#b6c09e" opacity="0.9" d="M828 160 L884 292 H800 L812 260 H848 L828 200 Z"/>
+</svg>

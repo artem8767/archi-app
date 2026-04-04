@@ -1,0 +1,36 @@
+ARCHI — Google Play Store listing (English)
+=============================================
+
+Copy fields into Play Console → Store listing. Limits: short description 80 chars; full description 4000 chars.
+
+---
+App name (max 30 characters)
+---
+ARCHI
+
+---
+Short description (max 80 characters)
+---
+News, listings & chat in one place. Multi-language community app.
+
+---
+Full description (paste below; trim if over 4000)
+---
+ARCHI brings together what matters: local news, clear classifieds (sell, buy, rent, services, jobs), and real-time chat — in your language.
+
+• Read and share news
+• Post and browse listings across categories
+• Chat with the community
+• Account with phone verification for safer posting
+• Dark, comfortable interface; works in the browser and in the app
+
+We respect your privacy. See our privacy policy on the website for how we handle data.
+
+Join ARCHI — fewer tabs, more connection.
+
+---
+Graphic assets (Google Play)
+---
+• High-res icon: 512 × 512 px, 32-bit PNG (use store-listing/icon-512.svg → export as PNG, or replace with your final art).
+• Feature graphic: 1024 × 500 px — template: store-listing/feature-graphic-1024x500.svg (export to PNG).
+• Phone screenshots: at least 2; see SCREENSHOTS.txt for sizes and ideas.
