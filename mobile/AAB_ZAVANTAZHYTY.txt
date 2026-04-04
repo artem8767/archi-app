@@ -36,9 +36,12 @@ AAB збирається в хмарі Expo (EAS). Файл .aab з’являє
 
 Крок 1 — один раз увійти в Expo
   cd mobile
-  npm install
-  npm run eas:login
-  (обліковий запис expo.dev; можна через GitHub)
+  npm install   (у PowerShell без політики: npm.cmd install)
+  npm run eas:login   (або npm.cmd run eas:login)
+  У полі «Email or username» вводьте ЛИШЕ пошту або username з expo.dev —
+  не команди (npx, whoami тощо) і не випадковий текст — інакше буде
+  «username, email, or password was incorrect». Реєстрація: expo.dev/signup
+  Забули пароль: expo.dev/forgot-password
 
 Крок 2 — прив’язати проєкт (якщо ще не робили)
   npm run eas:configure
