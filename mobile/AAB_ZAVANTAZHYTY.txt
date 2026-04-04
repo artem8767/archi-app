@@ -53,7 +53,9 @@ AAB збирається в хмарі Expo (EAS). Файл .aab з’являє
   EXPO_PUBLIC_SITE_PATH=/en
 
 Крок 4 — запустити збірку AAB
-  npm run build:aab
+  npm run build:aab   (або npm.cmd run build:aab)
+  Або після входу в Expo: подвійний клік build-aab.cmd у папці mobile
+  (виконає eas:configure, потім build:aab).
   У терміналі відповідайте на запитання (keystore: зазвичай «створити в EAS» для першого разу).
 
 Крок 5 — ЗАВАНТАЖИТИ AAB на свій ПК
