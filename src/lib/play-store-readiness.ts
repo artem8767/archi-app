@@ -1,6 +1,7 @@
 /**
  * Перевірки для безпечного продакшену та посилань на Google Play.
- * Запуск: `npm run play:readiness` (див. також `scripts/PLAY_STORE_CHECKLIST.txt`).
+ * Запуск: `npm run play:readiness`; повний прогін перед релізом: `npm run release:check`.
+ * Див. `scripts/PLAY_STORE_CHECKLIST.txt` (покроковий план, розділ F).
  *
  * У консолі Play окремо: підпис AAB, targetSdk, Data safety, політика (URL), рейтинг контенту.
  */
