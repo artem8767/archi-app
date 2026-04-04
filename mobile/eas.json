@@ -15,6 +15,10 @@
       }
     },
     "production": {
+      "env": {
+        "EXPO_PUBLIC_SITE_URL": "https://archi-app-v2.vercel.app",
+        "EXPO_PUBLIC_SITE_PATH": "/en"
+      },
       "android": {
         "buildType": "app-bundle"
       }
