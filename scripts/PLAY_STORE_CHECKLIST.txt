@@ -1,7 +1,8 @@
 ARCHI — підготовка до публікації (веб + посилання на Android)
 ===============================================================
 
-Цей репозиторій — Next.js (сайт / PWA). Нативний Android-клієнт (Expo / Kotlin) збирається окремо; у Play Console потрібні AAB/APK з того проєкту.
+Цей репозиторій — Next.js (сайт / PWA) у корені та папка mobile/ (Expo + WebView) для збірки AAB.
+  Деталі збірки Android: mobile/README.txt
 
 F. Покроковий план — що робити вам (по порядку)
 -----------------------------------------------
@@ -24,10 +25,12 @@ F. Покроковий план — що робити вам (по порядк
     Опублікуйте сторінку з політикою на своєму HTTPS-домені.
     Додайте NEXT_PUBLIC_PRIVACY_POLICY_URL у змінні середовища (той самий URL пізніше в Play Console).
 
-  Крок 4 — окремий Android-проєкт (оболонка до сайту)
-    Створіть проєкт Expo або Android Studio з WebView на ваш NEXT_PUBLIC_SITE_URL
-    (або нативний клієнт, якщо плануєте). Виставте targetSdk за вимогами Google на дату релізу.
-    Зберіть підписаний AAB (релізний ключ збережіть у безпечному місці — втрата = неможливість оновлень).
+  Крок 4 — Android-оболонка (AAB)
+    У репозиторії вже є mobile/ (Expo SDK 54, WebView → ваш сайт).
+    Задайте mobile/.env з EXPO_PUBLIC_SITE_URL (HTTPS) та замініть у mobile/app.json
+    android.package / ios.bundleIdentifier на свої (як у Play Console).
+    Збірка AAB: eas build -p android --profile production (див. mobile/README.txt).
+    Keystore для підпису зберігає EAS або завантажте власний — не втрачайте ключ оновлень.
 
   Крок 5 — Google Play Console (play.google.com/console)
     Оплатіть акаунт розробника → створіть застосунок → завантажте AAB у трек (спочатку internal testing).

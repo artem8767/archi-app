@@ -6,3 +6,8 @@ node_modules
 *.db
 prisma/dev.db
 prisma/*.db-journal
+
+# Expo (mobile/)
+mobile/.env
+mobile/.env.local
+mobile/.env.*.local
