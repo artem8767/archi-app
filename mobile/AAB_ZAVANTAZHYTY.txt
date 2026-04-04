@@ -6,17 +6,30 @@
 або підтвердити вхід у браузері. У неінтерактивному середовищі вони не спрацюють.
 
 Якщо PowerShell пише «running scripts is disabled» для npm:
+
+  ВАЖЛИВО: кожну команду — окремим рядком, Enter після неї. Не вставляйте
+  Set-ExecutionPolicy в один рядок з npm (інакше політика не зміниться).
+
   Варіант A (рекомендовано, один раз для вашого користувача):
-    Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
-    (на запит натисніть Y)
-    Потім знову: npm install
-  Варіант B (без зміни політики): використовуйте cmd.exe замість PowerShell:
-    Win+R → cmd → Enter
+    1) Лише цей рядок, Enter:
+       Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+    2) На запит натисніть Y, Enter.
+    3) Перевірка (має показати RemoteSigned):
+       Get-ExecutionPolicy -Scope CurrentUser
+    4) Потім окремо:
+       cd C:\Users\PC\Desktop\archi-app\mobile
+       npm install
+
+  Варіант B (без зміни політики): cmd.exe — Win+R → cmd → Enter:
     cd C:\Users\PC\Desktop\archi-app\mobile
     npm install
-  Варіант C: викликати npm.cmd з PowerShell:
+
+  Варіант C (з PowerShell, без зміни політики) — викликати .cmd:
+    cd C:\Users\PC\Desktop\archi-app\mobile
     npm.cmd install
     npm.cmd run eas:login
+    npm.cmd run eas:configure
+    npm.cmd run build:aab
 
 AAB збирається в хмарі Expo (EAS). Файл .aab з’являється після успішної збірки —
 його можна завантажити з браузера.
