@@ -5,6 +5,19 @@
 терміналі (PowerShell, cmd, термінал Cursor) — там можна ввести email/пароль
 або підтвердити вхід у браузері. У неінтерактивному середовищі вони не спрацюють.
 
+Якщо PowerShell пише «running scripts is disabled» для npm:
+  Варіант A (рекомендовано, один раз для вашого користувача):
+    Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+    (на запит натисніть Y)
+    Потім знову: npm install
+  Варіант B (без зміни політики): використовуйте cmd.exe замість PowerShell:
+    Win+R → cmd → Enter
+    cd C:\Users\PC\Desktop\archi-app\mobile
+    npm install
+  Варіант C: викликати npm.cmd з PowerShell:
+    npm.cmd install
+    npm.cmd run eas:login
+
 AAB збирається в хмарі Expo (EAS). Файл .aab з’являється після успішної збірки —
 його можна завантажити з браузера.
 
