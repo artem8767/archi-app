@@ -1,0 +1,36 @@
+Як отримати (завантажити) файл AAB для Google Play
+==================================================
+
+AAB збирається в хмарі Expo (EAS). Файл .aab з’являється після успішної збірки —
+його можна завантажити з браузера.
+
+Крок 1 — один раз увійти в Expo
+  cd mobile
+  npm install
+  npm run eas:login
+  (обліковий запис expo.dev; можна через GitHub)
+
+Крок 2 — прив’язати проєкт (якщо ще не робили)
+  npm run eas:configure
+  Це додасть projectId у app.json.
+
+Крок 3 — змінні для WebView (важливо для релізу)
+  Скопіюйте .env.example → .env
+  EXPO_PUBLIC_SITE_URL=https://ваш-реальний-сайт.com
+  EXPO_PUBLIC_SITE_PATH=/en
+
+Крок 4 — запустити збірку AAB
+  npm run build:aab
+  У терміналі відповідайте на запитання (keystore: зазвичай «створити в EAS» для першого разу).
+
+Крок 5 — ЗАВАНТАЖИТИ AAB на свій ПК
+  1) Відкрийте https://expo.dev і увійдіть.
+  2) Account → Projects → archi (або назва з app.json slug).
+  3) Builds → остання Android production → кнопка Download (завантажить .aab).
+
+Крок 6 — завантажити AAB у Google Play Console
+  Play Console → ваш застосунок → Testing або Production → Create release →
+  Upload → виберіть звантажений .aab.
+
+Локальна збірка без EAS (складніше): Android Studio, expo prebuild, Gradle bundleRelease —
+див. документацію Expo «Local app compilation».

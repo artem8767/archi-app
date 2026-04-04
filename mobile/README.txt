@@ -17,10 +17,12 @@ ARCHI — оболонка Android/iOS (Expo) для веб-сайту Next.js
   (Emulator або Expo Go; для WebView у Expo Go можливі обмеження — для релізу краще development build.)
 
 AAB для Google Play (EAS Build)
-  1) npm i -g eas-cli
-  2) eas login
-  3) cd mobile && eas build:configure   (якщо ще не створено проєкт на expo.dev)
-  4) eas build -p android --profile production
-  5) Завантажте отриманий .aab у Google Play Console.
+  Детально (логін, збірка, ЗАВАНТАЖИТИ .aab з expo.dev, завантажити в Play): AAB_ZAVANTAZHYTY.txt
+  Коротко:
+  1) cd mobile && npm install && npm run eas:login
+  2) npm run eas:configure
+  3) npm run build:aab
+  4) expo.dev → Builds → Download .aab
+  5) Play Console → Upload AAB
 
 Документація Expo: https://docs.expo.dev/build/introduction/
