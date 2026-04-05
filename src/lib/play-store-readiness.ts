@@ -1,3 +1,5 @@
+import { isEmailDeliveryConfiguredFromEnv } from "./verification-email";
+
 /**
  * Перевірки для безпечного продакшену та посилань на Google Play.
  * Запуск: `npm run play:readiness`; повний прогін: `npm run release:check`.
@@ -157,16 +159,14 @@ export function getPlayStoreReadinessIssues(
   }
 
   if (prod) {
-    const emailOk =
-      Boolean(env.RESEND_API_KEY?.trim()) ||
-      Boolean(env.SMTP_HOST?.trim() && env.EMAIL_FROM?.trim());
+    const emailOk = isEmailDeliveryConfiguredFromEnv(env);
     const showCodes = env.SHOW_VERIFICATION_CODES === "true";
     if (!emailOk && !showCodes) {
       issues.push({
         level: "warning",
         code: "VERIFICATION_NOT_CONFIGURED",
         message:
-          "Немає відправки листів для коду реєстрації: додайте RESEND_API_KEY (достатньо одного ключа) або SMTP_HOST + EMAIL_FROM. Для внутрішнього тесту — SHOW_VERIFICATION_CODES=true (небезпечно).",
+          "Немає робочої відправки листів: RESEND_API_KEY або повний SMTP (SMTP_HOST, EMAIL_FROM, SMTP_USER, SMTP_PASSWORD; порт 587 — див. .env.example, Brevo). Або SHOW_VERIFICATION_CODES=true лише для тесту (небезпечно).",
       });
     }
   }

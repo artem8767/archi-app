@@ -83,10 +83,8 @@ export async function POST(req: Request) {
         return NextResponse.json(
           {
             error:
-              "Не вдалося надіслати лист. Перевірте Resend/SMTP та EMAIL_FROM.",
-            ...(process.env.NODE_ENV !== "production" && e instanceof Error
-              ? { detail: e.message }
-              : {}),
+              "Не вдалося надіслати лист. Перевірте RESEND_API_KEY або SMTP (SMTP_USER + SMTP_PASSWORD) та EMAIL_FROM на сервері.",
+            ...(e instanceof Error && e.message ? { detail: e.message } : {}),
           },
           { status: 502 }
         );

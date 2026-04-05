@@ -40,7 +40,7 @@ export async function POST(req: Request) {
       return NextResponse.json(
         {
           error:
-            "Реєстрація тимчасово недоступна: у Vercel → Environment Variables (Production) налаштуйте пошту. Варіант без Resend: SMTP_HOST, EMAIL_FROM, SMTP_USER, SMTP_PASSWORD (порт 587, див. .env.example — Brevo, Gmail тощо). Якщо SMTP — приберіть або не задавайте RESEND_API_KEY. Або Resend: лише RESEND_API_KEY. Тест: SHOW_VERIFICATION_CODES=true (не для продакшену).",
+            "Реєстрація тимчасово недоступна: у Vercel → Environment Variables (Production) додайте або RESEND_API_KEY, або повний SMTP для Brevo/Gmail: SMTP_HOST, SMTP_PORT (587), SMTP_SECURE (false), SMTP_USER, SMTP_PASSWORD, EMAIL_FROM. Тест: SHOW_VERIFICATION_CODES=true (не для продакшену).",
         },
         { status: 503 }
       );
@@ -101,10 +101,8 @@ export async function POST(req: Request) {
         return NextResponse.json(
           {
             error:
-              "Не вдалося надіслати лист із кодом. Перевірте RESEND_API_KEY / SMTP у .env та EMAIL_FROM.",
-            ...(process.env.NODE_ENV !== "production"
-              ? { detail: delivery.message }
-              : {}),
+              "Не вдалося надіслати лист із кодом. Перевірте RESEND_API_KEY або SMTP (SMTP_USER + SMTP_PASSWORD для Brevo) та EMAIL_FROM у Vercel → Environment Variables (Production).",
+            ...(delivery.message ? { detail: delivery.message } : {}),
           },
           { status: 502 }
         );

@@ -30,11 +30,25 @@ function textBody(code: string, name?: string | null) {
   return `${greet}\n\nКод підтвердження email для ${APP_BRAND_NAME}: ${code}\n\nДійсний 15 хвилин.`;
 }
 
+export type EmailEnv = Record<string, string | undefined>;
+
+/**
+ * SMTP без логіна/пароля майже ніколи не працює в хмарі (Brevo, Gmail тощо).
+ * Для рідкісного relay без auth: SMTP_ALLOW_NO_AUTH=true.
+ */
+export function isEmailDeliveryConfiguredFromEnv(env: EmailEnv): boolean {
+  if (env.RESEND_API_KEY?.trim()) return true;
+  const smtpHost = env.SMTP_HOST?.trim();
+  const fromSmtp = env.EMAIL_FROM?.trim();
+  if (!smtpHost || !fromSmtp) return false;
+  if (env.SMTP_ALLOW_NO_AUTH === "true") return true;
+  const user = env.SMTP_USER?.trim();
+  const pass = env.SMTP_PASSWORD?.trim();
+  return Boolean(user && pass);
+}
+
 export function isEmailDeliveryConfigured(): boolean {
-  if (process.env.RESEND_API_KEY?.trim()) return true;
-  const smtpHost = process.env.SMTP_HOST?.trim();
-  const fromSmtp = process.env.EMAIL_FROM?.trim();
-  return Boolean(smtpHost && fromSmtp);
+  return isEmailDeliveryConfiguredFromEnv(process.env);
 }
 
 async function sendViaResend(
@@ -85,8 +99,15 @@ async function sendViaSmtp(
 
   const port = Number(process.env.SMTP_PORT || "587");
   const secure = process.env.SMTP_SECURE === "true" || port === 465;
-  const user = process.env.SMTP_USER ?? "";
-  const pass = process.env.SMTP_PASSWORD ?? "";
+  const user = process.env.SMTP_USER?.trim() ?? "";
+  const pass = process.env.SMTP_PASSWORD?.trim() ?? "";
+  if (!user || !pass) {
+    if (process.env.SMTP_ALLOW_NO_AUTH !== "true") {
+      throw new Error(
+        "SMTP_USER і SMTP_PASSWORD обов’язкові (для Brevo — логін і SMTP-ключ з консолі). Або додайте RESEND_API_KEY.",
+      );
+    }
+  }
 
   const transporter = nodemailer.createTransport({
     host,
