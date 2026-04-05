@@ -11,3 +11,5 @@ prisma/*.db-journal
 mobile/.env
 mobile/.env.local
 mobile/.env.*.local
+
+.vercel
