@@ -91,8 +91,26 @@ function main() {
   let skip = 0;
   let fail = 0;
 
+  function isBadDatabaseUrl(v) {
+    if (!v || !String(v).trim()) return "порожній";
+    const s = String(v).trim();
+    if (s.startsWith("file:")) return "SQLite (file:…) — потрібен postgresql://";
+    if (!/^postgres(ql)?:\/\//i.test(s)) return "не починається з postgresql://";
+    return null;
+  }
+
   for (const name of KEYS) {
     const value = env[name];
+    if (name === "DATABASE_URL") {
+      const bad = isBadDatabaseUrl(value);
+      if (bad) {
+        console.error(
+          `Пропущено DATABASE_URL (${bad}). Оновіть .env на рядок Neon/Supabase, потім знову npm run vercel:env:sync`,
+        );
+        skip++;
+        continue;
+      }
+    }
     if (value === undefined || value === "") {
       skip++;
       continue;

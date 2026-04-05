@@ -10,6 +10,10 @@ import {
 import { exposeVerificationCodesInApiResponse } from "@/lib/verification-flags";
 import { deliverRegistrationEmail } from "@/lib/verification-delivery";
 import { DEFAULT_UI_THEME } from "@/lib/ui-theme";
+import {
+  databaseUrlEnvProblem,
+  databaseUrlSetupHint,
+} from "@/lib/database-url-env";
 
 export async function POST(req: Request) {
   try {
@@ -172,13 +176,11 @@ export async function POST(req: Request) {
   } catch (e) {
     console.error(e);
     if (e instanceof Prisma.PrismaClientInitializationError) {
-      return NextResponse.json(
-        {
-          error:
-            "База даних недоступна. На Vercel SQLite (file:…) не підходить — підключіть Postgres (Neon, Supabase, Vercel Postgres), задайте DATABASE_URL у Environment Variables і виконайте prisma db push до цієї БД.",
-        },
-        { status: 503 },
-      );
+      const envIssue = databaseUrlEnvProblem();
+      const detail = envIssue
+        ? `${envIssue} ${databaseUrlSetupHint()}`
+        : `База даних недоступна (ініціалізація Prisma). ${databaseUrlSetupHint()}`;
+      return NextResponse.json({ error: detail }, { status: 503 });
     }
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       const conn = new Set([

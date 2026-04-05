@@ -18,6 +18,7 @@
     "release:check": "npm run lint && npm run build && npm run test:run && npm run play:readiness",
     "postinstall": "prisma generate",
     "db:push": "prisma db push",
+    "db:check-env": "node scripts/check-database-url.cjs .env",
     "db:studio": "prisma studio",
     "deploy:vercel": "npx vercel deploy --prod --yes",
     "vercel:env:sync": "node scripts/sync-vercel-env-from-dotenv.cjs"
