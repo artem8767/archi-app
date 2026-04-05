@@ -4,7 +4,8 @@
 Файли:
   icon-512.svg                    — іконка 512×512 (вектор; експорт PNG для Play).
   feature-graphic-1024x500.svg    — банер для сторінки магазину (1024×500).
-  STORE_LISTING_EN.txt / STORE_LISTING_UK.txt — короткий і повний опис для консолі.
+  STORE_LISTING_EN.txt / STORE_LISTING_UK.txt — готові тексти для Play Console:
+    короткий опис (≤80 символів), повний опис, промо, приклад release notes, посилання privacy/terms.
   SCREENSHOTS.txt                 — розміри та ідеї для гарних скріншотів.
 
 Експорт іконки 512×512 PNG для Play:

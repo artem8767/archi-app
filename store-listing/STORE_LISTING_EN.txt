@@ -1,7 +1,13 @@
 ARCHI — Google Play Store listing (English)
 =============================================
 
-Copy fields into Play Console → Store listing. Limits: short description 80 chars; full description 4000 chars.
+Paste into Play Console → Grow → Store presence → Main store listing (or localized listings).
+
+Limits: App name 30 chars · Short description 80 chars · Full description 4000 chars.
+
+Also set:
+  • Privacy policy URL — your https://…/en/privacy (or default locale)
+  • Terms URL (if the form asks) — https://…/en/terms
 
 ---
 App name (max 30 characters)
@@ -9,28 +15,44 @@ App name (max 30 characters)
 ARCHI
 
 ---
-Short description (max 80 characters)
+Short description (max 80 characters) — copy the single line below only
 ---
-News, listings & chat in one place. Multi-language community app.
+ARCHI: news, classifieds, chat & jobs. Multilingual community app.
 
 ---
-Full description (paste below; trim if over 4000)
+Full description (paste everything from the next line until the --- end marker)
 ---
-ARCHI brings together what matters: local news, clear classifieds (sell, buy, rent, services, jobs), and real-time chat — in your language.
+ARCHI is your community hub for local news, classifieds, and conversation — in the language you choose.
 
-• Read and share news
-• Post and browse listings across categories
-• Chat with the community
-• Account with phone verification for safer posting
-• Dark, comfortable interface; works in the browser and in the app
+Whether you want to stay informed, sell or find something, offer or hire services, browse jobs, or talk in the general chat, ARCHI keeps it in one calm, dark-themed experience on Android (and the same account works on the web where supported).
 
-We respect your privacy. See our privacy policy on the website for how we handle data.
+WHAT YOU CAN DO
+• News — read and share posts; optional photos and video links (e.g. YouTube)
+• Listings — buy, sell, rent, offer services, or find help across marketplace categories
+• Jobs — post and explore vacancies with clear details
+• Chat — public room for text, links, and media you choose to attach
+• Comments — discuss posts and listings where enabled
+• Language — switch the interface anytime; the app is built for a multilingual audience
+• Safety — new accounts confirm a phone number by SMS to reduce spam and abuse (where SMS is configured)
 
-Join ARCHI — fewer tabs, more connection.
+PRIVACY & TRUST
+We explain how we use data in our Privacy Policy on the website. Terms of Use describe the rules of the service. You can block users from your profile settings so you do not see their content.
+
+ARCHI is for people who want real connection and clear offers — without juggling dozens of apps.
+
+---
+Promotional text (optional, max 180 characters — “Promotional text” field if shown)
+---
+Multilingual news, classifieds, chat & jobs. Phone-verified accounts. Dark UI — ARCHI.
+
+---
+Release notes — example for first public version (customize per release)
+---
+Welcome to ARCHI on Google Play. News, listings, jobs, chat, and comments in one app — with a multilingual interface and phone verification for safer posting.
 
 ---
 Graphic assets (Google Play)
 ---
-• High-res icon: 512 × 512 px, 32-bit PNG (use store-listing/icon-512.svg → export as PNG, or replace with your final art).
-• Feature graphic: 1024 × 500 px — template: store-listing/feature-graphic-1024x500.svg (export to PNG).
-• Phone screenshots: at least 2; see SCREENSHOTS.txt for sizes and ideas.
+• Icon: 512 × 512 px, 32-bit PNG — export from store-listing/icon-512.svg
+• Feature graphic: 1024 × 500 px — store-listing/feature-graphic-1024x500.svg → PNG
+• Phone screenshots: min. 2 — see SCREENSHOTS.txt

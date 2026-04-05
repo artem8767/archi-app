@@ -69,8 +69,10 @@ C. Консоль Google Play (ручні кроки)
   2) Data safety: опишіть збір даних (акаунт, телефон, геолокація — за фактом у застосунку).
   3) Content rating (анкета IARC / аналог).
   4) Store listing: скріншоти, короткий/повний опис, іконка 512×512.
-     Готові тексти та SVG (іконка, feature graphic 1024×500): каталог store-listing/
-  5) Політика конфіденційності: URL (дублюйте NEXT_PUBLIC_PRIVACY_POLICY_URL).
+     Готові тексти (EN/UK), промо, release notes, SVG: каталог store-listing/
+     (STORE_LISTING_EN.txt, STORE_LISTING_UK.txt — копіювати в консоль).
+  5) Політика конфіденційності: URL (NEXT_PUBLIC_PRIVACY_POLICY_URL).
+     За наявності поля — URL умов користування: …/terms (див. NEXT_PUBLIC_TERMS_OF_USE_URL у .env.example).
 
 D. Сайт і посилання на застосунок
 ---------------------------------
