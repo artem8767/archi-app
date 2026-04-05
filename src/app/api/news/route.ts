@@ -1,11 +1,17 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { getSessionUserIdFromRequest } from "@/lib/auth";
 import { moderateCombinedText } from "@/lib/content-moderation";
 import { prisma } from "@/lib/prisma";
 import { requireVerifiedUserForWrite } from "@/lib/session-guard";
+import { getBlockedUserIds } from "@/lib/user-blocks";
 
-export async function GET() {
+export async function GET(req: Request) {
+  const viewerId = await getSessionUserIdFromRequest(req);
+  const blocked = await getBlockedUserIds(viewerId);
   const posts = await prisma.newsPost.findMany({
+    where:
+      blocked.size > 0 ? { userId: { notIn: [...blocked] } } : undefined,
     orderBy: { createdAt: "desc" },
     include: {
       user: { select: { id: true, name: true, email: true } },

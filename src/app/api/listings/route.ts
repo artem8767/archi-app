@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { getSessionUserIdFromRequest } from "@/lib/auth";
 import {
   isListingSectionId,
   LISTING_SECTION_IDS,
@@ -7,6 +8,7 @@ import {
 import { moderateCombinedText } from "@/lib/content-moderation";
 import { prisma } from "@/lib/prisma";
 import { requireVerifiedUserForWrite } from "@/lib/session-guard";
+import { getBlockedUserIds } from "@/lib/user-blocks";
 
 const categories = [
   "sell",
@@ -24,10 +26,16 @@ export async function GET(req: Request) {
     category && categories.includes(category as (typeof categories)[number])
       ? { category }
       : {};
-  const where =
+  const whereSection =
     section && section !== "all" && isListingSectionId(section)
       ? { ...baseWhere, section }
       : baseWhere;
+  const viewerId = await getSessionUserIdFromRequest(req);
+  const blocked = await getBlockedUserIds(viewerId);
+  const where =
+    blocked.size > 0
+      ? { ...whereSection, userId: { notIn: [...blocked] } }
+      : whereSection;
   const listings = await prisma.listing.findMany({
     where,
     orderBy: { createdAt: "desc" },

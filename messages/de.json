@@ -107,7 +107,19 @@
     "notifications": "Benachrichtigungen",
     "notificationLevel": "Intensität der Benachrichtigungen",
     "save": "Einstellungen speichern",
-    "mustLogin": "Melden Sie sich an, um Einstellungen zu ändern."
+    "mustLogin": "Melden Sie sich an, um Einstellungen zu ändern.",
+    "sectionBlockedUsers": "Blockierte Nutzer",
+    "blockUserHint": "Sie sehen keine Beiträge, Kommentare, Chat-Nachrichten, Inserate oder Jobs von blockierten Personen. Sie werden nicht benachrichtigt.",
+    "blockUserEmailLabel": "E-Mail des Nutzers",
+    "blockUserAdd": "Blockieren",
+    "blockUserUnblock": "Entblocken",
+    "blockUserEmpty": "Niemand blockiert.",
+    "blockUserNotFound": "Kein Konto mit dieser E-Mail.",
+    "blockUserSelf": "Sie können sich nicht selbst blockieren.",
+    "blockUserAlready": "Dieser Nutzer ist bereits blockiert.",
+    "blockUserError": "Aktion fehlgeschlagen. Bitte erneut versuchen.",
+    "blockUserAdded": "Nutzer blockiert.",
+    "blockUserVerifyFirst": "Bestätigen Sie Ihre Telefonnummer (SMS), um zu blockieren."
   },
   "news": {
     "title": "Nachrichten",
@@ -125,7 +137,15 @@
     "shareSystem": "Teilen…",
     "copyLink": "Link kopieren",
     "linkCopied": "Link kopiert",
-    "shareFailed": "Link konnte nicht kopiert werden"
+    "shareFailed": "Link konnte nicht kopiert werden",
+    "reportVideo": "Video melden",
+    "reportVideoLogin": "Zum Melden anmelden",
+    "reportVideoDetails": "Details (optional)",
+    "reportVideoPlaceholder": "Was stimmt mit diesem Video nicht?",
+    "reportVideoSubmit": "Meldung senden",
+    "reportVideoSent": "Danke — Ihre Meldung wurde gesendet.",
+    "reportVideoAlready": "Sie haben diesen Beitrag bereits gemeldet.",
+    "reportVideoFailed": "Meldung konnte nicht gesendet werden. Bitte später erneut versuchen."
   },
   "listing": {
     "title": "Anzeigen",

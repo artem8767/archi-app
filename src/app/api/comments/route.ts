@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { getSessionUserIdFromRequest } from "@/lib/auth";
 import { moderateUserText } from "@/lib/content-moderation";
 import { prisma } from "@/lib/prisma";
 import { requireVerifiedUserForWrite } from "@/lib/session-guard";
+import { getBlockedUserIds } from "@/lib/user-blocks";
 
 const types = ["news", "listing", "job"] as const;
 
@@ -17,8 +19,14 @@ export async function GET(req: Request) {
   ) {
     return NextResponse.json({ error: "Невірні параметри" }, { status: 400 });
   }
+  const viewerId = await getSessionUserIdFromRequest(req);
+  const blocked = await getBlockedUserIds(viewerId);
   const comments = await prisma.comment.findMany({
-    where: { targetType, targetId },
+    where: {
+      targetType,
+      targetId,
+      ...(blocked.size > 0 ? { userId: { notIn: [...blocked] } } : {}),
+    },
     orderBy: { createdAt: "asc" },
     include: {
       user: { select: { id: true, name: true, email: true } },

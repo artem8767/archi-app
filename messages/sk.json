@@ -107,7 +107,19 @@
     "notifications": "Oznámenia",
     "notificationLevel": "Intenzita oznámení",
     "save": "Uložiť nastavenia",
-    "mustLogin": "Prihláste sa na zmenu nastavení."
+    "mustLogin": "Prihláste sa na zmenu nastavení.",
+    "sectionBlockedUsers": "Blokovaní používatelia",
+    "blockUserHint": "Nebudete vidieť príspevky, komentáre, správy v chate, inzeráty ani práce od zablokovaných. Nedostanú o tom upozornenie.",
+    "blockUserEmailLabel": "E-mail používateľa",
+    "blockUserAdd": "Zablokovať",
+    "blockUserUnblock": "Odblokovať",
+    "blockUserEmpty": "Nikto nie je zablokovaný.",
+    "blockUserNotFound": "Účet s týmto e-mailom neexistuje.",
+    "blockUserSelf": "Nemôžete zablokovať sami seba.",
+    "blockUserAlready": "Tento používateľ je už zablokovaný.",
+    "blockUserError": "Akcia zlyhala. Skúste znova.",
+    "blockUserAdded": "Používateľ zablokovaný.",
+    "blockUserVerifyFirst": "Na blokovanie potvrďte telefón (SMS kód)."
   },
   "news": {
     "title": "Správy",
@@ -125,7 +137,15 @@
     "shareSystem": "Zdieľať…",
     "copyLink": "Kopírovať odkaz",
     "linkCopied": "Odkaz skopírovaný",
-    "shareFailed": "Odkaz sa nepodarilo skopírovať"
+    "shareFailed": "Odkaz sa nepodarilo skopírovať",
+    "reportVideo": "Nahlásiť video",
+    "reportVideoLogin": "Prihláste sa a nahláste video",
+    "reportVideoDetails": "Podrobnosti (voliteľné)",
+    "reportVideoPlaceholder": "Čo je na videu zlé?",
+    "reportVideoSubmit": "Odoslať hlásenie",
+    "reportVideoSent": "Ďakujeme — hlásenie bolo odoslané.",
+    "reportVideoAlready": "Tento príspevok ste už nahlásili.",
+    "reportVideoFailed": "Hlásenie sa nepodarilo odoslať. Skúste neskôr."
   },
   "listing": {
     "title": "Inzeráty",

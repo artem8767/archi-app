@@ -107,7 +107,19 @@
     "notifications": "Notifications",
     "notificationLevel": "Notification intensity",
     "save": "Save settings",
-    "mustLogin": "Log in to change settings."
+    "mustLogin": "Log in to change settings.",
+    "sectionBlockedUsers": "Blocked users",
+    "blockUserHint": "You will not see posts, comments, chat messages, listings, or jobs from people you block. They are not notified.",
+    "blockUserEmailLabel": "User email",
+    "blockUserAdd": "Block",
+    "blockUserUnblock": "Unblock",
+    "blockUserEmpty": "No blocked users.",
+    "blockUserNotFound": "No account with this email.",
+    "blockUserSelf": "You cannot block yourself.",
+    "blockUserAlready": "This user is already blocked.",
+    "blockUserError": "Something went wrong. Try again.",
+    "blockUserAdded": "User blocked.",
+    "blockUserVerifyFirst": "Confirm your phone number (SMS code) to use blocking."
   },
   "news": {
     "title": "News",
@@ -125,7 +137,15 @@
     "shareSystem": "Share…",
     "copyLink": "Copy link",
     "linkCopied": "Link copied",
-    "shareFailed": "Could not copy link"
+    "shareFailed": "Could not copy link",
+    "reportVideo": "Report this video",
+    "reportVideoLogin": "Log in to report this video",
+    "reportVideoDetails": "Details (optional)",
+    "reportVideoPlaceholder": "What is wrong with this video?",
+    "reportVideoSubmit": "Send report",
+    "reportVideoSent": "Thanks — your report was sent.",
+    "reportVideoAlready": "You already reported this post.",
+    "reportVideoFailed": "Could not send the report. Try again later."
   },
   "listing": {
     "title": "Listings",

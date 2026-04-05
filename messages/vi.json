@@ -107,7 +107,19 @@
     "notifications": "Thông báo",
     "notificationLevel": "Cường độ thông báo",
     "save": "Lưu cài đặt",
-    "mustLogin": "Đăng nhập để thay đổi cài đặt."
+    "mustLogin": "Đăng nhập để thay đổi cài đặt.",
+    "sectionBlockedUsers": "Người dùng bị chặn",
+    "blockUserHint": "Bạn sẽ không thấy bài viết, bình luận, tin nhắn chat, rao vặt hoặc việc làm từ người bị chặn. Họ không được thông báo.",
+    "blockUserEmailLabel": "Email người dùng",
+    "blockUserAdd": "Chặn",
+    "blockUserUnblock": "Bỏ chặn",
+    "blockUserEmpty": "Chưa chặn ai.",
+    "blockUserNotFound": "Không có tài khoản với email này.",
+    "blockUserSelf": "Bạn không thể chặn chính mình.",
+    "blockUserAlready": "Người này đã bị chặn.",
+    "blockUserError": "Không thực hiện được. Thử lại sau.",
+    "blockUserAdded": "Đã chặn người dùng.",
+    "blockUserVerifyFirst": "Xác nhận số điện thoại (SMS) để dùng chặn."
   },
   "news": {
     "title": "Tin tức",
@@ -125,7 +137,15 @@
     "shareSystem": "Chia sẻ…",
     "copyLink": "Sao chép liên kết",
     "linkCopied": "Đã sao chép liên kết",
-    "shareFailed": "Không sao chép được liên kết"
+    "shareFailed": "Không sao chép được liên kết",
+    "reportVideo": "Báo cáo video",
+    "reportVideoLogin": "Đăng nhập để báo cáo video",
+    "reportVideoDetails": "Chi tiết (tùy chọn)",
+    "reportVideoPlaceholder": "Video có vấn đề gì?",
+    "reportVideoSubmit": "Gửi báo cáo",
+    "reportVideoSent": "Cảm ơn — đã gửi báo cáo.",
+    "reportVideoAlready": "Bạn đã báo cáo bài viết này rồi.",
+    "reportVideoFailed": "Không gửi được báo cáo. Thử lại sau."
   },
   "listing": {
     "title": "Rao vặt",

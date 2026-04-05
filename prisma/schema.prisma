@@ -32,6 +32,9 @@ model User {
   jobs              Job[]
   comments          Comment[]
   messages          ChatMessage[]
+  newsVideoReports  NewsVideoReport[]
+  blocksOut         UserBlock[]       @relation("UserBlocksOut")
+  blocksIn          UserBlock[]       @relation("UserBlocksIn")
 }
 
 model VerificationCode {
@@ -47,14 +50,41 @@ model VerificationCode {
 }
 
 model NewsPost {
+  id               String             @id @default(cuid())
+  userId           String
+  user             User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title            String
+  body             String
+  imagesJson       String             @default("[]")
+  videoUrl         String?
+  createdAt        DateTime           @default(now())
+  newsVideoReports NewsVideoReport[]
+}
+
+model NewsVideoReport {
   id         String   @id @default(cuid())
-  userId     String
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  title      String
-  body       String
-  imagesJson String   @default("[]")
-  videoUrl   String?
+  reporterId String
+  reporter   User     @relation(fields: [reporterId], references: [id], onDelete: Cascade)
+  newsPostId String
+  newsPost   NewsPost @relation(fields: [newsPostId], references: [id], onDelete: Cascade)
+  reason     String   @default("")
   createdAt  DateTime @default(now())
+
+  @@unique([reporterId, newsPostId])
+  @@index([newsPostId])
+}
+
+model UserBlock {
+  id        String   @id @default(cuid())
+  blockerId String
+  blocker   User     @relation("UserBlocksOut", fields: [blockerId], references: [id], onDelete: Cascade)
+  blockedId String
+  blocked   User     @relation("UserBlocksIn", fields: [blockedId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([blockerId, blockedId])
+  @@index([blockerId])
+  @@index([blockedId])
 }
 
 model Listing {

@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import { useRouter, usePathname } from "@/i18n/navigation";
 import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { useSession } from "./SessionProvider";
+import { BlockedUsersSettings } from "./BlockedUsersSettings";
 import { LocationPicker } from "./LocationPicker";
 import { localeNames, routing } from "@/i18n/routing";
 function SettingsSection({
@@ -220,6 +221,10 @@ export function SettingsForm() {
           />
         </label>
         <p className="text-xs text-zone-muted">{t("notifications")}</p>
+      </SettingsSection>
+
+      <SettingsSection title={t("sectionBlockedUsers")}>
+        <BlockedUsersSettings />
       </SettingsSection>
 
       <button

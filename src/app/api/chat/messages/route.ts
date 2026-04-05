@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { getSessionUserIdFromRequest } from "@/lib/auth";
 import {
   CHAT_KINDS,
   isChatKind,
@@ -10,6 +11,7 @@ import {
 import { moderateUserText } from "@/lib/content-moderation";
 import { prisma } from "@/lib/prisma";
 import { requireVerifiedUserForWrite } from "@/lib/session-guard";
+import { getBlockedUserIds } from "@/lib/user-blocks";
 
 async function getOrCreateGeneralRoom() {
   let room = await prisma.chatRoom.findFirst();
@@ -21,10 +23,15 @@ async function getOrCreateGeneralRoom() {
   return room;
 }
 
-export async function GET() {
+export async function GET(req: Request) {
   const room = await getOrCreateGeneralRoom();
+  const viewerId = await getSessionUserIdFromRequest(req);
+  const blocked = await getBlockedUserIds(viewerId);
   const messages = await prisma.chatMessage.findMany({
-    where: { roomId: room.id },
+    where: {
+      roomId: room.id,
+      ...(blocked.size > 0 ? { userId: { notIn: [...blocked] } } : {}),
+    },
     orderBy: { createdAt: "asc" },
     take: 200,
     include: {
