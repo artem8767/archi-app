@@ -30,7 +30,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: msg }, { status: 400 });
     }
 
-    const { email, phone, password, name } = parsed.data;
+    const { email, password, name } = parsed.data;
 
     if (!canCompleteRegistrationInProduction()) {
       return NextResponse.json(
@@ -42,12 +42,10 @@ export async function POST(req: Request) {
       );
     }
 
-    const exists = await prisma.user.findFirst({
-      where: { OR: [{ email }, { phone }] },
-    });
+    const exists = await prisma.user.findUnique({ where: { email } });
     if (exists) {
       return NextResponse.json(
-        { error: "Цей email або телефон уже зареєстровані" },
+        { error: "Цей email уже зареєстрований" },
         { status: 409 }
       );
     }
@@ -65,7 +63,7 @@ export async function POST(req: Request) {
         user = await prisma.user.create({
           data: {
             email,
-            phone,
+            phone: null,
             passwordHash,
             name: name ?? null,
             emailVerified: false,
@@ -82,7 +80,7 @@ export async function POST(req: Request) {
           e.code === "P2002"
         ) {
           return NextResponse.json(
-            { error: "Цей email або телефон уже зареєстровані" },
+            { error: "Цей email уже зареєстрований" },
             { status: 409 }
           );
         }
@@ -129,7 +127,7 @@ export async function POST(req: Request) {
       user = await prisma.user.create({
         data: {
           email,
-          phone,
+          phone: null,
           passwordHash,
           name: name ?? null,
           emailVerified: false,

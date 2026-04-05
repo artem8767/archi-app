@@ -15,7 +15,7 @@ export const PRIVACY_SECTIONS_EN: PrivacySection[] = [
   {
     heading: "2. Data we collect",
     paragraphs: [
-      "Account and profile: email address, phone number, display name, password (stored only as a cryptographic hash; we do not store your password in plain text), interface language, and optional profile preferences (for example map location label, wallpaper, UI theme, notification level, auto-translate preference).",
+      "Account and profile: email address, display name, password (stored only as a cryptographic hash; we do not store your password in plain text), interface language, and optional profile preferences (for example map location label, wallpaper, UI theme, notification level, auto-translate preference). Some older accounts may still have a phone number stored from a previous registration form.",
       "Verification: one-time or short-lived codes sent by email (and related delivery metadata held by your email provider, for example Resend or your SMTP host).",
       "Content you submit: news posts, marketplace listings, job posts, comments, chat messages, and any images, links, or media you attach. Listings and job posts may include a contact phone number you choose to publish.",
       "Technical data: when you use the service, standard server and application logs may include IP address, approximate timestamps, device/browser type, and URLs requested, as needed for security, debugging, and abuse prevention.",
@@ -105,7 +105,7 @@ export const PRIVACY_SECTIONS_UK: PrivacySection[] = [
   {
     heading: "2. Які дані ми збираємо",
     paragraphs: [
-      "Обліковий запис і профіль: електронна пошта, номер телефона, ім’я для відображення, пароль (зберігається лише як криптографічний хеш; ми не зберігаємо пароль у відкритому вигляді), мова інтерфейсу та додаткові налаштування (наприклад підпис на карті, шпалери, тема інтерфейсу, рівень сповіщень, автопереклад).",
+      "Обліковий запис і профіль: електронна пошта, ім’я для відображення, пароль (зберігається лише як криптографічний хеш; ми не зберігаємо пароль у відкритому вигляді), мова інтерфейсу та додаткові налаштування (наприклад підпис на карті, шпалери, тема інтерфейсу, рівень сповіщень, автопереклад). У деяких старіших записах може зберігатися номер телефона з попередньої форми реєстрації.",
       "Підтвердження: одноразові або короткочасні коди електронною поштою (і пов’язані метадані у провайдера пошти, наприклад Resend або ваш SMTP-хост).",
       "Контент, який ви публікуєте: новини, оголошення, вакансії, коментарі, повідомлення чату, зображення, посилання та медіа. В оголошеннях і вакансіях може бути телефон, який ви самі вказуєте для зв’язку.",
       "Технічні дані: стандартні журнали сервера та застосунку можуть містити IP-адресу, час запитів, тип браузера/пристрою та URL — для безпеки, діагностики та запобігання зловживанням.",

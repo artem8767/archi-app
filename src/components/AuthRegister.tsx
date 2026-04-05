@@ -30,7 +30,6 @@ export function AuthRegister() {
   const t = useTranslations("auth");
   const router = useRouter();
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [err, setErr] = useState("");
@@ -48,7 +47,6 @@ export function AuthRegister() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: email.trim(),
-          phone: phone.trim(),
           password,
           name: name.trim(),
         }),
@@ -127,20 +125,6 @@ export function AuthRegister() {
             maxLength={120}
           />
           <p className="mt-1 text-xs text-zone-muted/90">{t("nameHint")}</p>
-        </label>
-        <label className="block">
-          <span className="text-sm text-zone-muted">{t("phone")}</span>
-          <input
-            type="tel"
-            autoComplete="tel"
-            inputMode="tel"
-            placeholder="+380501234567"
-            className="mt-1 w-full pda-input"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            required
-            minLength={8}
-          />
         </label>
         <PasswordField
           value={password}
