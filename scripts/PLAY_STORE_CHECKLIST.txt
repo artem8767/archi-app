@@ -21,7 +21,7 @@ G. Поки акаунт Google Play ще НЕ підтверджено
 ---------------------------------------------
   Сайт і бекенд (не залежить від Google)
     - Деплой Next.js на HTTPS; NEXT_PUBLIC_SITE_URL на проді.
-      (CLI: npm run deploy:vercel після vercel login.)
+      (CLI: npm run vercel:env:sync — з .env у Production на Vercel; npm run deploy:vercel після vercel link/login.)
     - PostgreSQL, prisma db push — не лишати file:./dev.db у проді.
       PowerShell з кореня репо: $env:DATABASE_URL="postgresql://..."; npx prisma db push
     - Листи: Resend або SMTP + EMAIL_FROM (коди підтвердження реєстрації на email).

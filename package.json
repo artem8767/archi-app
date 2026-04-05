@@ -19,7 +19,8 @@
     "postinstall": "prisma generate",
     "db:push": "prisma db push",
     "db:studio": "prisma studio",
-    "deploy:vercel": "vercel deploy --prod --yes"
+    "deploy:vercel": "npx vercel deploy --prod --yes",
+    "vercel:env:sync": "node scripts/sync-vercel-env-from-dotenv.cjs"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
