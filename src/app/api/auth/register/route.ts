@@ -36,7 +36,7 @@ export async function POST(req: Request) {
       return NextResponse.json(
         {
           error:
-            "Реєстрація тимчасово недоступна: у Vercel → Environment Variables для Production додайте RESEND_API_KEY (одного ключа достатньо — лист піде через Resend). Або SMTP_HOST + EMAIL_FROM. Див. .env.example. Тест: SHOW_VERIFICATION_CODES=true (не для продакшену).",
+            "Реєстрація тимчасово недоступна: у Vercel → Environment Variables (Production) налаштуйте пошту. Варіант без Resend: SMTP_HOST, EMAIL_FROM, SMTP_USER, SMTP_PASSWORD (порт 587, див. .env.example — Brevo, Gmail тощо). Якщо SMTP — приберіть або не задавайте RESEND_API_KEY. Або Resend: лише RESEND_API_KEY. Тест: SHOW_VERIFICATION_CODES=true (не для продакшену).",
         },
         { status: 503 }
       );
@@ -173,6 +173,33 @@ export async function POST(req: Request) {
     });
   } catch (e) {
     console.error(e);
+    if (e instanceof Prisma.PrismaClientInitializationError) {
+      return NextResponse.json(
+        {
+          error:
+            "База даних недоступна. На Vercel SQLite (file:…) не підходить — підключіть Postgres (Neon, Supabase, Vercel Postgres), задайте DATABASE_URL у Environment Variables і виконайте prisma db push до цієї БД.",
+        },
+        { status: 503 },
+      );
+    }
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      const conn = new Set([
+        "P1000",
+        "P1001",
+        "P1002",
+        "P1003",
+        "P1011",
+        "P1017",
+      ]);
+      if (conn.has(e.code)) {
+        return NextResponse.json(
+          {
+            error: `Не вдається з’єднатися з базою (${e.code}). Перевірте DATABASE_URL і доступність сервера БД.`,
+          },
+          { status: 503 },
+        );
+      }
+    }
     return NextResponse.json({ error: "Помилка сервера" }, { status: 500 });
   }
 }
