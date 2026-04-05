@@ -8,6 +8,7 @@ import { CommentThread } from "./CommentThread";
 import { ShareNewsPost } from "./ShareNewsPost";
 import { useSession } from "./SessionProvider";
 import { FilePickerInput } from "./FilePickerInput";
+import { ReportNewsVideo } from "./ReportNewsVideo";
 
 type Post = {
   id: string;
@@ -272,7 +273,12 @@ export function NewsFeed() {
                       ))}
                     </div>
                   )}
-                  {post.videoUrl ? <NewsVideoBlock url={post.videoUrl} /> : null}
+                  {post.videoUrl ? (
+                    <>
+                      <NewsVideoBlock url={post.videoUrl} />
+                      <ReportNewsVideo postId={post.id} authorUserId={post.user.id} />
+                    </>
+                  ) : null}
                   <ShareNewsPost
                     postId={post.id}
                     title={post.title}
