@@ -5,6 +5,7 @@ node_modules
 .env.production.local
 .env.vercel.production
 .env.vercel.*
+.env.vercel.pull.tmp
 *.db
 prisma/dev.db
 prisma/*.db-journal
@@ -15,3 +16,4 @@ mobile/.env.local
 mobile/.env.*.local
 
 .vercel
+.env*.local

@@ -23,7 +23,7 @@ G. Поки акаунт Google Play ще НЕ підтверджено
     - Деплой Next.js на HTTPS; NEXT_PUBLIC_SITE_URL на проді.
       (CLI: npm run vercel:env:sync — з .env у Production на Vercel; npm run deploy:vercel після vercel link/login.)
     - PostgreSQL, prisma db push — не лишати file:./dev.db у проді.
-      PowerShell з кореня репо: $env:DATABASE_URL="postgresql://..."; npx prisma db push
+      Або: npm run db:push:vercel-prod (тягне Production DATABASE_URL з Vercel і prisma db push).
     - Листи: Resend або SMTP + EMAIL_FROM (коди підтвердження реєстрації на email).
     - NEXT_PUBLIC_PRIVACY_POLICY_URL, NEXT_PUBLIC_TERMS_OF_USE_URL (HTTPS, з локаллю як на сайті).
     - npm run prepare:publish локально з production-подібним .env.
