@@ -108,14 +108,30 @@ async function sendViaResend(
   }
 }
 
+/**
+ * Brevo не може слати від імені @resend.dev. Якщо EMAIL_FROM ще з Resend-прикладу,
+ * беремо адресу з SMTP_USER (email входу в Brevo).
+ */
+function smtpFromHeader(): string {
+  const configured = process.env.EMAIL_FROM?.trim() || "";
+  const smtpUser = process.env.SMTP_USER?.trim() || "";
+  if (!configured) {
+    if (smtpUser.includes("@")) return `${APP_BRAND_NAME} <${smtpUser}>`;
+    throw new Error("EMAIL_FROM missing");
+  }
+  if (/resend\.dev/i.test(configured) && smtpUser.includes("@")) {
+    return `${APP_BRAND_NAME} <${smtpUser}>`;
+  }
+  return configured;
+}
+
 async function sendViaSmtp(
   to: string,
   code: string,
   name?: string | null
 ): Promise<void> {
   const host = process.env.SMTP_HOST?.trim();
-  const from = process.env.EMAIL_FROM?.trim();
-  if (!host || !from) throw new Error("SMTP_HOST / EMAIL_FROM missing");
+  if (!host) throw new Error("SMTP_HOST missing");
 
   const port = Number(process.env.SMTP_PORT || "587");
   const secure = process.env.SMTP_SECURE === "true" || port === 465;
@@ -129,11 +145,16 @@ async function sendViaSmtp(
     }
   }
 
+  const from = smtpFromHeader();
+
   const transporter = nodemailer.createTransport({
     host,
     port,
     secure,
     auth: user ? { user, pass } : undefined,
+    connectionTimeout: 20_000,
+    greetingTimeout: 20_000,
+    requireTLS: !secure && port === 587,
   });
 
   await transporter.sendMail({
