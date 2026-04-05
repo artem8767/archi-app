@@ -21,6 +21,7 @@
     "db:check-env": "node scripts/check-database-url.cjs .env",
     "db:push:vercel-prod": "node scripts/prisma-push-vercel-production.cjs",
     "vercel:env:add-resend": "node scripts/add-resend-to-vercel.cjs",
+    "vercel:env:apply-brevo": "node scripts/apply-brevo-vercel-env.cjs",
     "email:check-local": "node scripts/check-email-env-present.cjs",
     "db:studio": "prisma studio",
     "deploy:vercel": "npx vercel deploy --prod --yes",
