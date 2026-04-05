@@ -53,7 +53,13 @@
     "privacyPageDescription": "Cách ARCHI thu thập, sử dụng và lưu trữ dữ liệu cá nhân của bạn.",
     "privacyUpdatedLabel": "Cập nhật lần cuối:",
     "privacyUpdatedDate": "4 tháng 4, 2026",
-    "privacyLegalNotice": "Bản chính sách quyền riêng tư đầy đủ được hiển thị bên dưới bằng tiếng Anh."
+    "privacyLegalNotice": "Bản chính sách quyền riêng tư đầy đủ được hiển thị bên dưới bằng tiếng Anh.",
+    "termsOfUse": "Điều khoản sử dụng",
+    "termsPageTitle": "Điều khoản sử dụng",
+    "termsPageDescription": "Quy tắc sử dụng dịch vụ ARCHI, tài khoản, nội dung và trách nhiệm.",
+    "termsUpdatedLabel": "Cập nhật lần cuối:",
+    "termsUpdatedDate": "4 tháng 4, 2026",
+    "termsLegalNotice": "Toàn bộ điều khoản sử dụng được hiển thị bên dưới bằng tiếng Anh."
   },
   "auth": {
     "login": "Đăng nhập",

@@ -53,7 +53,13 @@
     "privacyPageDescription": "Як ARCHI збирає, використовує та зберігає ваші персональні дані під час користування сервісом.",
     "privacyUpdatedLabel": "Останнє оновлення:",
     "privacyUpdatedDate": "4 квітня 2026 р.",
-    "privacyLegalNotice": ""
+    "privacyLegalNotice": "",
+    "termsOfUse": "Умови користування",
+    "termsPageTitle": "Умови користування",
+    "termsPageDescription": "Правила використання сервісу ARCHI, облікових записів, контенту та відповідальності.",
+    "termsUpdatedLabel": "Останнє оновлення:",
+    "termsUpdatedDate": "4 квітня 2026 р.",
+    "termsLegalNotice": ""
   },
   "auth": {
     "login": "Увійти",

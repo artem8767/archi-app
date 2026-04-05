@@ -53,7 +53,13 @@
     "privacyPageDescription": "Jak ARCHI zbiera, wykorzystuje i przechowuje Twoje dane osobowe.",
     "privacyUpdatedLabel": "Ostatnia aktualizacja:",
     "privacyUpdatedDate": "4 kwietnia 2026",
-    "privacyLegalNotice": "Pełna polityka prywatności jest wyświetlana poniżej w języku angielskim."
+    "privacyLegalNotice": "Pełna polityka prywatności jest wyświetlana poniżej w języku angielskim.",
+    "termsOfUse": "Regulamin",
+    "termsPageTitle": "Regulamin",
+    "termsPageDescription": "Zasady korzystania z ARCHI, kont, treści i odpowiedzialności.",
+    "termsUpdatedLabel": "Ostatnia aktualizacja:",
+    "termsUpdatedDate": "4 kwietnia 2026",
+    "termsLegalNotice": "Pełny regulamin jest wyświetlany poniżej w języku angielskim."
   },
   "auth": {
     "login": "Zaloguj się",

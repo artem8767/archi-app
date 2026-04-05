@@ -53,7 +53,13 @@
     "privacyPageDescription": "How ARCHI collects, uses, and stores your personal data when you use the service.",
     "privacyUpdatedLabel": "Last updated:",
     "privacyUpdatedDate": "4 April 2026",
-    "privacyLegalNotice": ""
+    "privacyLegalNotice": "",
+    "termsOfUse": "Terms of Use",
+    "termsPageTitle": "Terms of Use",
+    "termsPageDescription": "Rules for using the ARCHI service, accounts, content, and liability.",
+    "termsUpdatedLabel": "Last updated:",
+    "termsUpdatedDate": "4 April 2026",
+    "termsLegalNotice": ""
   },
   "auth": {
     "login": "Log in",

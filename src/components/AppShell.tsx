@@ -141,6 +141,15 @@ export function AppShell({
           >
             {tSite("privacyPolicy")}
           </Link>
+          <span className="text-zone-muted/80" aria-hidden>
+            {" · "}
+          </span>
+          <Link
+            href="/terms"
+            className="font-medium text-archi-400 underline decoration-archi-600/40 underline-offset-2 transition hover:text-archi-300"
+          >
+            {tSite("termsOfUse")}
+          </Link>
         </p>
         {developerCredit ? (
           <p className="mt-3 text-xs text-zone-muted">

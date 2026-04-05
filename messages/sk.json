@@ -53,7 +53,13 @@
     "privacyPageDescription": "Ako ARCHI zhromažďuje, používa a ukladá vaše osobné údaje.",
     "privacyUpdatedLabel": "Posledná aktualizácia:",
     "privacyUpdatedDate": "4. apríla 2026",
-    "privacyLegalNotice": "Úplné znenie zásad ochrany osobných údajov je nižšie v angličtine."
+    "privacyLegalNotice": "Úplné znenie zásad ochrany osobných údajov je nižšie v angličtine.",
+    "termsOfUse": "Podmienky používania",
+    "termsPageTitle": "Podmienky používania",
+    "termsPageDescription": "Pravidlá používania služby ARCHI, účtov, obsahu a zodpovednosti.",
+    "termsUpdatedLabel": "Posledná aktualizácia:",
+    "termsUpdatedDate": "4. apríla 2026",
+    "termsLegalNotice": "Úplné znenie podmienok používania je nižšie v angličtine."
   },
   "auth": {
     "login": "Prihlásiť sa",
