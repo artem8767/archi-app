@@ -20,6 +20,8 @@
     "db:push": "prisma db push",
     "db:check-env": "node scripts/check-database-url.cjs .env",
     "db:push:vercel-prod": "node scripts/prisma-push-vercel-production.cjs",
+    "vercel:env:add-resend": "node scripts/add-resend-to-vercel.cjs",
+    "email:check-local": "node scripts/check-email-env-present.cjs",
     "db:studio": "prisma studio",
     "deploy:vercel": "npx vercel deploy --prod --yes",
     "vercel:env:sync": "node scripts/sync-vercel-env-from-dotenv.cjs"
