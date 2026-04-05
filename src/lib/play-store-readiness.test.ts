@@ -58,7 +58,37 @@ describe("getPlayStoreReadinessIssues", () => {
     ).toBe(true);
   });
 
-  it("clean production-like env has no errors when privacy and SMS set", () => {
+  it("warns about terms URL when production", () => {
+    const issues = getPlayStoreReadinessIssues(
+      {
+        NODE_ENV: "production",
+        JWT_SECRET: "a".repeat(48),
+        NEXT_PUBLIC_SITE_URL: "https://example.com",
+        NEXT_PUBLIC_PRIVACY_POLICY_URL: "https://example.com/en/privacy",
+      },
+      { treatAsProduction: true },
+    );
+    expect(issues.some((i) => i.code === "TERMS_URL_MISSING")).toBe(true);
+  });
+
+  it("clean production-like env has no errors when privacy, terms and email set", () => {
+    const issues = getPlayStoreReadinessIssues(
+      {
+        NODE_ENV: "production",
+        JWT_SECRET: "a".repeat(48),
+        NEXT_PUBLIC_SITE_URL: "https://example.com",
+        NEXT_PUBLIC_PRIVACY_POLICY_URL: "https://example.com/privacy",
+        NEXT_PUBLIC_TERMS_OF_USE_URL: "https://example.com/en/terms",
+        RESEND_API_KEY: "re_xxx",
+        EMAIL_FROM: "App <onboarding@resend.dev>",
+      },
+      { treatAsProduction: true },
+    );
+    expect(issues.filter((i) => i.level === "error")).toHaveLength(0);
+    expect(issues.some((i) => i.code === "TERMS_URL_MISSING")).toBe(false);
+  });
+
+  it("warns when only SMS env is set but email verification is required", () => {
     const issues = getPlayStoreReadinessIssues(
       {
         NODE_ENV: "production",
@@ -67,10 +97,46 @@ describe("getPlayStoreReadinessIssues", () => {
         NEXT_PUBLIC_PRIVACY_POLICY_URL: "https://example.com/privacy",
         TWILIO_ACCOUNT_SID: "ACxxx",
         TWILIO_AUTH_TOKEN: "token",
+        TWILIO_FROM_NUMBER: "+10000000000",
       },
       { treatAsProduction: true },
     );
-    expect(issues.filter((i) => i.level === "error")).toHaveLength(0);
+    expect(
+      issues.some((i) => i.code === "VERIFICATION_NOT_CONFIGURED"),
+    ).toBe(true);
+  });
+
+  it("email-only production env has no VERIFICATION_NOT_CONFIGURED warning", () => {
+    const issues = getPlayStoreReadinessIssues(
+      {
+        NODE_ENV: "production",
+        JWT_SECRET: "a".repeat(48),
+        NEXT_PUBLIC_SITE_URL: "https://example.com",
+        NEXT_PUBLIC_PRIVACY_POLICY_URL: "https://example.com/privacy",
+        NEXT_PUBLIC_TERMS_OF_USE_URL: "https://example.com/en/terms",
+        RESEND_API_KEY: "re_xxx",
+        EMAIL_FROM: "App <onboarding@resend.dev>",
+      },
+      { treatAsProduction: true },
+    );
+    expect(
+      issues.some((i) => i.code === "VERIFICATION_NOT_CONFIGURED"),
+    ).toBe(false);
+  });
+
+  it("warns when email verification is not configured", () => {
+    const issues = getPlayStoreReadinessIssues(
+      {
+        NODE_ENV: "production",
+        JWT_SECRET: "a".repeat(48),
+        NEXT_PUBLIC_SITE_URL: "https://example.com",
+        NEXT_PUBLIC_PRIVACY_POLICY_URL: "https://example.com/privacy",
+      },
+      { treatAsProduction: true },
+    );
+    expect(
+      issues.some((i) => i.code === "VERIFICATION_NOT_CONFIGURED"),
+    ).toBe(true);
   });
 });
 

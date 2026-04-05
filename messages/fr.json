@@ -32,6 +32,7 @@
     "kicker": "Actualités · annonces · chat",
     "aboutHeadline": "<brand></brand><tail> — votre coin local sur Internet.</tail>",
     "introBody": "réunit l’actualité communautaire, les petites annonces, les services, l’emploi et un chat public. Choisissez la langue, utilisez le navigateur et ajoutez à l’écran d’accueil — le même compte sur mobile lorsque c’est pris en charge.",
+    "appVersionWeb": "Version du site web : {version}.",
     "featuresTitle": "Ce que vous pouvez faire",
     "fNews": "Lire et partager l’actualité",
     "fAds": "Vendre, acheter et louer",
@@ -41,7 +42,7 @@
     "fI18n": "Changer la langue de l’interface à tout moment",
     "ctaTitle": "On commence ?",
     "ctaHome": "Accueil de l’app",
-    "note": "Les nouveaux comptes confirment leur numéro par SMS — un espace plus sûr pour tous.",
+    "note": "Les nouveaux comptes confirment leur e-mail avec un code à usage unique — un espace plus sûr pour tous.",
     "developerTitle": "Développement",
     "developerIntro": "Réalisation technique et maintenance :",
     "developerFooter": "Développeur : {name}",
@@ -75,22 +76,22 @@
     "submitLogin": "Se connecter",
     "submitRegister": "S’inscrire",
     "verifyTitle": "Vérification",
-    "phoneCode": "Code SMS",
+    "verifyCode": "Code de vérification",
     "submitVerify": "Confirmer",
     "needAccount": "Pas de compte ?",
     "haveAccount": "Déjà un compte ?",
-    "codesShownBelow": "Le code est aussi affiché ci-dessous (développement ou fournisseur SMS absent du .env).",
-    "resendSms": "Renvoyer le code SMS",
+    "codesShownBelow": "Le code est affiché ci-dessous (développement ou e-mail non configuré).",
+    "resendSms": "Renvoyer le code",
     "resendWait": "Attendez {seconds} s",
     "resendOk": "Code envoyé.",
-    "resendDevHintSms": "Nouveau code SMS (développement, sans SMS)",
+    "resendDevHintSms": "Nouveau code (développement, pas d’e-mail)",
     "verified": "Compte vérifié. Veuillez vous connecter.",
-    "needVerification": "Confirmez d’abord votre numéro de téléphone (code SMS).",
+    "needVerification": "Confirmez d’abord votre compte (code par e-mail).",
     "unexpectedLoginResponse": "Réponse serveur invalide. Réessayez ou actualisez la page.",
-    "devHintSms": "Sans Twilio/Vonage dans le .env, les SMS ne partent pas — le code peut s’afficher après l’inscription (encadré orange).",
-    "checkSms": "Vérifiez vos SMS pour le code de confirmation.",
-    "verifyPhoneOnlyHint": "Saisissez le code reçu par SMS. L’e-mail ne doit pas être vérifié.",
-    "phoneCodeLength": "Le code SMS doit comporter 6 chiffres."
+    "devHintSms": "Après l’inscription, le code est envoyé par e-mail (Resend ou SMTP dans .env). Sinon il peut s’afficher à l’écran en développement.",
+    "checkSms": "Vérifiez votre e-mail pour le code.",
+    "verifyPhoneOnlyHint": "Saisissez le code à 6 chiffres reçu par e-mail.",
+    "verifyCodeLength": "Le code doit comporter 6 chiffres."
   },
   "settings": {
     "title": "Paramètres",
@@ -100,6 +101,10 @@
     "language": "Langue de l’interface",
     "autoTranslate": "Traduction automatique de la page",
     "autoTranslateHint": "Utilise la traduction du navigateur pour le contenu lorsque c’est possible.",
+    "uiTheme": "Apparence de l’interface",
+    "uiThemeClassic": "Standard (épuré)",
+    "uiThemeStalker": "Zone (style jeu / HUD)",
+    "uiThemeHint": "Modifiable à tout moment. « Zone » ajoute des scanlines et une police de titres stylisée.",
     "location": "Position géographique",
     "useMyLocation": "Ma position (GPS)",
     "geoDenied": "L’accès à la localisation a été refusé.",
@@ -125,7 +130,7 @@
     "blockUserAlready": "Cet utilisateur est déjà bloqué.",
     "blockUserError": "Action impossible. Réessayez.",
     "blockUserAdded": "Utilisateur bloqué.",
-    "blockUserVerifyFirst": "Confirmez votre téléphone (SMS) pour utiliser le blocage."
+    "blockUserVerifyFirst": "Confirmez votre compte (code e-mail) pour utiliser le blocage."
   },
   "news": {
     "title": "Actualités",
@@ -222,6 +227,7 @@
     "filePickerBrowse": "Choisir…",
     "filePickerEmpty": "Aucun fichier sélectionné",
     "filePickerSingle": "{name}",
-    "filePickerMultiple": "{count} fichiers sélectionnés"
+    "filePickerMultiple": "{count} fichiers sélectionnés",
+    "appVersion": "Version du site {version}"
   }
 }

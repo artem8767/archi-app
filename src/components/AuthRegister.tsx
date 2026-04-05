@@ -9,7 +9,7 @@ type RegisterApiJson = {
   ok?: boolean;
   error?: string;
   detail?: string;
-  devCodes?: { phone: string };
+  devCodes?: { code: string };
 };
 
 async function parseApiResponse(r: Response): Promise<RegisterApiJson> {
@@ -34,7 +34,7 @@ export function AuthRegister() {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [err, setErr] = useState("");
-  const [devCodes, setDevCodes] = useState<{ phone: string } | null>(null);
+  const [devCodes, setDevCodes] = useState<{ code: string } | null>(null);
   const [done, setDone] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
@@ -84,7 +84,7 @@ export function AuthRegister() {
         </p>
         {devCodes && (
           <div className="mt-3 rounded-lg border border-amber-900/40 bg-amber-950/40 p-3 text-sm text-amber-200/90">
-            SMS: {devCodes.phone}
+            {t("verifyCode")}: {devCodes.code}
           </div>
         )}
         <button

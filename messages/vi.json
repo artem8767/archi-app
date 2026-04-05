@@ -32,6 +32,7 @@
     "kicker": "Tin tức · rao vặt · trò chuyện",
     "aboutHeadline": "<brand></brand><tail> — góc địa phương của bạn trên mạng.</tail>",
     "introBody": "gom tin cộng đồng, rao vặt, dịch vụ, việc làm và chat công khai. Chọn ngôn ngữ, dùng trên trình duyệt và thêm vào màn hình chính—cùng tài khoản trên điện thoại khi được hỗ trợ.",
+    "appVersionWeb": "Phiên bản trang web: {version}.",
     "featuresTitle": "Bạn có thể làm gì",
     "fNews": "Đọc và chia sẻ tin tức",
     "fAds": "Bán, mua và cho thuê",
@@ -41,7 +42,7 @@
     "fI18n": "Đổi ngôn ngữ giao diện bất cứ lúc nào",
     "ctaTitle": "Sẵn sàng tham gia?",
     "ctaHome": "Trang chủ ứng dụng",
-    "note": "Tài khoản mới xác nhận số điện thoại qua SMS — không gian an toàn hơn cho mọi người.",
+    "note": "Tài khoản mới xác nhận email bằng mã dùng một lần — không gian an toàn hơn cho mọi người.",
     "developerTitle": "Phát triển",
     "developerIntro": "Triển khai kỹ thuật và vận hành:",
     "developerFooter": "Nhà phát triển: {name}",
@@ -75,22 +76,22 @@
     "submitLogin": "Đăng nhập",
     "submitRegister": "Đăng ký",
     "verifyTitle": "Xác minh",
-    "phoneCode": "Mã SMS",
+    "verifyCode": "Mã xác minh",
     "submitVerify": "Xác nhận",
     "needAccount": "Chưa có tài khoản?",
     "haveAccount": "Đã có tài khoản?",
-    "codesShownBelow": "Mã cũng hiển thị bên dưới (môi trường dev hoặc chưa cấu hình SMS trong .env).",
-    "resendSms": "Gửi lại mã SMS",
+    "codesShownBelow": "Mã hiển thị bên dưới (dev hoặc chưa cấu hình email).",
+    "resendSms": "Gửi lại mã",
     "resendWait": "Đợi {seconds} giây",
     "resendOk": "Đã gửi mã.",
-    "resendDevHintSms": "Mã SMS mới (dev, không gửi SMS)",
+    "resendDevHintSms": "Mã mới (dev, không gửi email)",
     "verified": "Tài khoản đã xác minh. Vui lòng đăng nhập.",
-    "needVerification": "Trước tiên hãy xác nhận số điện thoại (mã SMS).",
+    "needVerification": "Trước tiên hãy xác nhận tài khoản (mã qua email).",
     "unexpectedLoginResponse": "Phản hồi máy chủ không hợp lệ. Thử lại hoặc tải lại trang.",
-    "devHintSms": "Nếu không có Twilio/Vonage trong .env, SMS sẽ không được gửi — mã có thể hiện trên màn hình sau khi đăng ký (khung màu cam).",
-    "checkSms": "Kiểm tra SMS để lấy mã xác nhận.",
-    "verifyPhoneOnlyHint": "Nhập mã gửi qua SMS. Không cần xác minh email.",
-    "phoneCodeLength": "Mã SMS phải gồm 6 chữ số."
+    "devHintSms": "Sau đăng ký, mã được gửi qua email (Resend hoặc SMTP trong .env). Nếu không, mã có thể hiện trên màn hình khi dev.",
+    "checkSms": "Kiểm tra email để lấy mã xác nhận.",
+    "verifyPhoneOnlyHint": "Nhập mã 6 số trong email.",
+    "verifyCodeLength": "Mã phải gồm 6 chữ số."
   },
   "settings": {
     "title": "Cài đặt",
@@ -100,6 +101,10 @@
     "language": "Ngôn ngữ giao diện",
     "autoTranslate": "Dịch trang tự động",
     "autoTranslateHint": "Dùng tính năng dịch của trình duyệt cho nội dung khi được hỗ trợ.",
+    "uiTheme": "Giao diện",
+    "uiThemeClassic": "Chuẩn (gọn)",
+    "uiThemeStalker": "Vùng (HUD kiểu game)",
+    "uiThemeHint": "Đổi bất cứ lúc nào. “Vùng” thêm scanline và font tiêu đề kiểu game.",
     "location": "Vị trí địa lý",
     "useMyLocation": "Vị trí của tôi (GPS)",
     "geoDenied": "Đã từ chối quyền truy cập vị trí.",
@@ -125,7 +130,7 @@
     "blockUserAlready": "Người này đã bị chặn.",
     "blockUserError": "Không thực hiện được. Thử lại sau.",
     "blockUserAdded": "Đã chặn người dùng.",
-    "blockUserVerifyFirst": "Xác nhận số điện thoại (SMS) để dùng chặn."
+    "blockUserVerifyFirst": "Xác nhận tài khoản (mã email) để dùng chặn."
   },
   "news": {
     "title": "Tin tức",
@@ -222,6 +227,7 @@
     "filePickerBrowse": "Chọn…",
     "filePickerEmpty": "Chưa chọn tệp",
     "filePickerSingle": "{name}",
-    "filePickerMultiple": "Đã chọn {count} tệp"
+    "filePickerMultiple": "Đã chọn {count} tệp",
+    "appVersion": "Phiên bản trang {version}"
   }
 }

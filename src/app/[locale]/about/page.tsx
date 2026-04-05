@@ -4,6 +4,7 @@ import { Link } from "@/i18n/navigation";
 import { BrandName } from "@/components/BrandName";
 import { APP_BRAND_NAME } from "@/lib/brand";
 import { getSiteDeveloperCredit } from "@/lib/site-credits";
+import { getAppWebVersion } from "@/lib/app-version";
 
 const FEATURE_KEYS = [
   "fNews",
@@ -14,10 +15,11 @@ const FEATURE_KEYS = [
   "fI18n",
 ] as const;
 
-type Props = { params: { locale: string } };
+type Props = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const t = await getTranslations({ locale: params.locale, namespace: "site" });
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "site" });
   return {
     title: `${t("metaTitlePrefix")} ${APP_BRAND_NAME}`,
     description: `${APP_BRAND_NAME} ${t("introBody")}`,
@@ -28,6 +30,7 @@ export default async function AboutPage() {
   const t = await getTranslations("site");
   const tAuth = await getTranslations("auth");
   const developerCredit = getSiteDeveloperCredit();
+  const webVersion = getAppWebVersion();
 
   const ctaClass =
     "inline-flex items-center justify-center rounded-lg px-4 py-2.5 text-sm font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-archi-500";
@@ -53,6 +56,11 @@ export default async function AboutPage() {
           {" "}
           {t("introBody")}
         </p>
+        {webVersion ? (
+          <p className="mt-6 text-sm text-zone-muted/90 tabular-nums">
+            {t("appVersionWeb", { version: webVersion })}
+          </p>
+        ) : null}
       </section>
 
       <section className="rounded-xl border border-zone-edge/70 bg-zone-deep/40 p-8 md:p-10">

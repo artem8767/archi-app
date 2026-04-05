@@ -3,21 +3,13 @@ import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { hashPassword, randomDigits } from "@/lib/auth";
 import { registerRequestSchema } from "@/lib/schemas/register";
-import { exposeVerificationCodesInApiResponse } from "@/lib/verification-flags";
 import {
-  deliverRegistrationSmsOnly,
-  isRegistrationSmsConfigured,
-} from "@/lib/verification-delivery";
-
-function shouldSendSms(): boolean {
-  if (isRegistrationSmsConfigured()) {
-    return true;
-  }
-  if (process.env.NODE_ENV !== "production") {
-    return process.env.SEND_OTP_IN_DEV === "true";
-  }
-  return false;
-}
+  canCompleteRegistrationInProduction,
+  resolveRegistrationVerificationChannel,
+} from "@/lib/registration-verification";
+import { exposeVerificationCodesInApiResponse } from "@/lib/verification-flags";
+import { deliverRegistrationEmail } from "@/lib/verification-delivery";
+import { DEFAULT_UI_THEME } from "@/lib/ui-theme";
 
 export async function POST(req: Request) {
   try {
@@ -40,18 +32,14 @@ export async function POST(req: Request) {
 
     const { email, phone, password, name } = parsed.data;
 
-    if (process.env.NODE_ENV === "production") {
-      const allowWithoutProviders =
-        process.env.SHOW_VERIFICATION_CODES === "true";
-      if (!allowWithoutProviders && !isRegistrationSmsConfigured()) {
-        return NextResponse.json(
-          {
-            error:
-              "Реєстрація тимчасово недоступна: налаштуйте відправку SMS (Twilio/Vonage, див. .env.example) або SHOW_VERIFICATION_CODES=true.",
-          },
-          { status: 503 }
-        );
-      }
+    if (!canCompleteRegistrationInProduction()) {
+      return NextResponse.json(
+        {
+          error:
+            "Реєстрація тимчасово недоступна: налаштуйте лист (Resend або SMTP), див. .env.example. Або SHOW_VERIFICATION_CODES=true лише для тесту.",
+        },
+        { status: 503 }
+      );
     }
 
     const exists = await prisma.user.findFirst({
@@ -65,10 +53,78 @@ export async function POST(req: Request) {
     }
 
     const passwordHash = await hashPassword(password);
-    const phoneCode = randomDigits(6);
+    const code = randomDigits(6);
     const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
+    const showCodes = exposeVerificationCodesInApiResponse();
+    const channel = resolveRegistrationVerificationChannel();
 
     let user;
+
+    if (channel === "email") {
+      try {
+        user = await prisma.user.create({
+          data: {
+            email,
+            phone,
+            passwordHash,
+            name: name ?? null,
+            emailVerified: false,
+            phoneVerified: false,
+            uiTheme: DEFAULT_UI_THEME,
+            verificationCodes: {
+              create: [{ kind: "email", code, expiresAt }],
+            },
+          },
+        });
+      } catch (e) {
+        if (
+          e instanceof Prisma.PrismaClientKnownRequestError &&
+          e.code === "P2002"
+        ) {
+          return NextResponse.json(
+            { error: "Цей email або телефон уже зареєстровані" },
+            { status: 409 }
+          );
+        }
+        throw e;
+      }
+
+      const delivery = await deliverRegistrationEmail({
+        email,
+        code,
+        name,
+      });
+      if (!delivery.ok) {
+        await prisma.user.delete({ where: { id: user.id } });
+        return NextResponse.json(
+          {
+            error:
+              "Не вдалося надіслати лист із кодом. Перевірте RESEND_API_KEY / SMTP у .env та EMAIL_FROM.",
+            ...(process.env.NODE_ENV !== "production"
+              ? { detail: delivery.message }
+              : {}),
+          },
+          { status: 502 }
+        );
+      }
+
+      return NextResponse.json({
+        ok: true,
+        userId: user.id,
+        verificationChannel: "email" as const,
+        ...(showCodes
+          ? {
+              devCodes: { code },
+              message:
+                "Код надіслано на email. (У відповіді також показано для зручності.)",
+            }
+          : {
+              message: "Код підтвердження надіслано на вашу електронну пошту.",
+            }),
+      });
+    }
+
+    /* Немає email-провайдера: лише dev або prod із SHOW_VERIFICATION_CODES */
     try {
       user = await prisma.user.create({
         data: {
@@ -76,9 +132,11 @@ export async function POST(req: Request) {
           phone,
           passwordHash,
           name: name ?? null,
-          emailVerified: true,
+          emailVerified: false,
+          phoneVerified: false,
+          uiTheme: DEFAULT_UI_THEME,
           verificationCodes: {
-            create: [{ kind: "phone", code: phoneCode, expiresAt }],
+            create: [{ kind: "email", code, expiresAt }],
           },
         },
       });
@@ -95,41 +153,22 @@ export async function POST(req: Request) {
       throw e;
     }
 
-    const sendSms = shouldSendSms();
-    const showCodes = exposeVerificationCodesInApiResponse();
-
-    if (sendSms) {
-      const delivery = await deliverRegistrationSmsOnly({
-        phone,
-        phoneCode,
-      });
-      if (!delivery.ok) {
-        await prisma.user.delete({ where: { id: user.id } });
-        return NextResponse.json(
-          {
-            error:
-              "Не вдалося надіслати SMS. Перевірте Twilio або Vonage (.env), SMS_PROVIDER, формат номера (+380…).",
-            ...(process.env.NODE_ENV !== "production"
-              ? { detail: delivery.message }
-              : {}),
-          },
-          { status: 502 }
-        );
-      }
-    }
+    const noChannelHint =
+      process.env.NODE_ENV !== "production"
+        ? " Додайте Resend/SMTP у .env, щоб код приходив на пошту."
+        : "";
 
     return NextResponse.json({
       ok: true,
       userId: user.id,
+      verificationChannel: "none" as const,
       ...(showCodes
         ? {
-            devCodes: { phone: phoneCode },
-            message: sendSms
-              ? "Код надіслано в SMS. (У відповіді також показано для зручності.)"
-              : "Код підтвердження телефону (режим розробки): введіть його на сторінці підтвердження.",
+            devCodes: { code },
+            message: `Провайдер листа не налаштовано — використайте код з відповіді.${noChannelHint}`,
           }
         : {
-            message: "На телефон надіслано код підтвердження.",
+            message: `Обліковий запис створено.${noChannelHint}`,
           }),
     });
   } catch (e) {

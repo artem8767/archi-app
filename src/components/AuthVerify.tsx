@@ -36,7 +36,7 @@ function VerifyInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const emailParam = searchParams.get("email") ?? "";
-  const [phoneCode, setPhoneCode] = useState("");
+  const [verifyCodeInput, setVerifyCodeInput] = useState("");
   const [err, setErr] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [smsResendSec, setSmsResendSec] = useState(0);
@@ -79,7 +79,7 @@ function VerifyInner() {
       }
       startCooldown(RESEND_COOLDOWN_SEC);
       if (j.devCode) {
-        setPhoneCode(j.devCode);
+        setVerifyCodeInput(j.devCode);
         setResendMsg(`${t("resendDevHintSms")}: ${j.devCode}`);
       } else {
         setResendMsg(j.message ?? t("resendOk"));
@@ -93,9 +93,9 @@ function VerifyInner() {
     e.preventDefault();
     setErr("");
     const email = emailParam.trim();
-    const pc = digitsOnly(phoneCode, 6);
+    const pc = digitsOnly(verifyCodeInput, 6);
     if (pc.length !== 6) {
-      setErr(t("phoneCodeLength"));
+      setErr(t("verifyCodeLength"));
       return;
     }
     if (!email) {
@@ -107,7 +107,7 @@ function VerifyInner() {
       const r = await fetch("/api/auth/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, phoneCode: pc }),
+        body: JSON.stringify({ email, code: pc }),
       });
       const j = await parseApiResponse(r);
       if (!r.ok) {
@@ -131,11 +131,13 @@ function VerifyInner() {
       </p>
       <form onSubmit={onSubmit} className="mt-4 space-y-3">
         <label className="block">
-          <span className="text-sm text-zone-muted">{t("phoneCode")}</span>
+          <span className="text-sm text-zone-muted">{t("verifyCode")}</span>
           <input
             className="mt-1 w-full pda-input"
-            value={phoneCode}
-            onChange={(e) => setPhoneCode(digitsOnly(e.target.value, 6))}
+            value={verifyCodeInput}
+            onChange={(e) =>
+              setVerifyCodeInput(digitsOnly(e.target.value, 6))
+            }
             required
             maxLength={6}
             inputMode="numeric"

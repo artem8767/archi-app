@@ -19,7 +19,45 @@
   }
 }
 
-/* Єдина тема: S.T.A.L.K.E.R. — Зона */
+/* Стандартна тема — звичайний сучасний інтерфейс */
+html[data-ui-theme="classic"] {
+  --tw-zone-void: 15 23 42;
+  --tw-zone-deep: 30 41 59;
+  --tw-zone-panel: 51 65 85;
+  --tw-zone-edge: 71 85 105;
+  --tw-zone-muted: 148 163 184;
+  --tw-zone-fog: 241 245 249;
+  --tw-archi-50: 236 253 245;
+  --tw-archi-100: 209 250 229;
+  --tw-archi-200: 167 243 208;
+  --tw-archi-300: 110 231 183;
+  --tw-archi-400: 52 211 153;
+  --tw-archi-500: 16 185 129;
+  --tw-archi-600: 5 150 105;
+  --tw-archi-700: 4 120 87;
+  --tw-archi-800: 6 95 70;
+  --tw-archi-900: 6 78 59;
+  --tw-shadow-zone: 0 1px 2px rgb(0 0 0 / 0.2), 0 8px 24px rgb(0 0 0 / 0.28);
+  --tw-shadow-zone-glow: 0 0 24px rgb(16 185 129 / 0.15),
+    0 0 1px rgb(52 211 153 / 0.25);
+  --tw-rad-glow: radial-gradient(
+    ellipse 100% 60% at 50% -10%,
+    rgb(16 185 129 / 0.12),
+    transparent 55%
+  );
+  --tw-brand-glow-1: 110 231 183;
+  --tw-brand-glow-2: 16 185 129;
+  --tw-brand-glow-3: 167 243 208;
+  --tw-brand-glow-4: 52 211 153;
+  --tw-brand-glow-5: 236 253 245;
+  --tw-scrollbar-thumb: 71 85 105;
+  --tw-scrollbar-track: 15 23 42;
+  --tw-selection-bg: 16 185 129;
+  --tw-selection-fg: 15 23 42;
+  --tw-focus-outline: 52 211 153;
+}
+
+/* Тема «Зона» — S.T.A.L.K.E.R.-стиль HUD */
 html[data-ui-theme="stalker"] {
   --tw-zone-void: 18 20 14;
   --tw-zone-deep: 28 32 22;
@@ -111,6 +149,17 @@ html[data-ui-theme="stalker"] body.zone-atmosphere::after {
   pointer-events: none;
 }
 
+html[data-ui-theme="classic"] .zone-atmosphere[data-wallpaper="original"]::before,
+html[data-ui-theme="classic"] .zone-atmosphere:not([data-wallpaper])::before {
+  background-color: rgb(15 23 42);
+  background-image: linear-gradient(
+    168deg,
+    rgb(15 23 42) 0%,
+    rgb(15 23 42) 38%,
+    rgb(30 41 59) 100%
+  );
+}
+
 html[data-ui-theme="stalker"] .zone-atmosphere[data-wallpaper="original"]::before,
 html[data-ui-theme="stalker"] .zone-atmosphere:not([data-wallpaper])::before {
   background-color: #12150e;
@@ -144,6 +193,10 @@ html[data-ui-theme="stalker"] .zone-atmosphere:not([data-wallpaper])::before {
   filter: saturate(0.84) brightness(0.91) contrast(1.04);
 }
 
+html[data-ui-theme="classic"] .leaflet-container {
+  filter: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .zone-scanlines,
   .animate-scan-breathe,
@@ -160,6 +213,13 @@ html[data-ui-theme="stalker"] .zone-atmosphere:not([data-wallpaper])::before {
   /** Картки стрічок (новини, оголошення, вакансії) */
   .pda-card {
     @apply rounded-xl border border-zone-edge/90 bg-zone-panel/95 text-zone-fog shadow-lg shadow-black/25 ring-1 ring-white/[0.03] transition-[border-color,box-shadow] duration-300;
+  }
+
+  html[data-ui-theme="classic"] .pda-panel,
+  html[data-ui-theme="classic"] .pda-card {
+    box-shadow:
+      0 1px 3px rgb(0 0 0 / 0.22),
+      0 18px 48px rgb(0 0 0 / 0.32);
   }
 
   html[data-ui-theme="stalker"] .pda-panel,

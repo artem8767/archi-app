@@ -4,6 +4,7 @@ import { getPlayStoreUrl } from "@/lib/app-stores";
 import { APP_BRAND_NAME } from "@/lib/brand";
 import { getSiteDeveloperCredit } from "@/lib/site-credits";
 import { getSiteUrl } from "@/lib/site-url";
+import { DEFAULT_UI_THEME } from "@/lib/ui-theme";
 import "./globals.css";
 
 const fontDisplay = Oswald({
@@ -74,8 +75,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#2a3224" },
-    { media: "(prefers-color-scheme: dark)", color: "#12150e" },
+    { media: "(prefers-color-scheme: light)", color: "#334155" },
+    { media: "(prefers-color-scheme: dark)", color: "#0f172a" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -88,7 +89,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-ui-theme="stalker" suppressHydrationWarning>
+    <html lang="en" data-ui-theme={DEFAULT_UI_THEME} suppressHydrationWarning>
       <body
         data-wallpaper="original"
         className={`${fontDisplay.variable} ${fontSans.variable} ${fontStalkerHud.variable} zone-atmosphere min-h-screen font-sans text-zone-fog antialiased`}

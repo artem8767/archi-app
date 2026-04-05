@@ -32,6 +32,7 @@
     "kicker": "Wiadomości · ogłoszenia · czat",
     "aboutHeadline": "<brand></brand><tail> — Twoje lokalne miejsce w sieci.</tail>",
     "introBody": "łączy wiadomości społeczności, ogłoszenia, usługi, oferty pracy i publiczny czat. Wybierz język, korzystaj w przeglądarce i dodaj do ekranu głównego—to samo konto na telefonie, tam gdzie jest obsługiwane.",
+    "appVersionWeb": "Wersja strony internetowej: {version}.",
     "featuresTitle": "Co możesz tu zrobić",
     "fNews": "Czytać i udostępniać wiadomości",
     "fAds": "Sprzedawać, kupować i wynajmować",
@@ -41,7 +42,7 @@
     "fI18n": "W każdej chwili zmienić język interfejsu",
     "ctaTitle": "Dołączasz?",
     "ctaHome": "Strona główna aplikacji",
-    "note": "Nowe konta potwierdzają numer telefonu SMS-em — bezpieczniejsza przestrzeń dla wszystkich.",
+    "note": "Nowe konta potwierdzają e-mail jednorazowym kodem — bezpieczniejsza przestrzeń dla wszystkich.",
     "developerTitle": "Rozwój",
     "developerIntro": "Realizacja techniczna i utrzymanie:",
     "developerFooter": "Deweloper: {name}",
@@ -75,22 +76,22 @@
     "submitLogin": "Zaloguj się",
     "submitRegister": "Zarejestruj się",
     "verifyTitle": "Weryfikacja",
-    "phoneCode": "Kod SMS",
+    "verifyCode": "Kod weryfikacyjny",
     "submitVerify": "Potwierdź",
     "needAccount": "Nie masz konta?",
     "haveAccount": "Masz już konto?",
-    "codesShownBelow": "Kód jest też pokazany poniżej (tryb deweloperski lub brak dostawcy SMS w .env).",
-    "resendSms": "Wyślij ponownie kod SMS",
+    "codesShownBelow": "Kód jest pokazany poniżej (dev lub brak e-mail).",
+    "resendSms": "Wyślij kod ponownie",
     "resendWait": "Poczekaj {seconds} s",
     "resendOk": "Kod wysłany.",
-    "resendDevHintSms": "Nowy kod SMS (dev, bez SMS)",
+    "resendDevHintSms": "Nowy kod (dev, bez e-maila)",
     "verified": "Konto zweryfikowane. Zaloguj się.",
-    "needVerification": "Najpierw potwierdź numer telefonu (kod SMS).",
+    "needVerification": "Najpierw potwierdź konto (kod e-mail).",
     "unexpectedLoginResponse": "Nieprawidłowa odpowiedź serwera. Spróbuj ponownie lub odśwież stronę.",
-    "devHintSms": "Bez Twilio/Vonage w .env SMS nie są wysyłane — kod może pojawić się na ekranie po rejestracji (pomarańczowy komunikat).",
-    "checkSms": "Sprawdź SMS — powinien przyjść kod weryfikacyjny.",
-    "verifyPhoneOnlyHint": "Wpisz kod z SMS. E-mail nie wymaga weryfikacji.",
-    "phoneCodeLength": "Kod SMS musi mieć 6 cyfr."
+    "devHintSms": "Po rejestracji kod przychodzi e-mailem (Resend lub SMTP w .env). Bez tego w dev kod może pojawić się na ekranie.",
+    "checkSms": "Sprawdź e-mail z kodem weryfikacyjnym.",
+    "verifyPhoneOnlyHint": "Wpisz 6-cyfrowy kod z e-maila.",
+    "verifyCodeLength": "Kod musi mieć 6 cyfr."
   },
   "settings": {
     "title": "Ustawienia",
@@ -100,6 +101,10 @@
     "language": "Język interfejsu",
     "autoTranslate": "Automatyczne tłumaczenie strony",
     "autoTranslateHint": "Używa tłumaczenia przeglądarki dla treści, gdy jest dostępne.",
+    "uiTheme": "Wygląd interfejsu",
+    "uiThemeClassic": "Standardowy (czysty)",
+    "uiThemeStalker": "Strefa (styl gry / HUD)",
+    "uiThemeHint": "Możesz zmienić w każdej chwili. „Strefa” dodaje linie skanowania i stylizowaną czcionkę nagłówków.",
     "location": "Położenie geograficzne",
     "useMyLocation": "Moja lokalizacja (GPS)",
     "geoDenied": "Odmowa dostępu do lokalizacji.",
@@ -125,7 +130,7 @@
     "blockUserAlready": "Ten użytkownik jest już zablokowany.",
     "blockUserError": "Nie udało się wykonać akcji. Spróbuj ponownie.",
     "blockUserAdded": "Użytkownik zablokowany.",
-    "blockUserVerifyFirst": "Potwierdź numer telefonu (SMS), aby korzystać z blokowania."
+    "blockUserVerifyFirst": "Potwierdź konto (kod e-mail), aby korzystać z blokowania."
   },
   "news": {
     "title": "Wiadomości",
@@ -222,6 +227,7 @@
     "filePickerBrowse": "Wybierz…",
     "filePickerEmpty": "Nie wybrano pliku",
     "filePickerSingle": "{name}",
-    "filePickerMultiple": "Wybrano plików: {count}"
+    "filePickerMultiple": "Wybrano plików: {count}",
+    "appVersion": "Wersja strony {version}"
   }
 }

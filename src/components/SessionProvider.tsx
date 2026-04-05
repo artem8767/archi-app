@@ -8,7 +8,7 @@ import {
   useState,
 } from "react";
 import { isWallpaperId } from "@/lib/wallpapers";
-import { isUiThemeId } from "@/lib/ui-theme";
+import { DEFAULT_UI_THEME, isUiThemeId } from "@/lib/ui-theme";
 
 const WALLPAPER_STORAGE_KEY = "archi-wallpaper";
 const UI_THEME_STORAGE_KEY = "archi-ui-theme";
@@ -107,12 +107,14 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (typeof document === "undefined") return;
     const applyTheme = (id: string) => {
-      const v = isUiThemeId(id) ? id : "stalker";
+      const v = isUiThemeId(id) ? id : DEFAULT_UI_THEME;
       document.documentElement.setAttribute("data-ui-theme", v);
     };
     if (user) {
       const id =
-        user.uiTheme && isUiThemeId(user.uiTheme) ? user.uiTheme : "stalker";
+        user.uiTheme && isUiThemeId(user.uiTheme)
+          ? user.uiTheme
+          : DEFAULT_UI_THEME;
       applyTheme(id);
       try {
         localStorage.setItem(UI_THEME_STORAGE_KEY, id);
@@ -130,7 +132,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
     } catch {
       /* ignore */
     }
-    applyTheme("stalker");
+    applyTheme(DEFAULT_UI_THEME);
   }, [user?.uiTheme, user]);
 
   const logout = useCallback(async () => {

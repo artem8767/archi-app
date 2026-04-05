@@ -14,8 +14,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: "News, classifieds, chat",
     start_url: `/${routing.defaultLocale}`,
     display: "standalone",
-    background_color: "#12150e",
-    theme_color: "#6c7a42",
+    background_color: "#0f172a",
+    theme_color: "#059669",
     lang: routing.defaultLocale,
     ...(playUrl
       ? {

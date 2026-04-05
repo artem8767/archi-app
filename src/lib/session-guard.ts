@@ -7,7 +7,7 @@ export type WriteAuth =
   | { ok: false; response: NextResponse };
 
 /**
- * Ensures the session exists and phone is verified (email is trusted at signup).
+ * Ensures the session exists and signup verification is complete (email code; phoneVerified лише для сумісності зі старими акаунтами).
  */
 export async function requireVerifiedUserForWrite(
   req: Request
@@ -21,7 +21,7 @@ export async function requireVerifiedUserForWrite(
   }
   const user = await prisma.user.findUnique({
     where: { id: userId },
-    select: { phoneVerified: true },
+    select: { emailVerified: true, phoneVerified: true },
   });
   if (!user) {
     return {
@@ -29,12 +29,13 @@ export async function requireVerifiedUserForWrite(
       response: NextResponse.json({ error: "Потрібен вхід" }, { status: 401 }),
     };
   }
-  if (!user.phoneVerified) {
+  if (!user.emailVerified && !user.phoneVerified) {
     return {
       ok: false,
       response: NextResponse.json(
         {
-          error: "Спочатку підтвердіть номер телефону (код з SMS)",
+          error:
+            "Спочатку підтвердіть обліковий запис (код з email на сторінці після реєстрації)",
           needVerification: true,
         },
         { status: 403 }

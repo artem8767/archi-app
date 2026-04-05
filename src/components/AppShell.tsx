@@ -10,6 +10,7 @@ import { MobileAppNav } from "./MobileAppNav";
 import { LogoArci } from "./LogoArci";
 import { IconSettings } from "./icons/AppIcons";
 import { APP_BRAND_NAME } from "@/lib/brand";
+import { getAppWebVersion } from "@/lib/app-version";
 import type { SiteDeveloperCredit } from "@/lib/site-credits";
 
 const navKeys = [
@@ -49,6 +50,7 @@ export function AppShell({
   const tSite = useTranslations("site");
   const pathname = usePathname();
   const { user, loading } = useSession();
+  const webVersion = getAppWebVersion();
 
   return (
     <div className="relative mx-auto flex min-h-screen max-w-6xl flex-col px-3 pb-28 pt-3 sm:px-6 sm:pb-24 sm:pt-4">
@@ -178,6 +180,11 @@ export function AppShell({
             ) : (
               tSite("developerFooter", { name: developerCredit.name })
             )}
+          </p>
+        ) : null}
+        {webVersion ? (
+          <p className="mt-4 text-[11px] text-zone-muted/75 tabular-nums">
+            {tCommon("appVersion", { version: webVersion })}
           </p>
         ) : null}
       </footer>

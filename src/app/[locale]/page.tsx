@@ -98,12 +98,12 @@ export default async function HomePage() {
                 </a>
               ) : null}
               {apkReady && !playStoreUrl ? (
-                <a
+                <Link
                   href="/download/android"
                   className="inline-flex items-center justify-center rounded-lg bg-archi-600 px-4 py-2.5 text-sm font-semibold text-black transition hover:bg-archi-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-archi-400"
                 >
                   {t("downloadApk")}
-                </a>
+                </Link>
               ) : null}
             </div>
             {playStoreUrl ? (

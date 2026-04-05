@@ -16,7 +16,7 @@ export const PRIVACY_SECTIONS_EN: PrivacySection[] = [
     heading: "2. Data we collect",
     paragraphs: [
       "Account and profile: email address, phone number, display name, password (stored only as a cryptographic hash; we do not store your password in plain text), interface language, and optional profile preferences (for example map location label, wallpaper, UI theme, notification level, auto-translate preference).",
-      "Verification: one-time or short-lived codes sent by SMS (and related delivery metadata held by your SMS provider).",
+      "Verification: one-time or short-lived codes sent by email (and related delivery metadata held by your email provider, for example Resend or your SMTP host).",
       "Content you submit: news posts, marketplace listings, job posts, comments, chat messages, and any images, links, or media you attach. Listings and job posts may include a contact phone number you choose to publish.",
       "Technical data: when you use the service, standard server and application logs may include IP address, approximate timestamps, device/browser type, and URLs requested, as needed for security, debugging, and abuse prevention.",
     ],
@@ -24,7 +24,7 @@ export const PRIVACY_SECTIONS_EN: PrivacySection[] = [
   {
     heading: "3. Why we use your data",
     paragraphs: [
-      "To create and secure your account, authenticate you, and send verification messages to your phone (and, where configured, email notifications).",
+      "To create and secure your account, authenticate you, and send verification codes to your email address (and, where configured, other email notifications).",
       "To operate community features: displaying posts, listings, jobs, comments, and chat to other users in line with how the product works.",
       "To enforce our rules and the law: automated or manual content checks (including optional third-party moderation tools if enabled by the operator), fraud prevention, and responding to valid legal requests.",
       "To improve reliability and safety of the service (logging, error diagnostics), and to respect your preferences (language, theme, location on the map if you save it).",
@@ -41,7 +41,7 @@ export const PRIVACY_SECTIONS_EN: PrivacySection[] = [
     paragraphs: [
       "We do not sell your personal data. We share data only as needed to run ARCHI:",
       "Infrastructure and hosting: servers and databases chosen by the operator of this deployment.",
-      "Messaging: SMS delivery via providers such as Twilio or Vonage when phone verification or alerts are used; email via providers such as Resend or SMTP when the operator configures them.",
+      "Messaging: email delivery via providers such as Resend or SMTP when the operator configures them (for example registration codes and optional notifications).",
       "Optional moderation: if enabled, short text segments may be sent to an external moderation API (for example OpenAI) solely to detect disallowed content before or after publication, according to the operator’s configuration.",
       "Other users: content you post in public or semi-public areas (news, listings, chat, comments) is visible as designed by the product, including your display name or email-derived identifier where the interface shows it.",
       "Legal: we may disclose information if required by law or to protect rights, safety, and integrity of users and the service.",
@@ -106,7 +106,7 @@ export const PRIVACY_SECTIONS_UK: PrivacySection[] = [
     heading: "2. Які дані ми збираємо",
     paragraphs: [
       "Обліковий запис і профіль: електронна пошта, номер телефона, ім’я для відображення, пароль (зберігається лише як криптографічний хеш; ми не зберігаємо пароль у відкритому вигляді), мова інтерфейсу та додаткові налаштування (наприклад підпис на карті, шпалери, тема інтерфейсу, рівень сповіщень, автопереклад).",
-      "Підтвердження: одноразові або короткочасні коди в SMS (і пов’язані метадані у вашого SMS-провайдера).",
+      "Підтвердження: одноразові або короткочасні коди електронною поштою (і пов’язані метадані у провайдера пошти, наприклад Resend або ваш SMTP-хост).",
       "Контент, який ви публікуєте: новини, оголошення, вакансії, коментарі, повідомлення чату, зображення, посилання та медіа. В оголошеннях і вакансіях може бути телефон, який ви самі вказуєте для зв’язку.",
       "Технічні дані: стандартні журнали сервера та застосунку можуть містити IP-адресу, час запитів, тип браузера/пристрою та URL — для безпеки, діагностики та запобігання зловживанням.",
     ],
@@ -114,7 +114,7 @@ export const PRIVACY_SECTIONS_UK: PrivacySection[] = [
   {
     heading: "3. Навіщо ми використовуємо дані",
     paragraphs: [
-      "Щоб створити й захистити ваш обліковий запис, автентифікувати вас і надсилати коди підтвердження на телефон (а за налаштувань — листи електронною поштою).",
+      "Щоб створити й захистити ваш обліковий запис, автентифікувати вас і надсилати коди підтвердження на email (а за налаштувань — інші листи).",
       "Щоб працювали функції спільноти: показ новин, оголошень, вакансій, коментарів і чату іншим користувачам відповідно до логіки продукту.",
       "Щоб дотримуватися правил і закону: автоматична або ручна модерація контенту (за наявності — зовнішні інструменти модерації), запобігання шахрайству та відповідь на законні запити.",
       "Щоб підтримувати стабільність і безпеку сервісу (журнали, діагностика помилок) і враховувати ваші налаштування (мова, тема, геолокація на карті, якщо ви її зберігаєте).",
@@ -131,7 +131,7 @@ export const PRIVACY_SECTIONS_UK: PrivacySection[] = [
     paragraphs: [
       "Ми не продаємо персональні дані. Передаємо лише настільки, наскільки це потрібно для роботи ARCHI:",
       "Інфраструктура та хостинг: сервери й бази даних, які обирає оператор цього розгортання.",
-      "Повідомлення: SMS через провайдерів на кшталт Twilio або Vonage; електронна пошта через Resend або SMTP за налаштувань оператора.",
+      "Повідомлення: електронна пошта через Resend або SMTP за налаштувань оператора (зокрема коди реєстрації та за потреби сповіщення).",
       "Опційна модерація: за увімкнення короткі фрагменти тексту можуть надсилатися зовнішньому API модерації (наприклад OpenAI) лише для виявлення забороненого контенту згідно з конфігурацією оператора.",
       "Інші користувачі: контент у відкритих або напіввідкритих розділах (новини, оголошення, чат, коментарі) видимий згідно з інтерфейсом, включно з іменем або ідентифікатором на основі email, де це показано.",
       "Закон: можемо розкрити інформацію, якщо цього вимагає закон або для захисту прав, безпеки та цілісності користувачів і сервісу.",

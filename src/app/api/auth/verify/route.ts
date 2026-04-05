@@ -18,7 +18,7 @@ const schema = z.object({
     .trim()
     .min(1, "Вкажіть email")
     .email("Некоректний формат email"),
-  phoneCode: digits6,
+  code: digits6,
 });
 
 export async function POST(req: Request) {
@@ -40,7 +40,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: msg }, { status: 400 });
     }
 
-    const { email, phoneCode } = parsed.data;
+    const { email, code: submittedCode } = parsed.data;
 
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
@@ -58,10 +58,15 @@ export async function POST(req: Request) {
       },
     });
 
-    const pc = codes.find((c) => c.kind === "phone");
-    if (!pc || pc.code !== phoneCode) {
+    /* email — поточний канал; phone — лише старі записи до відмови від SMS */
+    const pc = codes.find(
+      (c) =>
+        (c.kind === "email" || c.kind === "phone") &&
+        c.code === submittedCode
+    );
+    if (!pc) {
       return NextResponse.json(
-        { error: "Невірний або прострочений код з SMS" },
+        { error: "Невірний або прострочений код з email" },
         { status: 400 }
       );
     }
@@ -69,7 +74,7 @@ export async function POST(req: Request) {
     await prisma.$transaction([
       prisma.user.update({
         where: { id: user.id },
-        data: { phoneVerified: true },
+        data: { emailVerified: true, phoneVerified: true },
       }),
       prisma.verificationCode.deleteMany({ where: { userId: user.id } }),
     ]);

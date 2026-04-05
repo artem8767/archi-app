@@ -1,24 +1,20 @@
-import { isSmsDeliveryConfigured, sendVerificationSms } from "@/lib/verification-sms";
-
-/** Реєстрація: потрібен лише SMS (email не підтверджується кодом). */
-export function isRegistrationSmsConfigured(): boolean {
-  return isSmsDeliveryConfigured();
-}
+import { sendVerificationEmail } from "@/lib/verification-email";
 
 export type DeliveryResult =
   | { ok: true }
-  | { ok: false; reason: "sms"; message: string };
+  | { ok: false; reason: "email"; message: string };
 
-export async function deliverRegistrationSmsOnly(params: {
-  phone: string;
-  phoneCode: string;
+export async function deliverRegistrationEmail(params: {
+  email: string;
+  code: string;
+  name?: string | null;
 }): Promise<DeliveryResult> {
   try {
-    await sendVerificationSms(params.phone, params.phoneCode);
+    await sendVerificationEmail(params.email, params.code, params.name);
     return { ok: true };
   } catch (e) {
     const message = e instanceof Error ? e.message : String(e);
-    console.error("[verification-sms]", e);
-    return { ok: false, reason: "sms", message };
+    console.error("[verification-email]", e);
+    return { ok: false, reason: "email", message };
   }
 }

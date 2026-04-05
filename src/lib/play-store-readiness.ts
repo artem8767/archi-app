@@ -1,7 +1,8 @@
 /**
  * Перевірки для безпечного продакшену та посилань на Google Play.
- * Запуск: `npm run play:readiness`; повний прогін перед релізом: `npm run release:check`.
- * Див. `scripts/PLAY_STORE_CHECKLIST.txt` (покроковий план, розділ F).
+ * Запуск: `npm run play:readiness`; повний прогін: `npm run release:check`.
+ * Підготовка до публікації (сайт + Play + нагадування): `npm run prepare:publish`.
+ * Див. `scripts/PLAY_STORE_CHECKLIST.txt`.
  *
  * У консолі Play окремо: підпис AAB, targetSdk, Data safety, політика (URL), рейтинг контенту.
  */
@@ -132,18 +133,26 @@ export function getPlayStoreReadinessIssues(
     });
   }
 
+  if (prod && !env.NEXT_PUBLIC_TERMS_OF_USE_URL?.trim()) {
+    issues.push({
+      level: "warning",
+      code: "TERMS_URL_MISSING",
+      message:
+        "Рекомендовано NEXT_PUBLIC_TERMS_OF_USE_URL (HTTPS, напр. …/en/terms) — для Play та посилань у застосунку.",
+    });
+  }
+
   if (prod) {
-    const smsOk =
-      Boolean(env.TWILIO_ACCOUNT_SID?.trim() && env.TWILIO_AUTH_TOKEN?.trim()) ||
-      Boolean(
-        env.VONAGE_API_KEY?.trim() && env.VONAGE_API_SECRET?.trim(),
-      );
-    if (!smsOk) {
+    const emailOk =
+      Boolean(env.RESEND_API_KEY?.trim() && env.EMAIL_FROM?.trim()) ||
+      Boolean(env.SMTP_HOST?.trim() && env.EMAIL_FROM?.trim());
+    const showCodes = env.SHOW_VERIFICATION_CODES === "true";
+    if (!emailOk && !showCodes) {
       issues.push({
         level: "warning",
-        code: "SMS_NOT_CONFIGURED",
+        code: "VERIFICATION_NOT_CONFIGURED",
         message:
-          "Немає налаштованого SMS (Twilio або Vonage) — реєстрація за телефоном у production не працюватиме (вимога політики для вашого сценарію).",
+          "Немає відправки листів для коду реєстрації: додайте Resend або SMTP (EMAIL_FROM). Для внутрішнього тесту — SHOW_VERIFICATION_CODES=true (небезпечно).",
       });
     }
   }

@@ -24,7 +24,7 @@ export const TERMS_SECTIONS_EN: TermsSection[] = [
     heading: "3. Accounts and eligibility",
     paragraphs: [
       "You must provide accurate registration information and keep your credentials secure. You are responsible for activity under your account.",
-      "Phone verification (SMS) or other checks may be required. You must not impersonate others or create accounts to evade enforcement.",
+      "Email verification (one-time code) or other checks may be required. You must not impersonate others or create accounts to evade enforcement.",
       "ARCHI is not directed at children. You must meet the minimum age required by law in your country to enter into a binding agreement.",
     ],
   },
@@ -98,7 +98,7 @@ export const TERMS_SECTIONS_UK: TermsSection[] = [
     heading: "3. Облікові записи та відповідність вимогам",
     paragraphs: [
       "Ви маєте надавати достовірні дані при реєстрації та зберігати облікові дані в таємниці. Ви відповідаєте за дії під своїм акаунтом.",
-      "Може знадобитися підтвердження телефона (SMS) або інші перевірки. Заборонено видавати себе за інших або створювати акаунти для обходу санкцій.",
+      "Може знадобитися підтвердження email (одноразовий код) або інші перевірки. Заборонено видавати себе за інших або створювати акаунти для обходу санкцій.",
       "ARCHI не призначений для дітей. Ви маєте досягти мінімального віку, передбаченого законом вашої країни для укладення зобов’язальної угоди.",
     ],
   },

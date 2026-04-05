@@ -7,6 +7,12 @@ import { useSession } from "./SessionProvider";
 import { BlockedUsersSettings } from "./BlockedUsersSettings";
 import { LocationPicker } from "./LocationPicker";
 import { localeNames, routing } from "@/i18n/routing";
+import {
+  DEFAULT_UI_THEME,
+  UI_THEME_IDS,
+  isUiThemeId,
+  type UiThemeId,
+} from "@/lib/ui-theme";
 function SettingsSection({
   title,
   children,
@@ -37,6 +43,7 @@ export function SettingsForm() {
   const [addressLabel, setAddressLabel] = useState("");
   const [saved, setSaved] = useState(false);
   const [geoMsg, setGeoMsg] = useState<string | null>(null);
+  const [uiTheme, setUiTheme] = useState<UiThemeId>(DEFAULT_UI_THEME);
 
   function requestDeviceLocation() {
     setGeoMsg(null);
@@ -73,6 +80,9 @@ export function SettingsForm() {
       setLng(user.lng);
     }
     setAddressLabel(user.addressLabel ?? "");
+    setUiTheme(
+      user.uiTheme && isUiThemeId(user.uiTheme) ? user.uiTheme : DEFAULT_UI_THEME,
+    );
   }, [user]);
 
   const save = useCallback(async () => {
@@ -90,7 +100,7 @@ export function SettingsForm() {
         lng,
         addressLabel: addressLabel || null,
         wallpaperId: "original",
-        uiTheme: "stalker",
+        uiTheme,
       }),
     });
     if (r.ok) {
@@ -109,6 +119,7 @@ export function SettingsForm() {
     lat,
     lng,
     addressLabel,
+    uiTheme,
     refresh,
     router,
     pathname,
@@ -151,6 +162,23 @@ export function SettingsForm() {
           <span className="text-sm text-zone-fog/95">{t("autoTranslate")}</span>
         </label>
         <p className="text-xs text-zone-muted">{t("autoTranslateHint")}</p>
+        <label className="block">
+          <span className="text-sm font-medium text-zone-fog">
+            {t("uiTheme")}
+          </span>
+          <select
+            className="mt-1 w-full pda-input"
+            value={uiTheme}
+            onChange={(e) => setUiTheme(e.target.value as UiThemeId)}
+          >
+            {UI_THEME_IDS.map((id) => (
+              <option key={id} value={id}>
+                {id === "classic" ? t("uiThemeClassic") : t("uiThemeStalker")}
+              </option>
+            ))}
+          </select>
+        </label>
+        <p className="text-xs text-zone-muted">{t("uiThemeHint")}</p>
       </SettingsSection>
 
       <SettingsSection title={t("sectionLocation")}>

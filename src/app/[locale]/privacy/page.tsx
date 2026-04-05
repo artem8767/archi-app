@@ -3,11 +3,12 @@ import { getTranslations } from "next-intl/server";
 import { APP_BRAND_NAME } from "@/lib/brand";
 import { getPrivacySections } from "@/lib/privacy-policy-content";
 
-type Props = { params: { locale: string } };
+type Props = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
   const t = await getTranslations({
-    locale: params.locale,
+    locale,
     namespace: "site",
   });
   return {
@@ -18,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function PrivacyPage({ params }: Props) {
-  const { locale } = params;
+  const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "site" });
   const sections = getPrivacySections(locale);
   const showEnNotice = locale !== "en" && locale !== "uk";

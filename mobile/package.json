@@ -1,6 +1,6 @@
 {
   "name": "archi-mobile",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "main": "index.ts",
   "scripts": {
     "start": "expo start",
@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "@types/react": "~19.1.0",
-    "eas-cli": "^16.28.0",
+    "eas-cli": "^18.5.0",
     "typescript": "~5.9.2"
   },
   "private": true

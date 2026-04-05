@@ -22,7 +22,7 @@ model User {
   lng                 Float?
   addressLabel        String?
   wallpaperId         String   @default("original")
-  uiTheme             String   @default("stalker")
+  uiTheme             String   @default("classic")
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
 

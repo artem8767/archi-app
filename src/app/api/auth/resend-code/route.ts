@@ -4,9 +4,9 @@ import { randomDigits } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { exposeVerificationCodesInApiResponse } from "@/lib/verification-flags";
 import {
-  isSmsDeliveryConfigured,
-  sendVerificationSms,
-} from "@/lib/verification-sms";
+  isEmailDeliveryConfigured,
+  sendVerificationEmail,
+} from "@/lib/verification-email";
 
 const RESEND_COOLDOWN_MS = 60_000;
 
@@ -43,17 +43,17 @@ export async function POST(req: Request) {
       );
     }
 
-    if (user.phoneVerified) {
+    if (user.emailVerified || user.phoneVerified) {
       return NextResponse.json(
         { error: "Обліковий запис уже підтверджено" },
         { status: 400 }
       );
     }
 
-    const kind = "phone" as const;
+    const kind = "email" as const;
     const now = new Date();
     const last = await prisma.verificationCode.findFirst({
-      where: { userId: user.id, kind },
+      where: { userId: user.id },
       orderBy: { createdAt: "desc" },
     });
 
@@ -75,15 +75,15 @@ export async function POST(req: Request) {
     const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
     const showDevCode = exposeVerificationCodesInApiResponse();
 
-    if (isSmsDeliveryConfigured()) {
+    if (isEmailDeliveryConfigured()) {
       try {
-        await sendVerificationSms(user.phone, newCode);
+        await sendVerificationEmail(email, newCode, user.name);
       } catch (e) {
-        console.error("[resend-code sms]", e);
+        console.error("[resend-code email]", e);
         return NextResponse.json(
           {
             error:
-              "Не вдалося надіслати SMS. Перевірте Twilio/Vonage та номер телефону.",
+              "Не вдалося надіслати лист. Перевірте Resend/SMTP та EMAIL_FROM.",
             ...(process.env.NODE_ENV !== "production" && e instanceof Error
               ? { detail: e.message }
               : {}),
@@ -95,7 +95,7 @@ export async function POST(req: Request) {
       return NextResponse.json(
         {
           error:
-            "Відправка SMS не налаштована. Додайте Twilio або Vonage у .env.",
+            "Відправка email не налаштована. Додайте Resend або SMTP у .env.",
         },
         { status: 503 }
       );
@@ -103,7 +103,7 @@ export async function POST(req: Request) {
 
     await prisma.$transaction([
       prisma.verificationCode.deleteMany({
-        where: { userId: user.id, kind },
+        where: { userId: user.id },
       }),
       prisma.verificationCode.create({
         data: {
@@ -117,13 +117,13 @@ export async function POST(req: Request) {
 
     const payload: Record<string, unknown> = {
       ok: true,
-      message: "Новий код надіслано в SMS.",
+      message: "Новий код надіслано на email.",
     };
 
-    if (showDevCode && !isSmsDeliveryConfigured()) {
+    if (!isEmailDeliveryConfigured() && showDevCode) {
       payload.devCode = newCode;
       payload.message =
-        "Провайдер не налаштовано — код для тесту в відповіді API.";
+        "Провайдер листа не налаштовано — код для тесту в відповіді API.";
     }
 
     return NextResponse.json(payload);

@@ -1,121 +1,96 @@
-ARCHI — підготовка до публікації (веб + посилання на Android)
-===============================================================
+ARCHI — підготовка до публікації (веб + Google Search Console + Google Play)
+============================================================================
 
-Цей репозиторій — Next.js (сайт / PWA) у корені та папка mobile/ (Expo + WebView) для збірки AAB.
-  Деталі збірки Android: mobile/README.txt
+Репозиторій: Next.js (сайт / PWA) у корені, mobile/ (Expo + WebView) для AAB.
+  Збірка Android: mobile/README.txt
+  Автоперевірка перед релізом: npm run prepare:publish
+    (lint, build, тести, play:readiness + нагадування про ручні кроки)
+  Лише технічні змінні: npm run play:readiness (з RUN_PLAY_CHECK=1 у CI)
 
-G. Поки акаунт Google Play ще НЕ підтверджено (зробіть усе це заздалегідь)
---------------------------------------------------------------------------------
-  У консолі без завершеної верифікації часто не вдасться опублікувати реліз — але підготовку можна
-  закінчити майже повністю.
+H. Google Search Console (сайт у Google Пошуку)
+-----------------------------------------------
+  1) Розгорніть сайт на HTTPS із NEXT_PUBLIC_SITE_URL на проді.
+  2) https://search.google.com/search-console — «Додати ресурс»
+     (рекомендовано: префікс URL https://ваш-домен/ або запис DNS для домену).
+  3) Підтвердіть власність (один з методів Google).
+     Опційно: скопіюйте код у NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION — meta-тег у layout.
+  4) Розділ «Файли Sitemap» → додайте: https://ваш-домен/sitemap.xml
+  5) Після індексації перевіряйте «Покриття» / «Зручність для мобільних» за потреби.
 
+G. Поки акаунт Google Play ще НЕ підтверджено
+---------------------------------------------
   Сайт і бекенд (не залежить від Google)
     - Деплой Next.js на HTTPS; NEXT_PUBLIC_SITE_URL на проді.
-    - PostgreSQL (або інша БД), prisma migrate / db push на проді — не лишати file:./dev.db.
-    - SMS (Twilio/Vonage), якщо потрібна реєстрація по телефону в проді.
-    - Перевірити в браузері: /en/privacy та /en/terms (або uk) відкриваються публічно.
-    - Задати NEXT_PUBLIC_PRIVACY_POLICY_URL і за бажанням NEXT_PUBLIC_TERMS_OF_USE_URL
-      (ті самі URL пізніше вставите в Play Console).
-    - npm run release:check локально з production-подібним .env (або на CI).
+    - PostgreSQL (або інша БД), prisma migrate / db push — не лишати file:./dev.db у проді.
+    - Листи: Resend або SMTP + EMAIL_FROM (коди підтвердження реєстрації на email).
+    - NEXT_PUBLIC_PRIVACY_POLICY_URL, NEXT_PUBLIC_TERMS_OF_USE_URL (HTTPS, з локаллю як на сайті).
+    - npm run prepare:publish локально з production-подібним .env.
 
-  Графіка та тексти для магазину (готуйте на диску)
-    - Іконка 512×512 PNG — експорт з store-listing/icon-512.svg (див. store-listing/README.txt).
-    - Feature graphic 1024×500 PNG — з feature-graphic-1024x500.svg.
-    - Скріншоти телефона (мінімум 2) — зробіть з бойового сайту в Chrome DevTools (розмір під
-      вимоги Play, див. store-listing/SCREENSHOTS.txt).
-    - Скопіюйте короткий/повний опис з store-listing/STORE_LISTING_EN.txt та STORE_LISTING_UK.txt
-      у чернетку (Блокнот/Google Docs), щоб одним вставленням перенести в консоль пізніше.
+  Графіка та тексти для магазину
+    - Іконка 512×512 PNG — store-listing/icon-512.svg (див. store-listing/README.txt).
+    - Feature graphic 1024×500 PNG — feature-graphic-1024x500.svg.
+    - Скріншоти — store-listing/SCREENSHOTS.txt.
+    - Тексти EN/UK — store-listing/STORE_LISTING_EN.txt, STORE_LISTING_UK.txt.
 
-  Android AAB (не потребує підтвердженого Play-акаунта)
-    - mobile/: eas login → eas build -p android --profile production (див. mobile/AAB_ZAVANTAZHYTY.txt).
-    - Зберігайте завантажений .aab і номер versionCode з app.json — для першого релізу після верифікації.
-    - Не піднімайте versionCode без потреби; кожен новий файл у Play має мати строго більший код.
+  Android AAB
+    - mobile/: eas build -p android --profile production (див. mobile/AAB_ZAVANTAZHYTY.txt).
+    - versionCode у app.json збільшувати для кожного завантаження в Play.
 
-  У Google (паралельно з підготовкою)
-    - Відкрийте банер «завершіть налаштування облікового запису» і виконайте кожен крок
-      (профіль, оплата, підтвердження особи/організації — залежно від регіону).
-    - Документи завантажуйте чіткі, як у інструкції Google; очікування — до кількох робочих днів.
+  У Google (паралельно)
+    - Завершіть верифікацію облікового запису розробника (оплата, документи — залежить від регіону).
 
-  Що залишиться ОДРАЗУ після підтвердження
-    - Створити застосунок (якщо ще не створено), package: com.archi.app — як у mobile/app.json.
-    - Store listing, Data safety, Content rating, завантаження AAB у трек, подання на перевірку.
+F. Покроковий план
+------------------
+  Крок 0 — npm run prepare:publish (має пройти без помилок [error] у звіті readiness).
 
-F. Покроковий план — що робити вам (по порядку)
------------------------------------------------
+  Крок 1 — домен і хостинг
+    HTTPS, змінні: JWT_SECRET, DATABASE_URL (не dev.db), NEXT_PUBLIC_SITE_URL.
 
-  Крок 0 — перевірити код локально
-    npm run release:check
-    Має пройти lint, build, тести та play:readiness без помилок [error].
-    (Для play:readiness у CI задайте production-змінні або див. vitest.)
+  Крок 2 — email для реєстрації
+    RESEND_API_KEY + EMAIL_FROM або SMTP + EMAIL_FROM.
 
-  Крок 1 — домен і хостинг сайту
-    Розгорніть Next.js на VPS / Vercel / іншому хостингу з HTTPS.
-    Задайте на сервері змінні з розділу B (мінімум: JWT_SECRET, DATABASE_URL для продакшену,
-    NEXT_PUBLIC_SITE_URL=https://ваш-домен).
+  Крок 3 — політика та умови
+    Сторінки /…/privacy та /…/terms доступні публічно; URL у .env для Play.
 
-  Крок 2 — база даних і SMS
-    Замініть file:./dev.db на реальну БД (PostgreSQL тощо), prisma db push / migrate.
-    Підключіть Twilio або Vonage — інакше SMS-коди в production не підуть (див. .env.example).
+  Крок 4 — Android AAB
+    mobile/.env: EXPO_PUBLIC_SITE_URL (HTTPS); package у app.json = id у Play.
 
-  Крок 3 — політика конфіденційності
-    Опублікуйте сторінку з політикою на своєму HTTPS-домені.
-    Додайте NEXT_PUBLIC_PRIVACY_POLICY_URL у змінні середовища (той самий URL пізніше в Play Console).
+  Крок 5 — Google Play Console
+    AAB у трек, Data safety, Content rating, Store listing, URL політики.
 
-  Крок 4 — Android-оболонка (AAB)
-    У репозиторії вже є mobile/ (Expo SDK 54, WebView → ваш сайт).
-    Задайте mobile/.env з EXPO_PUBLIC_SITE_URL (HTTPS) та замініть у mobile/app.json
-    android.package / ios.bundleIdentifier на свої (як у Play Console).
-    Збірка AAB: eas build -p android --profile production (див. mobile/README.txt).
-    Keystore для підпису зберігає EAS або завантажте власний — не втрачайте ключ оновлень.
+  Крок 6 — після релізу в Play
+    NEXT_PUBLIC_PLAY_STORE_URL на сервері.
 
-  Крок 5 — Google Play Console (play.google.com/console)
-    Оплатіть акаунт розробника → створіть застосунок → завантажте AAB у трек (спочатку internal testing).
-    Заповніть: Data safety, Content rating, Store listing (іконка 512×512, скріншоти, описи),
-    вкажіть URL політики конфіденційності.
+  Крок 7 — Search Console
+    Sitemap, перевірка індексації (розділ H).
 
-  Крок 6 — після схвалення в Play
-    Скопіюйте посилання на картку застосунку (…/store/apps/details?id=…).
-    Додайте на сервер NEXT_PUBLIC_PLAY_STORE_URL — тоді сайт і /download/android покажуть правильне посилання.
-
-  Крок 7 — фінальна перевірка
-    Знову npm run release:check на чистій копії з production .env (або в CI).
-    Пройдіть реєстрацію/логін на бойовому URL, перевірте чат і оголошення.
-
-A. Автоматична перевірка змінних (запускайте перед релізом бекенду)
------------------------------------------------------------------
+A. Автоматична перевірка змінних
+--------------------------------
   npm run play:readiness
+  Виправте всі [error]; перегляньте [warning] (SQLite, відсутність terms URL тощо).
 
-  Має завершитись без помилок у production-режимі. Виправте всі [error];
-  попередження [warning] перегляньте (SMS, SQLite, тощо).
+B. Змінні середовища (прод)
+----------------------------
+  NEXT_PUBLIC_SITE_URL — https://… (без слеша в кінці)
+  NEXT_PUBLIC_PLAY_STORE_URL — після публікації застосунку
+  NEXT_PUBLIC_PRIVACY_POLICY_URL — https://…/…/privacy
+  NEXT_PUBLIC_TERMS_OF_USE_URL — https://…/…/terms
+  NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION — опційно (Search Console)
+  JWT_SECRET — довгий випадковий рядок
+  SHOW_VERIFICATION_CODES — не true у production
+  RESEND_API_KEY / SMTP + EMAIL_FROM — для кодів на email
+  DATABASE_URL — не file:./dev.db для бойового навантаження
 
-B. Змінні середовища для продакшену (.env на сервері / Vercel)
----------------------------------------------------------------
-  - NEXT_PUBLIC_SITE_URL — https://ваш-домен (канонічний URL, без слеша в кінці)
-  - NEXT_PUBLIC_PLAY_STORE_URL — після публікації: https://play.google.com/store/apps/details?id=…
-  - NEXT_PUBLIC_PRIVACY_POLICY_URL — https://… (політика конфіденційності; той самий URL у Play Console)
-  - JWT_SECRET — довгий випадковий рядок (не значення з .env.example)
-  - SHOW_VERIFICATION_CODES — не true у production
-  - SMS: Twilio або Vonage (якщо реєстрація за телефоном обов’язкова)
-  - DATABASE_URL — для реального навантаження не file:./dev.db
-
-C. Консоль Google Play (ручні кроки)
+C. Google Play Console (ручні кроки)
 ------------------------------------
-  - targetSdk / minSdk — відповідно до вимог Google на дату релізу.
-  1) Створіть застосунок, завантажте AAB (підпис релізним ключем).
-  2) Data safety: опишіть збір даних (акаунт, телефон, геолокація — за фактом у застосунку).
-  3) Content rating (анкета IARC / аналог).
-  4) Store listing: скріншоти, короткий/повний опис, іконка 512×512.
-     Готові тексти (EN/UK), промо, release notes, SVG: каталог store-listing/
-     (STORE_LISTING_EN.txt, STORE_LISTING_UK.txt — копіювати в консоль).
-  5) Політика конфіденційності: URL (NEXT_PUBLIC_PRIVACY_POLICY_URL).
-     За наявності поля — URL умов користування: …/terms (див. NEXT_PUBLIC_TERMS_OF_USE_URL у .env.example).
+  targetSdk / minSdk за вимогами Google на дату релізу.
+  Data safety: акаунт, email, телефон, геолокація — за фактом у застосунку.
+  Content rating, Store listing, політика конфіденційності (URL).
 
-D. Сайт і посилання на застосунок
----------------------------------
-  - /download/android — редирект на Play або на APK (див. ANDROID_APK_DOWNLOAD_URL у .env.example).
-  - manifest / JSON-LD підхоплюють назву з коду (APP_BRAND_NAME).
+D. Сайт і завантаження Android
+------------------------------
+  /download/android — Play або APK (ANDROID_APK_DOWNLOAD_URL у .env.example).
 
-E. Після зміни назви бренду
----------------------------
-  - src/lib/brand.ts — APP_BRAND_NAME
-  - messages/*/meta.title — якщо блок meta використовується, синхронізуйте вручну.
+E. Зміна назви бренду
+---------------------
+  src/lib/brand.ts — APP_BRAND_NAME; messages/*/meta за потреби.

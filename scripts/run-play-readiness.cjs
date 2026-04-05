@@ -1,5 +1,6 @@
 /**
- * Запускає перевірку змінних для продакшену / Google Play (RUN_PLAY_CHECK=1 + vitest).
+ * Перевірка змінних для продакшену / Play (RUN_PLAY_CHECK=1 + vitest).
+ * Повна підготовка до публікації: npm run prepare:publish
  */
 const { spawnSync } = require("child_process");
 const path = require("path");

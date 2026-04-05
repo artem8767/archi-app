@@ -32,6 +32,7 @@
     "kicker": "Novinky · inzeráty · chat",
     "aboutHeadline": "<brand></brand><tail> — váš místní koutek na internetu.</tail>",
     "introBody": "spojuje komunitní novinky, inzerát, služby, práci a veřejný chat. Zvolte jazyk, používejte v prohlížeči a přidejte si zástupce na plochu pro rychlý přístup—stejný účet i na mobilu, kde je to podporováno.",
+    "appVersionWeb": "Verze webu: {version}.",
     "featuresTitle": "Co u nás najdete",
     "fNews": "Číst a sdílet novinky",
     "fAds": "Prodávat, kupovat a pronajímat",
@@ -41,7 +42,7 @@
     "fI18n": "Kdykoli přepnout jazyk rozhraní",
     "ctaTitle": "Chcete začít?",
     "ctaHome": "Domů do aplikace",
-    "note": "Nové účty ověřují telefon přes SMS — bezpečnější prostor pro všechny.",
+    "note": "Nové účty ověřují e-mail jednorázovým kódem — bezpečnější prostor pro všechny.",
     "developerTitle": "Vývoj",
     "developerIntro": "Technická realizace a provoz:",
     "developerFooter": "Vývojář: {name}",
@@ -75,22 +76,22 @@
     "submitLogin": "Přihlásit se",
     "submitRegister": "Zaregistrovat se",
     "verifyTitle": "Ověření",
-    "phoneCode": "Kód z SMS",
+    "verifyCode": "Ověřovací kód",
     "submitVerify": "Potvrdit",
     "needAccount": "Nemáte účet?",
     "haveAccount": "Už máte účet?",
-    "codesShownBelow": "Kód je také zobrazen níže (vývoj nebo není nastaven SMS poskytovatel v .env).",
-    "resendSms": "Znovu poslat SMS kód",
+    "codesShownBelow": "Kód je zobrazen níže (vývoj nebo chybí e-mail).",
+    "resendSms": "Poslat kód znovu",
     "resendWait": "Počkejte {seconds} s",
     "resendOk": "Kód odeslán.",
-    "resendDevHintSms": "Nový SMS kód (vývoj, bez SMS)",
+    "resendDevHintSms": "Nový kód (vývoj, e-mail neodeslán)",
     "verified": "Účet ověřen. Přihlaste se prosím.",
-    "needVerification": "Nejdřív potvrďte telefonní číslo (kód z SMS).",
+    "needVerification": "Nejdřív potvrďte účet (kód z e-mailu).",
     "unexpectedLoginResponse": "Neplatná odpověď serveru. Zkuste to znovu nebo obnovte stránku.",
-    "devHintSms": "Bez Twilio/Vonage v .env se SMS neodesílají — kód se může po registraci zobrazit na obrazovce (jantarový rámeček).",
-    "checkSms": "Zkontrolujte SMS, měl vám přijít ověřovací kód.",
-    "verifyPhoneOnlyHint": "Zadejte kód z SMS. E-mail ověřovat nemusíte.",
-    "phoneCodeLength": "Kód z SMS musí mít 6 číslic."
+    "devHintSms": "Po registraci přijde kód e-mailem (Resend nebo SMTP v .env). Bez toho se může kód zobrazit na obrazovce ve vývoji.",
+    "checkSms": "Zkontrolujte e-mail s ověřovacím kódem.",
+    "verifyPhoneOnlyHint": "Zadejte 6místný kód z e-mailu.",
+    "verifyCodeLength": "Kód musí mít 6 číslic."
   },
   "settings": {
     "title": "Nastavení",
@@ -100,6 +101,10 @@
     "language": "Jazyk rozhraní",
     "autoTranslate": "Automatický překlad stránky",
     "autoTranslateHint": "Pro obsah použije překlad prohlížeče, kde je to podporováno.",
+    "uiTheme": "Vzhled rozhraní",
+    "uiThemeClassic": "Standardní (čistý)",
+    "uiThemeStalker": "Zóna (herní HUD)",
+    "uiThemeHint": "Kdykoli změníte. „Zóna“ přidává scanlines a stylizované písmo nadpisů.",
     "location": "Geografická poloha",
     "useMyLocation": "Moje poloha (GPS)",
     "geoDenied": "Přístup k poloze byl zamítnut.",
@@ -125,7 +130,7 @@
     "blockUserAlready": "Tento uživatel je už zablokován.",
     "blockUserError": "Akci se nepodařilo provést. Zkuste to znovu.",
     "blockUserAdded": "Uživatel zablokován.",
-    "blockUserVerifyFirst": "Pro blokování potvrďte telefon (SMS kód)."
+    "blockUserVerifyFirst": "Pro blokování potvrďte účet (kód z e-mailu)."
   },
   "news": {
     "title": "Novinky",
@@ -222,6 +227,7 @@
     "filePickerBrowse": "Vybrat…",
     "filePickerEmpty": "Není vybrán žádný soubor",
     "filePickerSingle": "{name}",
-    "filePickerMultiple": "Vybráno souborů: {count}"
+    "filePickerMultiple": "Vybráno souborů: {count}",
+    "appVersion": "Verze webu {version}"
   }
 }
