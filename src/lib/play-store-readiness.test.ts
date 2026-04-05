@@ -124,6 +124,23 @@ describe("getPlayStoreReadinessIssues", () => {
     ).toBe(false);
   });
 
+  it("RESEND_API_KEY alone counts as email configured (no EMAIL_FROM required)", () => {
+    const issues = getPlayStoreReadinessIssues(
+      {
+        NODE_ENV: "production",
+        JWT_SECRET: "a".repeat(48),
+        NEXT_PUBLIC_SITE_URL: "https://example.com",
+        NEXT_PUBLIC_PRIVACY_POLICY_URL: "https://example.com/privacy",
+        NEXT_PUBLIC_TERMS_OF_USE_URL: "https://example.com/en/terms",
+        RESEND_API_KEY: "re_xxx",
+      },
+      { treatAsProduction: true },
+    );
+    expect(
+      issues.some((i) => i.code === "VERIFICATION_NOT_CONFIGURED"),
+    ).toBe(false);
+  });
+
   it("warns when email verification is not configured", () => {
     const issues = getPlayStoreReadinessIssues(
       {

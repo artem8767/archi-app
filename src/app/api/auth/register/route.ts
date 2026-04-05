@@ -36,7 +36,7 @@ export async function POST(req: Request) {
       return NextResponse.json(
         {
           error:
-            "Реєстрація тимчасово недоступна: налаштуйте лист (Resend або SMTP), див. .env.example. Або SHOW_VERIFICATION_CODES=true лише для тесту.",
+            "Реєстрація тимчасово недоступна: у Vercel → Environment Variables для Production додайте RESEND_API_KEY (одного ключа достатньо — лист піде через Resend). Або SMTP_HOST + EMAIL_FROM. Див. .env.example. Тест: SHOW_VERIFICATION_CODES=true (не для продакшену).",
         },
         { status: 503 }
       );

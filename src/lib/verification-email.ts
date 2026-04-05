@@ -1,6 +1,12 @@
 import nodemailer from "nodemailer";
 import { APP_BRAND_NAME } from "@/lib/brand";
 
+/**
+ * Якщо задано лише `RESEND_API_KEY`, Resend дозволяє слати з тестового адреса без власного домену.
+ * Для продакшену з власним доменом задайте `EMAIL_FROM` (верифікований у Resend).
+ */
+const RESEND_FALLBACK_FROM = `${APP_BRAND_NAME} <onboarding@resend.dev>`;
+
 function subject() {
   return `${APP_BRAND_NAME} — код підтвердження email`;
 }
@@ -25,9 +31,7 @@ function textBody(code: string, name?: string | null) {
 }
 
 export function isEmailDeliveryConfigured(): boolean {
-  const resend = process.env.RESEND_API_KEY?.trim();
-  const fromResend = process.env.EMAIL_FROM?.trim();
-  if (resend && fromResend) return true;
+  if (process.env.RESEND_API_KEY?.trim()) return true;
   const smtpHost = process.env.SMTP_HOST?.trim();
   const fromSmtp = process.env.EMAIL_FROM?.trim();
   return Boolean(smtpHost && fromSmtp);
@@ -39,8 +43,8 @@ async function sendViaResend(
   name?: string | null
 ): Promise<void> {
   const key = process.env.RESEND_API_KEY?.trim();
-  const from = process.env.EMAIL_FROM?.trim();
-  if (!key || !from) throw new Error("RESEND_API_KEY / EMAIL_FROM missing");
+  const from = process.env.EMAIL_FROM?.trim() || RESEND_FALLBACK_FROM;
+  if (!key) throw new Error("RESEND_API_KEY missing");
 
   const r = await fetch("https://api.resend.com/emails", {
     method: "POST",

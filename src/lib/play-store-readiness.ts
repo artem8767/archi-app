@@ -144,7 +144,7 @@ export function getPlayStoreReadinessIssues(
 
   if (prod) {
     const emailOk =
-      Boolean(env.RESEND_API_KEY?.trim() && env.EMAIL_FROM?.trim()) ||
+      Boolean(env.RESEND_API_KEY?.trim()) ||
       Boolean(env.SMTP_HOST?.trim() && env.EMAIL_FROM?.trim());
     const showCodes = env.SHOW_VERIFICATION_CODES === "true";
     if (!emailOk && !showCodes) {
@@ -152,7 +152,7 @@ export function getPlayStoreReadinessIssues(
         level: "warning",
         code: "VERIFICATION_NOT_CONFIGURED",
         message:
-          "Немає відправки листів для коду реєстрації: додайте Resend або SMTP (EMAIL_FROM). Для внутрішнього тесту — SHOW_VERIFICATION_CODES=true (небезпечно).",
+          "Немає відправки листів для коду реєстрації: додайте RESEND_API_KEY (достатньо одного ключа) або SMTP_HOST + EMAIL_FROM. Для внутрішнього тесту — SHOW_VERIFICATION_CODES=true (небезпечно).",
       });
     }
   }
