@@ -72,6 +72,10 @@ export const metadata: Metadata = {
     title: APP_BRAND_NAME,
     statusBarStyle: "black-translucent",
   },
+  /** Не давати Chrome / Google Translate автоматично перекладати UI (є власні локалі /en, /uk, …). */
+  other: {
+    google: "notranslate",
+  },
 };
 
 export const viewport: Viewport = {
@@ -90,7 +94,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-ui-theme={DEFAULT_UI_THEME} suppressHydrationWarning>
+    <html
+      lang="en"
+      translate="no"
+      data-ui-theme={DEFAULT_UI_THEME}
+      suppressHydrationWarning
+    >
       <body
         data-wallpaper="original"
         className={`${fontDisplay.variable} ${fontSans.variable} ${fontStalkerHud.variable} zone-atmosphere min-h-screen font-sans text-zone-fog antialiased`}
