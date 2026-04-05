@@ -5,6 +5,7 @@ import { APP_BRAND_NAME } from "@/lib/brand";
 import { getSiteDeveloperCredit } from "@/lib/site-credits";
 import { getSiteUrl } from "@/lib/site-url";
 import { DEFAULT_UI_THEME } from "@/lib/ui-theme";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const fontDisplay = Oswald({
@@ -101,6 +102,7 @@ export default function RootLayout({
           }}
         />
         {children}
+        <Analytics />
       </body>
     </html>
   );

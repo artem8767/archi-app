@@ -20,6 +20,8 @@ describe("getPlayStoreReadinessIssues", () => {
     expect(issues.some((i) => i.code === "PLAY_STORE_URL_INVALID")).toBe(false);
   });
 
+  const pgUrl = "postgresql://u:p@localhost:5432/archi";
+
   it("flags OTP exposure in production", () => {
     const issues = getPlayStoreReadinessIssues(
       {
@@ -27,6 +29,7 @@ describe("getPlayStoreReadinessIssues", () => {
         SHOW_VERIFICATION_CODES: "true",
         JWT_SECRET: "x".repeat(64),
         NEXT_PUBLIC_SITE_URL: "https://example.com",
+        DATABASE_URL: pgUrl,
       },
       { treatAsProduction: true },
     );
@@ -38,6 +41,7 @@ describe("getPlayStoreReadinessIssues", () => {
       {
         NODE_ENV: "production",
         JWT_SECRET: "change-this-to-a-long-random-string-in-production",
+        DATABASE_URL: pgUrl,
       },
       { treatAsProduction: true },
     );
@@ -50,6 +54,7 @@ describe("getPlayStoreReadinessIssues", () => {
         NODE_ENV: "production",
         JWT_SECRET: "a".repeat(48),
         NEXT_PUBLIC_SITE_URL: "https://example.com",
+        DATABASE_URL: pgUrl,
       },
       { treatAsProduction: true },
     );
@@ -65,6 +70,7 @@ describe("getPlayStoreReadinessIssues", () => {
         JWT_SECRET: "a".repeat(48),
         NEXT_PUBLIC_SITE_URL: "https://example.com",
         NEXT_PUBLIC_PRIVACY_POLICY_URL: "https://example.com/en/privacy",
+        DATABASE_URL: pgUrl,
       },
       { treatAsProduction: true },
     );
@@ -81,6 +87,7 @@ describe("getPlayStoreReadinessIssues", () => {
         NEXT_PUBLIC_TERMS_OF_USE_URL: "https://example.com/en/terms",
         RESEND_API_KEY: "re_xxx",
         EMAIL_FROM: "App <onboarding@resend.dev>",
+        DATABASE_URL: pgUrl,
       },
       { treatAsProduction: true },
     );
@@ -95,6 +102,7 @@ describe("getPlayStoreReadinessIssues", () => {
         JWT_SECRET: "a".repeat(48),
         NEXT_PUBLIC_SITE_URL: "https://example.com",
         NEXT_PUBLIC_PRIVACY_POLICY_URL: "https://example.com/privacy",
+        DATABASE_URL: pgUrl,
         TWILIO_ACCOUNT_SID: "ACxxx",
         TWILIO_AUTH_TOKEN: "token",
         TWILIO_FROM_NUMBER: "+10000000000",
@@ -116,6 +124,7 @@ describe("getPlayStoreReadinessIssues", () => {
         NEXT_PUBLIC_TERMS_OF_USE_URL: "https://example.com/en/terms",
         RESEND_API_KEY: "re_xxx",
         EMAIL_FROM: "App <onboarding@resend.dev>",
+        DATABASE_URL: pgUrl,
       },
       { treatAsProduction: true },
     );
@@ -133,6 +142,7 @@ describe("getPlayStoreReadinessIssues", () => {
         NEXT_PUBLIC_PRIVACY_POLICY_URL: "https://example.com/privacy",
         NEXT_PUBLIC_TERMS_OF_USE_URL: "https://example.com/en/terms",
         RESEND_API_KEY: "re_xxx",
+        DATABASE_URL: pgUrl,
       },
       { treatAsProduction: true },
     );
@@ -148,11 +158,41 @@ describe("getPlayStoreReadinessIssues", () => {
         JWT_SECRET: "a".repeat(48),
         NEXT_PUBLIC_SITE_URL: "https://example.com",
         NEXT_PUBLIC_PRIVACY_POLICY_URL: "https://example.com/privacy",
+        DATABASE_URL: pgUrl,
       },
       { treatAsProduction: true },
     );
     expect(
       issues.some((i) => i.code === "VERIFICATION_NOT_CONFIGURED"),
+    ).toBe(true);
+  });
+
+  it("warns when DATABASE_URL is missing in production", () => {
+    const issues = getPlayStoreReadinessIssues(
+      {
+        NODE_ENV: "production",
+        JWT_SECRET: "a".repeat(48),
+        NEXT_PUBLIC_SITE_URL: "https://example.com",
+        NEXT_PUBLIC_PRIVACY_POLICY_URL: "https://example.com/privacy",
+        NEXT_PUBLIC_TERMS_OF_USE_URL: "https://example.com/en/terms",
+        RESEND_API_KEY: "re_xxx",
+      },
+      { treatAsProduction: true },
+    );
+    expect(issues.some((i) => i.code === "DATABASE_URL_MISSING")).toBe(true);
+  });
+
+  it("warns when DATABASE_URL is sqlite file path", () => {
+    const issues = getPlayStoreReadinessIssues(
+      {
+        NODE_ENV: "production",
+        JWT_SECRET: "a".repeat(48),
+        DATABASE_URL: "file:./dev.db",
+      },
+      { treatAsProduction: true },
+    );
+    expect(
+      issues.some((i) => i.code === "DATABASE_URL_SQLITE_FILE"),
     ).toBe(true);
   });
 });

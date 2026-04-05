@@ -84,12 +84,26 @@ export function getPlayStoreReadinessIssues(
 
   if (prod) {
     const db = env.DATABASE_URL?.trim() ?? "";
-    if (db.startsWith("file:") && db.includes("dev.db")) {
+    if (!db) {
       issues.push({
         level: "warning",
-        code: "SQLITE_DEV_DB",
+        code: "DATABASE_URL_MISSING",
         message:
-          "DATABASE_URL вказує на локальний SQLite dev.db — для реального продакшену потрібна стійка БД (і бекапи).",
+          "DATABASE_URL не задано — API на Vercel без БД не працюватиме. Додайте рядок PostgreSQL (Neon, Supabase, Vercel Postgres) і виконайте prisma db push.",
+      });
+    } else if (db.startsWith("file:")) {
+      issues.push({
+        level: "warning",
+        code: "DATABASE_URL_SQLITE_FILE",
+        message:
+          "DATABASE_URL вказує на локальний файл (SQLite) — на Vercel потрібен PostgreSQL. Схема Prisma налаштована під postgresql://.",
+      });
+    } else if (!db.startsWith("postgresql://") && !db.startsWith("postgres://")) {
+      issues.push({
+        level: "warning",
+        code: "DATABASE_URL_NOT_POSTGRES",
+        message:
+          "DATABASE_URL має починатися з postgresql:// або postgres:// (очікується PostgreSQL для цього проєкту).",
       });
     }
   }
