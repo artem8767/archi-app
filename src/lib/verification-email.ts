@@ -51,6 +51,26 @@ export function isEmailDeliveryConfigured(): boolean {
   return isEmailDeliveryConfiguredFromEnv(process.env);
 }
 
+/** Для повідомлення 503 на реєстрації: що саме не задано (без секретів). */
+export function productionEmailSetupGapHint(): string {
+  const e = process.env;
+  if (isEmailDeliveryConfiguredFromEnv(e)) return "";
+
+  const host = e.SMTP_HOST?.trim();
+  const from = e.EMAIL_FROM?.trim();
+  const user = e.SMTP_USER?.trim();
+  const pass = e.SMTP_PASSWORD?.trim();
+
+  if (host && from && (!user || !pass)) {
+    const need = [!user ? "SMTP_USER" : null, !pass ? "SMTP_PASSWORD" : null].filter(
+      Boolean,
+    );
+    return `У Vercel → Environment Variables → Production додайте ${need.join(" та ")} (логін = email входу в Brevo, пароль = SMTP-ключ xsmtpsib-…). Збережіть і зробіть Redeploy. Або додайте RESEND_API_KEY. Швидко з ПК: $env:BREVO_SMTP_KEY="…"; npm run vercel:env:apply-brevo; npm run deploy:vercel`;
+  }
+
+  return "У Vercel → Production додайте RESEND_API_KEY або повний SMTP (SMTP_HOST, EMAIL_FROM, SMTP_USER, SMTP_PASSWORD; також SMTP_PORT=587, SMTP_SECURE=false). Потім Redeploy.";
+}
+
 async function sendViaResend(
   to: string,
   code: string,

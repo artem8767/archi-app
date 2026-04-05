@@ -14,6 +14,7 @@ import {
   databaseUrlEnvProblem,
   databaseUrlSetupHint,
 } from "@/lib/database-url-env";
+import { productionEmailSetupGapHint } from "@/lib/verification-email";
 
 export async function POST(req: Request) {
   try {
@@ -37,10 +38,13 @@ export async function POST(req: Request) {
     const { email, password, name } = parsed.data;
 
     if (!canCompleteRegistrationInProduction()) {
+      const gap = productionEmailSetupGapHint();
       return NextResponse.json(
         {
           error:
-            "Реєстрація тимчасово недоступна: у Vercel → Environment Variables (Production) додайте або RESEND_API_KEY, або повний SMTP для Brevo/Gmail: SMTP_HOST, SMTP_PORT (587), SMTP_SECURE (false), SMTP_USER, SMTP_PASSWORD, EMAIL_FROM. Тест: SHOW_VERIFICATION_CODES=true (не для продакшену).",
+            "Реєстрація тимчасово недоступна: не налаштована відправка листів з кодом." +
+            (gap ? ` ${gap}` : "") +
+            " Тест (небезпечно): SHOW_VERIFICATION_CODES=true.",
         },
         { status: 503 }
       );
