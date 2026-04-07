@@ -2,91 +2,93 @@
 
 import { useFormatter, useTranslations } from "next-intl";
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
-import { isDirectVideoUrl, parseYoutubeVideoId } from "@/lib/news-video";
+import { Link } from "@/i18n/navigation";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { isListingSectionId } from "@/lib/marketplace-sections";
 import { CommentThread } from "./CommentThread";
-import { ShareNewsPost } from "./ShareNewsPost";
-import { useSession } from "./SessionProvider";
-import { FilePickerInput } from "./FilePickerInput";
-import { ReportNewsVideo } from "./ReportNewsVideo";
 
-type Post = {
+type ListingInFeed = {
   id: string;
+  category: string;
+  section: string;
   title: string;
-  body: string;
-  imagesJson: string;
-  videoUrl: string | null;
+  description: string;
+  price: string;
+  phone: string;
+  photosJson: string;
   createdAt: string;
   user: { id: string; name: string | null; email: string };
 };
 
-function parseImages(json: string): string[] {
-  try {
-    const a = JSON.parse(json || "[]") as unknown;
-    return Array.isArray(a) ? a.filter((x) => typeof x === "string") : [];
-  } catch {
-    return [];
-  }
-}
+const LISTING_CAT = [
+  "sell",
+  "buy",
+  "rent",
+  "service_offer",
+  "service_seek",
+] as const;
 
-function NewsVideoBlock({ url }: { url: string }) {
-  const yt = parseYoutubeVideoId(url);
-  if (yt) {
-    return (
-      <div className="relative mt-4 aspect-video w-full max-w-2xl overflow-hidden rounded-lg bg-black">
-        <iframe
-          title="YouTube"
-          src={`https://www.youtube-nocookie.com/embed/${yt}`}
-          className="absolute inset-0 h-full w-full"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        />
-      </div>
-    );
+type ListingCat = (typeof LISTING_CAT)[number];
+
+const NAV_KEY: Record<
+  ListingCat,
+  "sell" | "buy" | "rent" | "serviceOffer" | "serviceSeek"
+> = {
+  sell: "sell",
+  buy: "buy",
+  rent: "rent",
+  service_offer: "serviceOffer",
+  service_seek: "serviceSeek",
+};
+
+function listingHref(cat: string): string {
+  switch (cat) {
+    case "sell":
+      return "/sell";
+    case "buy":
+      return "/buy";
+    case "rent":
+      return "/rent";
+    case "service_offer":
+      return "/service-offer";
+    case "service_seek":
+      return "/service-seek";
+    default:
+      return "/sell";
   }
-  if (isDirectVideoUrl(url)) {
-    return (
-      <video
-        className="mt-4 max-h-[480px] w-full max-w-2xl rounded-lg bg-black"
-        controls
-        playsInline
-        src={url}
-      />
-    );
-  }
-  return (
-    <p className="mt-3 text-sm text-zone-muted">
-      <a
-        href={url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-archi-400 underline hover:text-archi-300"
-      >
-        {url}
-      </a>
-    </p>
-  );
 }
 
 export function NewsFeed() {
   const t = useTranslations("news");
-  const tCommon = useTranslations("common");
+  const tList = useTranslations("listing");
+  const tNav = useTranslations("nav");
   const format = useFormatter();
-  const { user } = useSession();
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
-  const [images, setImages] = useState<string[]>([]);
-  const [videoUrl, setVideoUrl] = useState("");
+  const [listings, setListings] = useState<ListingInFeed[]>([]);
   const [loading, setLoading] = useState(true);
-  const [postError, setPostError] = useState<string | null>(null);
-  const [fileInputKey, setFileInputKey] = useState(0);
+  const [listingCategory, setListingCategory] = useState<"all" | ListingCat>(
+    "all",
+  );
 
   const load = useCallback(async () => {
-    const r = await fetch("/api/news");
-    const j = await r.json();
-    setPosts(j.posts ?? []);
+    const r = await fetch("/api/listings?limit=120");
+    const j = (await r.json()) as { listings?: ListingInFeed[] };
+    const rows = j.listings ?? [];
+    rows.sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+    );
+    setListings(rows);
   }, []);
+
+  const filteredListings = useMemo(() => {
+    if (listingCategory === "all") return listings;
+    return listings.filter((item) => {
+      const c = LISTING_CAT.includes(item.category as ListingCat)
+        ? (item.category as ListingCat)
+        : null;
+      return c === listingCategory;
+    });
+  }, [listings, listingCategory]);
 
   useEffect(() => {
     load().finally(() => setLoading(false));
@@ -95,62 +97,38 @@ export function NewsFeed() {
   useEffect(() => {
     if (typeof window === "undefined" || loading) return;
     const h = window.location.hash;
-    if (h.startsWith("#post-")) {
+    if (h.startsWith("#listing-")) {
       const id = h.slice(1);
       requestAnimationFrame(() => {
         document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
       });
     }
-  }, [loading, posts]);
+  }, [loading, listings]);
 
-  async function onImageFiles(e: React.ChangeEvent<HTMLInputElement>) {
-    const files = e.target.files;
-    if (!files?.length) return;
-    const arr = Array.from(files).slice(0, 6);
-    const results = await Promise.all(
-      arr.map(
-        (f) =>
-          new Promise<string>((resolve, reject) => {
-            const r = new FileReader();
-            r.onload = () => resolve(r.result as string);
-            r.onerror = reject;
-            r.readAsDataURL(f);
-          }),
-      ),
-    );
-    setImages(results);
-  }
-
-  async function publish(e: React.FormEvent) {
-    e.preventDefault();
-    if (!user) return;
-    const v = videoUrl.trim();
-    const r = await fetch("/api/news", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({
-        title,
-        body,
-        images,
-        videoUrl: v === "" ? undefined : v,
-      }),
-    });
-    if (r.ok) {
-      setPostError(null);
-      setTitle("");
-      setBody("");
-      setImages([]);
-      setVideoUrl("");
-      setFileInputKey((k) => k + 1);
-      load();
-    } else if (r.status === 422) {
-      const j = (await r.json()) as { code?: string };
-      setPostError(
-        j.code === "moderation" ? tCommon("moderationBlocked") : null,
-      );
-    } else {
-      setPostError(null);
+  function sectionLabel(id: string): string {
+    switch (id) {
+      case "general":
+        return tList("sec_general");
+      case "auto_moto":
+        return tList("sec_auto_moto");
+      case "real_estate":
+        return tList("sec_real_estate");
+      case "electronics":
+        return tList("sec_electronics");
+      case "home_garden":
+        return tList("sec_home_garden");
+      case "fashion":
+        return tList("sec_fashion");
+      case "sport_hobby":
+        return tList("sec_sport_hobby");
+      case "kids":
+        return tList("sec_kids");
+      case "pets":
+        return tList("sec_pets");
+      case "business_industrial":
+        return tList("sec_business_industrial");
+      default:
+        return id;
     }
   }
 
@@ -160,135 +138,129 @@ export function NewsFeed() {
         {t("title")}
       </h1>
 
-      {user && (
-        <form onSubmit={publish} className="pda-panel p-6">
-          <h2 className="mb-4 text-lg font-semibold">{t("newPost")}</h2>
-          {postError ? (
-            <p className="mb-3 text-sm text-red-400/90" role="alert">
-              {postError}
-            </p>
-          ) : null}
-          <label className="block">
-            <span className="text-sm text-zone-muted">{t("postTitle")}</span>
-            <input
-              className="mt-1 w-full pda-input"
-              value={title}
-              onChange={(e) => {
-                setTitle(e.target.value);
-                setPostError(null);
-              }}
-              required
-            />
-          </label>
-          <label className="mt-3 block">
-            <span className="text-sm text-zone-muted">{t("postBody")}</span>
-            <textarea
-              className="mt-1 w-full pda-input"
-              rows={5}
-              value={body}
-              onChange={(e) => {
-                setBody(e.target.value);
-                setPostError(null);
-              }}
-              required
-            />
-          </label>
-          <label className="mt-3 block">
-            <span className="text-sm text-zone-muted">{t("photos")}</span>
-            <FilePickerInput
-              key={fileInputKey}
-              accept="image/*"
-              multiple
-              onChange={(e) => void onImageFiles(e)}
-            />
-          </label>
-          {images.length > 0 && (
-            <div className="mt-2 flex flex-wrap gap-2">
-              {images.map((src, i) => (
-                <div
-                  key={i}
-                  className="relative h-20 w-20 overflow-hidden rounded-md bg-zone-deep"
-                >
-                  <Image src={src} alt="" fill className="object-cover" unoptimized />
-                </div>
-              ))}
-            </div>
-          )}
-          <label className="mt-3 block">
-            <span className="text-sm text-zone-muted">{t("videoUrlLabel")}</span>
-            <input
-              type="url"
-              className="mt-1 w-full pda-input"
-              value={videoUrl}
-              onChange={(e) => {
-                setVideoUrl(e.target.value);
-                setPostError(null);
-              }}
-              placeholder="https://..."
-            />
-            <span className="mt-1 block text-xs text-zone-muted">{t("videoUrlHint")}</span>
-          </label>
+      <div className="rounded-xl border border-zone-edge/70 bg-zone-deep/40 p-4 md:p-5">
+        <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-archi-400/90 md:text-xs">
+          {tList("marketplaceSections")}
+        </p>
+        <div className="mt-3 flex flex-wrap gap-2">
           <button
-            type="submit"
-            className="mt-4 rounded-lg bg-archi-600 px-6 py-2 font-medium text-black hover:bg-archi-500"
+            type="button"
+            onClick={() => setListingCategory("all")}
+            className={`rounded-lg border px-3 py-1.5 text-sm font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-archi-500 ${
+              listingCategory === "all"
+                ? "border-archi-500 bg-archi-900/50 text-archi-100"
+                : "border-zone-edge/80 bg-zone-panel/70 text-zone-muted hover:border-archi-700/50 hover:text-zone-fog"
+            }`}
           >
-            {t("publish")}
+            {tList("allSections")}
           </button>
-        </form>
-      )}
+          {LISTING_CAT.map((cat) => (
+            <button
+              key={cat}
+              type="button"
+              onClick={() => setListingCategory(cat)}
+              className={`rounded-lg border px-3 py-1.5 text-sm font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-archi-500 ${
+                listingCategory === cat
+                  ? "border-archi-500 bg-archi-900/50 text-archi-100"
+                  : "border-zone-edge/80 bg-zone-panel/70 text-zone-muted hover:border-archi-700/50 hover:text-zone-fog"
+              }`}
+            >
+              {tNav(NAV_KEY[cat])}
+            </button>
+          ))}
+        </div>
+      </div>
 
       {loading ? (
         <p className="text-zone-muted">…</p>
+      ) : listings.length === 0 ? (
+        <p className="text-center text-zone-muted">{t("feedListingsEmpty")}</p>
       ) : (
         <ul className="space-y-8">
-          {posts.map((post) => {
-            const imgs = parseImages(post.imagesJson);
+          {filteredListings.map((item) => {
+            const cat = LISTING_CAT.includes(item.category as ListingCat)
+              ? (item.category as ListingCat)
+              : "sell";
+            let photos: string[] = [];
+            try {
+              photos = JSON.parse(item.photosJson || "[]") as string[];
+            } catch {
+              photos = [];
+            }
+            const thumb = photos[0];
             return (
-              <li key={post.id} id={`post-${post.id}`} className="pda-card scroll-mt-24">
+              <li
+                key={item.id}
+                id={`listing-${item.id}`}
+                className="pda-card scroll-mt-24 border-archi-800/35"
+              >
                 <div className="p-6">
-                  <h3 className="text-xl font-semibold text-zone-fog">{post.title}</h3>
-                  <p className="mt-1 text-sm text-zone-muted">
-                    {post.user.name || post.user.email} ·{" "}
-                    {format.dateTime(new Date(post.createdAt), {
-                      dateStyle: "short",
-                      timeStyle: "short",
-                    })}
+                  <p className="text-xs font-medium uppercase tracking-wide text-archi-400/95">
+                    {t("listingInFeed")}
                   </p>
-                  <p className="mt-4 whitespace-pre-wrap text-zone-fog/95">{post.body}</p>
-                  {imgs.length > 0 && (
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      {imgs.map((src, i) => (
-                        <div
-                          key={i}
-                          className="relative h-40 w-40 overflow-hidden rounded-lg bg-zone-deep sm:h-48 sm:w-48"
+                  <div className="mt-2 flex flex-wrap items-start gap-4">
+                    {thumb ? (
+                      <div className="relative h-28 w-36 shrink-0 overflow-hidden rounded-lg bg-zone-deep sm:h-32 sm:w-40">
+                        <Image
+                          src={thumb}
+                          alt=""
+                          fill
+                          className="object-cover"
+                          unoptimized
+                        />
+                      </div>
+                    ) : null}
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-zone-muted">
+                        <span className="font-medium text-archi-400/95">
+                          {tNav(NAV_KEY[cat])}
+                        </span>
+                        <span aria-hidden>·</span>
+                        <span>
+                          {isListingSectionId(item.section)
+                            ? sectionLabel(item.section)
+                            : item.section}
+                        </span>
+                      </div>
+                      <h3 className="mt-2 text-lg font-semibold text-zone-fog sm:text-xl">
+                        {item.title}
+                      </h3>
+                      <p className="mt-1 text-sm text-zone-muted">
+                        {item.user.name || item.user.email} ·{" "}
+                        {format.dateTime(new Date(item.createdAt), {
+                          dateStyle: "short",
+                          timeStyle: "short",
+                        })}
+                      </p>
+                      <p className="mt-3 line-clamp-5 whitespace-pre-wrap text-sm text-zone-fog/95">
+                        {item.description}
+                      </p>
+                      <p className="mt-2 font-medium text-archi-400">
+                        {tList("price")}: {item.price}
+                      </p>
+                      <p className="text-sm text-zone-fog/90">
+                        {tList("phone")}: {item.phone}
+                      </p>
+                      <p className="mt-3">
+                        <Link
+                          href={listingHref(cat)}
+                          className="text-sm font-medium text-archi-400 underline decoration-archi-600/40 underline-offset-2 hover:text-archi-300"
                         >
-                          <Image
-                            src={src}
-                            alt=""
-                            fill
-                            className="object-cover"
-                            unoptimized
-                          />
-                        </div>
-                      ))}
+                          {tList("openCategoryBoard")}
+                        </Link>
+                      </p>
                     </div>
-                  )}
-                  {post.videoUrl ? (
-                    <>
-                      <NewsVideoBlock url={post.videoUrl} />
-                      <ReportNewsVideo postId={post.id} authorUserId={post.user.id} />
-                    </>
-                  ) : null}
-                  <ShareNewsPost
-                    postId={post.id}
-                    title={post.title}
-                    bodyExcerpt={post.body.slice(0, 200)}
-                  />
+                  </div>
                 </div>
-                <CommentThread targetType="news" targetId={post.id} />
+                <CommentThread targetType="listing" targetId={item.id} />
               </li>
             );
           })}
+          {filteredListings.length === 0 && listings.length > 0 ? (
+            <li className="list-none">
+              <p className="text-center text-zone-muted">{t("feedEmptyFiltered")}</p>
+            </li>
+          ) : null}
         </ul>
       )}
     </div>

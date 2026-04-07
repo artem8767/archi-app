@@ -3,7 +3,7 @@
     "title": "ARCHI"
   },
   "nav": {
-    "news": "News",
+    "news": "New",
     "chat": "Chat",
     "settings": "Settings",
     "sell": "Sell",
@@ -17,8 +17,8 @@
   },
   "home": {
     "welcomeHeading": "<prefix>Welcome to </prefix><brand></brand>",
-    "subtitle": "News, listings and chat in one place.",
-    "unites": "We bring people together around what matters: timely news, clear listings, and real conversation. One space in many languages—on the web and in the app—for those who value genuine connection without the noise.",
+    "subtitle": "Posts, listings and chat in one place.",
+    "unites": "We bring people together around what matters: timely posts, clear listings, and real conversation. One space in many languages—on the web and in the app—for those who value genuine connection without the noise.",
     "hudActions": "Ads · post your offer",
     "adLinksMore": "More listings — buy, rent, jobs (anywhere)",
     "aboutLink": "About this app & website",
@@ -29,12 +29,12 @@
   },
   "site": {
     "metaTitlePrefix": "About",
-    "kicker": "News · listings · chat",
+    "kicker": "New · listings · chat",
     "aboutHeadline": "<brand></brand><tail> — your local corner of the internet.</tail>",
-    "introBody": "brings together community news, classifieds, services, jobs, and a public chat. Pick your language, use it in the browser, and add it to your home screen for quick access—same account on mobile where supported.",
+    "introBody": "brings together community posts, classifieds, services, jobs, and a public chat. Pick your language, use it in the browser, and add it to your home screen for quick access—same account on mobile where supported.",
     "appVersionWeb": "Website release: {version}.",
     "featuresTitle": "What you can do",
-    "fNews": "Read and share news",
+    "fNews": "Read posts in the New feed and share them",
     "fAds": "Sell, buy, and rent",
     "fServices": "Offer services or find help",
     "fJobs": "Post and browse job listings",
@@ -119,6 +119,7 @@
     "notificationLevel": "Notification intensity",
     "save": "Save settings",
     "mustLogin": "Log in to change settings.",
+    "sectionInfo": "App & legal",
     "sectionBlockedUsers": "Blocked users",
     "blockUserHint": "You will not see posts, comments, chat messages, listings, or jobs from people you block. They are not notified.",
     "blockUserEmailLabel": "User email",
@@ -133,7 +134,7 @@
     "blockUserVerifyFirst": "Confirm your account (email verification code) to use blocking."
   },
   "news": {
-    "title": "News",
+    "title": "New",
     "newPost": "New post",
     "postTitle": "Title",
     "postBody": "Text",
@@ -156,7 +157,10 @@
     "reportVideoSubmit": "Send report",
     "reportVideoSent": "Thanks — your report was sent.",
     "reportVideoAlready": "You already reported this post.",
-    "reportVideoFailed": "Could not send the report. Try again later."
+    "reportVideoFailed": "Could not send the report. Try again later.",
+    "listingInFeed": "Listing",
+    "feedEmptyFiltered": "No listings match this filter.",
+    "feedListingsEmpty": "No listings in the feed yet."
   },
   "listing": {
     "title": "Listings",
@@ -181,7 +185,8 @@
     "sec_pets": "Pets",
     "sec_business_industrial": "Business & equipment",
     "comments": "Comments",
-    "deleteConfirm": "Delete this listing? This cannot be undone."
+    "deleteConfirm": "Delete this listing? This cannot be undone.",
+    "openCategoryBoard": "Open full board in this category"
   },
   "job": {
     "title": "Jobs",
@@ -200,14 +205,10 @@
     "send": "Send",
     "room": "General chat",
     "loginToPost": "Log in to post messages.",
-    "composerHint": "Send text, paste a web or YouTube link, or attach a photo, short video, or music/audio file.",
+    "composerHint": "Send text, paste a web or YouTube link, or attach a photo.",
     "attachPhoto": "Photo",
-    "attachVideo": "Video",
-    "attachAudio": "Music / audio",
     "clearAttachment": "Remove file",
-    "pendingImage": "Photo attached",
-    "pendingVideo": "Video attached",
-    "pendingAudio": "Audio attached"
+    "pendingImage": "Photo attached"
   },
   "common": {
     "skipToContent": "Skip to main content",

@@ -3,7 +3,7 @@
     "title": "ARCHI"
   },
   "nav": {
-    "news": "Tin tức",
+    "news": "Mới",
     "chat": "Trò chuyện",
     "settings": "Cài đặt",
     "sell": "Bán",
@@ -17,8 +17,8 @@
   },
   "home": {
     "welcomeHeading": "<prefix>Chào mừng đến </prefix><brand></brand>",
-    "subtitle": "Tin tức, rao vặt và trò chuyện tại một nơi.",
-    "unites": "Chúng tôi kết nối mọi người xung quanh điều thực sự quan trọng: tin tức kịp thời, rao vặt rõ ràng và trò chuyện chân thành. Một không gian đa ngôn ngữ—trên web và trong ứng dụng—dành cho những ai trân trọng kết nối thật, không ồn ào.",
+    "subtitle": "Bài viết, rao vặt và trò chuyện tại một nơi.",
+    "unites": "Chúng tôi kết nối mọi người xung quanh điều thực sự quan trọng: bài viết kịp thời, rao vặt rõ ràng và trò chuyện chân thành. Một không gian đa ngôn ngữ—trên web và trong ứng dụng—dành cho những ai trân trọng kết nối thật, không ồn ào.",
     "hudActions": "Rao vặt · đăng đề xuất của bạn",
     "adLinksMore": "Thêm rao vặt — mua, thuê, việc làm (mọi nơi)",
     "aboutLink": "Về ứng dụng và trang web",
@@ -29,12 +29,12 @@
   },
   "site": {
     "metaTitlePrefix": "Giới thiệu",
-    "kicker": "Tin tức · rao vặt · trò chuyện",
+    "kicker": "Mới · rao vặt · trò chuyện",
     "aboutHeadline": "<brand></brand><tail> — góc địa phương của bạn trên mạng.</tail>",
-    "introBody": "gom tin cộng đồng, rao vặt, dịch vụ, việc làm và chat công khai. Chọn ngôn ngữ, dùng trên trình duyệt và thêm vào màn hình chính—cùng tài khoản trên điện thoại khi được hỗ trợ.",
+    "introBody": "gom bài viết cộng đồng, rao vặt, dịch vụ, việc làm và chat công khai. Chọn ngôn ngữ, dùng trên trình duyệt và thêm vào màn hình chính—cùng tài khoản trên điện thoại khi được hỗ trợ.",
     "appVersionWeb": "Phiên bản trang web: {version}.",
     "featuresTitle": "Bạn có thể làm gì",
-    "fNews": "Đọc và chia sẻ tin tức",
+    "fNews": "Đọc bài trong « Mới » và chia sẻ",
     "fAds": "Bán, mua và cho thuê",
     "fServices": "Cung cấp dịch vụ hoặc tìm người giúp",
     "fJobs": "Đăng và xem việc làm",
@@ -119,6 +119,7 @@
     "notificationLevel": "Cường độ thông báo",
     "save": "Lưu cài đặt",
     "mustLogin": "Đăng nhập để thay đổi cài đặt.",
+    "sectionInfo": "Ứng dụng & pháp lý",
     "sectionBlockedUsers": "Người dùng bị chặn",
     "blockUserHint": "Bạn sẽ không thấy bài viết, bình luận, tin nhắn chat, rao vặt hoặc việc làm từ người bị chặn. Họ không được thông báo.",
     "blockUserEmailLabel": "Email người dùng",
@@ -133,7 +134,7 @@
     "blockUserVerifyFirst": "Xác nhận tài khoản (mã email) để dùng chặn."
   },
   "news": {
-    "title": "Tin tức",
+    "title": "Mới",
     "newPost": "Bài mới",
     "postTitle": "Tiêu đề",
     "postBody": "Nội dung",
@@ -156,7 +157,10 @@
     "reportVideoSubmit": "Gửi báo cáo",
     "reportVideoSent": "Cảm ơn — đã gửi báo cáo.",
     "reportVideoAlready": "Bạn đã báo cáo bài viết này rồi.",
-    "reportVideoFailed": "Không gửi được báo cáo. Thử lại sau."
+    "reportVideoFailed": "Không gửi được báo cáo. Thử lại sau.",
+    "listingInFeed": "Tin rao",
+    "feedEmptyFiltered": "Không có tin rao phù hợp bộ lọc này.",
+    "feedListingsEmpty": "Chưa có tin rao trong bảng tin."
   },
   "listing": {
     "title": "Rao vặt",
@@ -181,7 +185,8 @@
     "sec_pets": "Thú cưng",
     "sec_business_industrial": "Kinh doanh & thiết bị",
     "comments": "Bình luận",
-    "deleteConfirm": "Xóa tin này? Hành động này không thể hoàn tác."
+    "deleteConfirm": "Xóa tin này? Hành động này không thể hoàn tác.",
+    "openCategoryBoard": "Mở bảng đầy đủ trong danh mục này"
   },
   "job": {
     "title": "Việc làm",
@@ -200,14 +205,10 @@
     "send": "Gửi",
     "room": "Kênh chung",
     "loginToPost": "Đăng nhập để gửi tin.",
-    "composerHint": "Gửi chữ, dán liên kết (https://) hoặc YouTube, hoặc đính ảnh, video ngắn hoặc âm thanh.",
+    "composerHint": "Gửi chữ, dán liên kết trang web hoặc YouTube, hoặc đính ảnh.",
     "attachPhoto": "Ảnh",
-    "attachVideo": "Video",
-    "attachAudio": "Nhạc / âm thanh",
     "clearAttachment": "Bỏ tệp",
-    "pendingImage": "Đã đính ảnh",
-    "pendingVideo": "Đã đính video",
-    "pendingAudio": "Đã đính âm thanh"
+    "pendingImage": "Đã đính ảnh"
   },
   "common": {
     "skipToContent": "Đến nội dung chính",

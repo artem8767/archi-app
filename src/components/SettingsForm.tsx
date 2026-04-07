@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useRouter, usePathname } from "@/i18n/navigation";
+import { Link, useRouter, usePathname } from "@/i18n/navigation";
 import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { useSession } from "./SessionProvider";
 import { BlockedUsersSettings } from "./BlockedUsersSettings";
@@ -32,6 +32,8 @@ function SettingsSection({
 
 export function SettingsForm() {
   const t = useTranslations("settings");
+  const tNav = useTranslations("nav");
+  const tSite = useTranslations("site");
   const { user, refresh } = useSession();
   const router = useRouter();
   const pathname = usePathname();
@@ -253,6 +255,35 @@ export function SettingsForm() {
 
       <SettingsSection title={t("sectionBlockedUsers")}>
         <BlockedUsersSettings />
+      </SettingsSection>
+
+      <SettingsSection title={t("sectionInfo")}>
+        <ul className="space-y-2.5 text-sm">
+          <li>
+            <Link
+              href="/about"
+              className="font-medium text-archi-400 underline decoration-archi-600/40 underline-offset-2 transition hover:text-archi-300"
+            >
+              {tNav("about")}
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/privacy"
+              className="font-medium text-archi-400 underline decoration-archi-600/40 underline-offset-2 transition hover:text-archi-300"
+            >
+              {tSite("privacyPolicy")}
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/terms"
+              className="font-medium text-archi-400 underline decoration-archi-600/40 underline-offset-2 transition hover:text-archi-300"
+            >
+              {tSite("termsOfUse")}
+            </Link>
+          </li>
+        </ul>
       </SettingsSection>
 
       <button

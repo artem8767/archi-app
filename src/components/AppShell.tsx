@@ -60,7 +60,44 @@ export function AppShell({
       >
         {tCommon("skipToContent")}
       </a>
-      <header className="sticky top-0 z-40 -mx-3 mb-8 border-b border-zone-edge/80 bg-zone-deep/95 px-3 py-3 shadow-md shadow-black/20 ring-1 ring-white/[0.04] backdrop-blur-md sm:-mx-6 sm:px-6">
+      <div className="sticky top-0 z-40 -mx-3 mb-4 flex items-center justify-between gap-2 border-b border-zone-edge/80 bg-zone-deep/95 px-3 py-2 backdrop-blur-md sm:mb-0 sm:hidden">
+        <Link
+          href="/"
+          translate="no"
+          data-notranslate-brand
+          className="notranslate shrink-0 rounded-lg px-1 py-0.5 ring-1 ring-archi-500/25 transition hover:opacity-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-archi-500"
+          aria-label={APP_BRAND_NAME}
+        >
+          <LogoArci size="sm" />
+        </Link>
+        <div className="flex min-w-0 flex-1 items-center justify-end gap-1.5">
+          {loading ? (
+            <span
+              className="inline-flex h-8 w-8 animate-pulse rounded-full bg-zone-edge"
+              aria-hidden
+            />
+          ) : user ? (
+            <HeaderAccountMenu />
+          ) : (
+            <>
+              <Link
+                href="/auth/login"
+                className="shrink-0 rounded-md bg-archi-600 px-2.5 py-1.5 text-xs font-medium text-black transition hover:bg-archi-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-archi-400"
+              >
+                {tAuth("login")}
+              </Link>
+              <Link
+                href="/auth/register"
+                className="shrink-0 rounded-md border border-archi-700/60 bg-zone-panel px-2.5 py-1.5 text-xs font-medium text-archi-200 transition hover:border-archi-500 hover:bg-zone-edge/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-archi-500"
+              >
+                {tAuth("register")}
+              </Link>
+            </>
+          )}
+        </div>
+      </div>
+
+      <header className="sticky top-0 z-40 -mx-3 mb-8 hidden border-b border-zone-edge/80 bg-zone-deep/95 px-3 py-3 shadow-md shadow-black/20 ring-1 ring-white/[0.04] backdrop-blur-md sm:-mx-6 sm:mb-8 sm:block sm:px-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
           <Link
             href="/"
@@ -136,23 +173,6 @@ export function AppShell({
         {children}
       </main>
       <footer className="mt-10 border-t border-zone-edge/50 pt-6 text-center">
-        <p className="text-xs">
-          <Link
-            href="/privacy"
-            className="font-medium text-archi-400 underline decoration-archi-600/40 underline-offset-2 transition hover:text-archi-300"
-          >
-            {tSite("privacyPolicy")}
-          </Link>
-          <span className="text-zone-muted/80" aria-hidden>
-            {" · "}
-          </span>
-          <Link
-            href="/terms"
-            className="font-medium text-archi-400 underline decoration-archi-600/40 underline-offset-2 transition hover:text-archi-300"
-          >
-            {tSite("termsOfUse")}
-          </Link>
-        </p>
         {developerCredit ? (
           <p className="mt-3 text-xs text-zone-muted">
             {developerCredit.url ? (

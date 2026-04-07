@@ -3,11 +3,7 @@
 import { useFormatter, useTranslations } from "next-intl";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  looksLikeHttpUrl,
-  parseYouTubeEmbed,
-  type ChatMessageKind,
-} from "@/lib/chat-media";
+import { looksLikeHttpUrl, parseYouTubeEmbed } from "@/lib/chat-media";
 import { ReplyToBar } from "./ReplyToBar";
 import { useSession } from "./SessionProvider";
 
@@ -20,10 +16,7 @@ type Msg = {
   user: { id: string; name: string | null; email: string };
 };
 
-type PendingMedia = {
-  kind: ChatMessageKind;
-  dataUrl: string;
-};
+type PendingImage = { dataUrl: string };
 
 export function ChatPanel() {
   const t = useTranslations("chat");
@@ -32,7 +25,7 @@ export function ChatPanel() {
   const { user } = useSession();
   const [messages, setMessages] = useState<Msg[]>([]);
   const [text, setText] = useState("");
-  const [pending, setPending] = useState<PendingMedia | null>(null);
+  const [pending, setPending] = useState<PendingImage | null>(null);
   const [postError, setPostError] = useState<string | null>(null);
   const [replyTo, setReplyTo] = useState<{ label: string } | null>(null);
   const bottom = useRef<HTMLDivElement>(null);
@@ -46,8 +39,6 @@ export function ChatPanel() {
     return `${replyTo.label}, ${trimmed}`;
   }
   const imgRef = useRef<HTMLInputElement>(null);
-  const vidRef = useRef<HTMLInputElement>(null);
-  const audRef = useRef<HTMLInputElement>(null);
 
   const load = useCallback(async () => {
     const r = await fetch("/api/chat/messages");
@@ -73,10 +64,7 @@ export function ChatPanel() {
     bottom.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  async function readFilesAsDataUrl(
-    files: FileList | null,
-    kind: ChatMessageKind,
-  ) {
+  async function readImageAsDataUrl(files: FileList | null) {
     const f = files?.[0];
     if (!f) return;
     const dataUrl = await new Promise<string>((resolve, reject) => {
@@ -85,7 +73,7 @@ export function ChatPanel() {
       r.onerror = reject;
       r.readAsDataURL(f);
     });
-    setPending({ kind, dataUrl });
+    setPending({ dataUrl });
   }
 
   async function send(e: React.FormEvent) {
@@ -99,7 +87,7 @@ export function ChatPanel() {
         headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify({
-          kind: pending.kind,
+          kind: "image" as const,
           text: withReplyPrefix(trimmed),
           mediaData: pending.dataUrl,
         }),
@@ -224,15 +212,8 @@ export function ChatPanel() {
   }
 
   return (
-    <div className="pda-panel flex flex-col overflow-hidden">
-      <div className="border-b border-zone-edge/70 px-4 py-3">
-        <h1 className="text-lg font-semibold text-zone-fog">{t("title")}</h1>
-        <p className="text-sm text-zone-muted">{t("room")}</p>
-        <p className="mt-2 text-xs leading-relaxed text-zone-muted/90">
-          {t("composerHint")}
-        </p>
-      </div>
-      <div className="h-[420px] overflow-y-auto px-4 py-3">
+    <div className="pda-panel flex min-h-[min(72vh,640px)] flex-col overflow-hidden">
+      <div className="min-h-0 flex-1 overflow-y-auto px-4 py-3">
         {messages.map((m) => (
           <div key={m.id} className="pda-chat-bubble mb-3 text-sm">
             <div className="flex flex-wrap items-baseline justify-between gap-2">
@@ -262,19 +243,22 @@ export function ChatPanel() {
         ))}
         <div ref={bottom} />
       </div>
+      <div className="shrink-0 border-t border-zone-edge/70 px-4 py-2.5">
+        <h1 className="text-base font-semibold text-zone-fog">{t("title")}</h1>
+        <p className="text-xs text-zone-muted">{t("room")}</p>
+        <p className="mt-1 text-[11px] leading-snug text-zone-muted/90">
+          {t("composerHint")}
+        </p>
+      </div>
       {user ? (
         <form
           onSubmit={send}
-          className="border-t border-zone-edge/70 p-3"
+          className="shrink-0 border-t border-zone-edge/70 p-3"
         >
           {pending ? (
             <div className="mb-2 flex flex-wrap items-center gap-2 rounded-lg border border-archi-700/40 bg-zone-deep/50 p-2 text-xs text-zone-muted">
               <span className="font-medium text-archi-400">
-                {pending.kind === "image"
-                  ? t("pendingImage")
-                  : pending.kind === "video"
-                    ? t("pendingVideo")
-                    : t("pendingAudio")}
+                {t("pendingImage")}
               </span>
               <button
                 type="button"
@@ -298,27 +282,7 @@ export function ChatPanel() {
               accept="image/*"
               className="hidden"
               onChange={(e) => {
-                readFilesAsDataUrl(e.target.files, "image");
-                e.target.value = "";
-              }}
-            />
-            <input
-              ref={vidRef}
-              type="file"
-              accept="video/*"
-              className="hidden"
-              onChange={(e) => {
-                readFilesAsDataUrl(e.target.files, "video");
-                e.target.value = "";
-              }}
-            />
-            <input
-              ref={audRef}
-              type="file"
-              accept="audio/*"
-              className="hidden"
-              onChange={(e) => {
-                readFilesAsDataUrl(e.target.files, "audio");
+                void readImageAsDataUrl(e.target.files);
                 e.target.value = "";
               }}
             />
@@ -328,20 +292,6 @@ export function ChatPanel() {
               className="rounded-md border border-zone-edge/80 bg-zone-panel px-2.5 py-1.5 text-xs font-medium text-zone-fog hover:border-archi-600/50"
             >
               {t("attachPhoto")}
-            </button>
-            <button
-              type="button"
-              onClick={() => vidRef.current?.click()}
-              className="rounded-md border border-zone-edge/80 bg-zone-panel px-2.5 py-1.5 text-xs font-medium text-zone-fog hover:border-archi-600/50"
-            >
-              {t("attachVideo")}
-            </button>
-            <button
-              type="button"
-              onClick={() => audRef.current?.click()}
-              className="rounded-md border border-zone-edge/80 bg-zone-panel px-2.5 py-1.5 text-xs font-medium text-zone-fog hover:border-archi-600/50"
-            >
-              {t("attachAudio")}
             </button>
           </div>
           {postError ? (
@@ -368,7 +318,7 @@ export function ChatPanel() {
           </div>
         </form>
       ) : (
-        <p className="border-t border-zone-edge/70 p-3 text-sm text-zone-muted">
+        <p className="shrink-0 border-t border-zone-edge/70 p-3 text-sm text-zone-muted">
           {t("loginToPost")}
         </p>
       )}

@@ -3,7 +3,7 @@
     "title": "ARCHI"
   },
   "nav": {
-    "news": "Wiadomości",
+    "news": "Nowe",
     "chat": "Czat",
     "settings": "Ustawienia",
     "sell": "Sprzedaj",
@@ -17,8 +17,8 @@
   },
   "home": {
     "welcomeHeading": "<prefix>Witamy w </prefix><brand></brand>",
-    "subtitle": "Wiadomości, ogłoszenia i czat w jednym miejscu.",
-    "unites": "Łączymy ludzi wokół tego, na czym naprawdę zależy: aktualnych wiadomości, czytelnych ogłoszeń i żywej rozmowy. Jedna przestrzeń w wielu językach—w przeglądarce i w aplikacji—dla tych, którzy cenią prawdziwy kontakt bez zbędnego szumu.",
+    "subtitle": "Wpisy, ogłoszenia i czat w jednym miejscu.",
+    "unites": "Łączymy ludzi wokół tego, na czym naprawdę zależy: aktualnych wpisów, czytelnych ogłoszeń i żywej rozmowy. Jedna przestrzeń w wielu językach—w przeglądarce i w aplikacji—dla tych, którzy cenią prawdziwy kontakt bez zbędnego szumu.",
     "hudActions": "Ogłoszenia · dodaj swoją ofertę",
     "adLinksMore": "Więcej ogłoszeń — kupno, najem, praca (wszędzie)",
     "aboutLink": "O tej aplikacji i stronie",
@@ -29,12 +29,12 @@
   },
   "site": {
     "metaTitlePrefix": "O",
-    "kicker": "Wiadomości · ogłoszenia · czat",
+    "kicker": "Nowe · ogłoszenia · czat",
     "aboutHeadline": "<brand></brand><tail> — Twoje lokalne miejsce w sieci.</tail>",
-    "introBody": "łączy wiadomości społeczności, ogłoszenia, usługi, oferty pracy i publiczny czat. Wybierz język, korzystaj w przeglądarce i dodaj do ekranu głównego—to samo konto na telefonie, tam gdzie jest obsługiwane.",
+    "introBody": "łączy wpisy społeczności, ogłoszenia, usługi, oferty pracy i publiczny czat. Wybierz język, korzystaj w przeglądarce i dodaj do ekranu głównego—to samo konto na telefonie, tam gdzie jest obsługiwane.",
     "appVersionWeb": "Wersja strony internetowej: {version}.",
     "featuresTitle": "Co możesz tu zrobić",
-    "fNews": "Czytać i udostępniać wiadomości",
+    "fNews": "Czytać wpisy w „Nowe” i nimi się dzielić",
     "fAds": "Sprzedawać, kupować i wynajmować",
     "fServices": "Oferować usługi lub szukać pomocy",
     "fJobs": "Dodawać i przeglądać oferty pracy",
@@ -119,6 +119,7 @@
     "notificationLevel": "Intensywność powiadomień",
     "save": "Zapisz ustawienia",
     "mustLogin": "Zaloguj się, aby zmienić ustawienia.",
+    "sectionInfo": "Aplikacja i dokumenty",
     "sectionBlockedUsers": "Zablokowani użytkownicy",
     "blockUserHint": "Nie zobaczysz postów, komentarzy, czatu, ogłoszeń ani ofert pracy od zablokowanych. Nie są powiadamiani.",
     "blockUserEmailLabel": "E-mail użytkownika",
@@ -133,7 +134,7 @@
     "blockUserVerifyFirst": "Potwierdź konto (kod e-mail), aby korzystać z blokowania."
   },
   "news": {
-    "title": "Wiadomości",
+    "title": "Nowe",
     "newPost": "Nowy wpis",
     "postTitle": "Tytuł",
     "postBody": "Treść",
@@ -156,7 +157,10 @@
     "reportVideoSubmit": "Wyślij zgłoszenie",
     "reportVideoSent": "Dziękujemy — zgłoszenie zostało wysłane.",
     "reportVideoAlready": "Już zgłaszałeś(-aś) ten post.",
-    "reportVideoFailed": "Nie udało się wysłać zgłoszenia. Spróbuj później."
+    "reportVideoFailed": "Nie udało się wysłać zgłoszenia. Spróbuj później.",
+    "listingInFeed": "Ogłoszenie",
+    "feedEmptyFiltered": "Brak ogłoszeń dla tego filtra.",
+    "feedListingsEmpty": "W kanale nie ma jeszcze ogłoszeń."
   },
   "listing": {
     "title": "Ogłoszenia",
@@ -181,7 +185,8 @@
     "sec_pets": "Zwierzęta",
     "sec_business_industrial": "Firma i sprzęt",
     "comments": "Komentarze",
-    "deleteConfirm": "Usunąć to ogłoszenie? Tej operacji nie można cofnąć."
+    "deleteConfirm": "Usunąć to ogłoszenie? Tej operacji nie można cofnąć.",
+    "openCategoryBoard": "Pełna tablica w tej kategorii"
   },
   "job": {
     "title": "Praca",
@@ -200,14 +205,10 @@
     "send": "Wyślij",
     "room": "Czat ogólny",
     "loginToPost": "Zaloguj się, aby pisać.",
-    "composerHint": "Tekst, link (https://) lub YouTube albo zdjęcie, krótkie wideo lub audio.",
+    "composerHint": "Wyślij tekst, wklej link do strony lub YouTube albo dołącz zdjęcie.",
     "attachPhoto": "Zdjęcie",
-    "attachVideo": "Wideo",
-    "attachAudio": "Muzyka / audio",
     "clearAttachment": "Usuń plik",
-    "pendingImage": "Dołączono zdjęcie",
-    "pendingVideo": "Dołączono wideo",
-    "pendingAudio": "Dołączono audio"
+    "pendingImage": "Dołączono zdjęcie"
   },
   "common": {
     "skipToContent": "Przejdź do treści",

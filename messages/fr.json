@@ -3,7 +3,7 @@
     "title": "ARCHI"
   },
   "nav": {
-    "news": "Actualités",
+    "news": "Nouveautés",
     "chat": "Discussion",
     "settings": "Paramètres",
     "sell": "Vendre",
@@ -17,8 +17,8 @@
   },
   "home": {
     "welcomeHeading": "<prefix>Bienvenue sur </prefix><brand></brand>",
-    "subtitle": "Actualités, petites annonces et chat au même endroit.",
-    "unites": "Nous rassemblons les personnes autour de l’essentiel : l’actualité, des annonces claires et de vraies conversations. Un même espace en plusieurs langues — sur le web et dans l’application — pour ceux qui privilégient un lien authentique sans bruit.",
+    "subtitle": "Publications, petites annonces et chat au même endroit.",
+    "unites": "Nous rassemblons les personnes autour de l’essentiel : des publications à jour, des annonces claires et de vraies conversations. Un même espace en plusieurs langues — sur le web et dans l’application — pour ceux qui privilégient un lien authentique sans bruit.",
     "hudActions": "Annonces · votre offre",
     "adLinksMore": "Plus d’annonces — acheter, louer, emploi (partout)",
     "aboutLink": "À propos de l’app et du site",
@@ -29,12 +29,12 @@
   },
   "site": {
     "metaTitlePrefix": "À propos de",
-    "kicker": "Actualités · annonces · chat",
+    "kicker": "Nouveautés · annonces · chat",
     "aboutHeadline": "<brand></brand><tail> — votre coin local sur Internet.</tail>",
-    "introBody": "réunit l’actualité communautaire, les petites annonces, les services, l’emploi et un chat public. Choisissez la langue, utilisez le navigateur et ajoutez à l’écran d’accueil — le même compte sur mobile lorsque c’est pris en charge.",
+    "introBody": "réunit les publications communautaires, les petites annonces, les services, l’emploi et un chat public. Choisissez la langue, utilisez le navigateur et ajoutez à l’écran d’accueil — le même compte sur mobile lorsque c’est pris en charge.",
     "appVersionWeb": "Version du site web : {version}.",
     "featuresTitle": "Ce que vous pouvez faire",
-    "fNews": "Lire et partager l’actualité",
+    "fNews": "Lire les publications dans « Nouveautés » et les partager",
     "fAds": "Vendre, acheter et louer",
     "fServices": "Proposer des services ou trouver de l’aide",
     "fJobs": "Publier et parcourir des offres d’emploi",
@@ -119,6 +119,7 @@
     "notificationLevel": "Intensité des notifications",
     "save": "Enregistrer les paramètres",
     "mustLogin": "Connectez-vous pour modifier les paramètres.",
+    "sectionInfo": "Application et mentions légales",
     "sectionBlockedUsers": "Utilisateurs bloqués",
     "blockUserHint": "Vous ne verrez pas les publications, commentaires, messages du chat, annonces ou offres des personnes bloquées. Elles ne sont pas informées.",
     "blockUserEmailLabel": "E-mail de l’utilisateur",
@@ -133,7 +134,7 @@
     "blockUserVerifyFirst": "Confirmez votre compte (code e-mail) pour utiliser le blocage."
   },
   "news": {
-    "title": "Actualités",
+    "title": "Nouveautés",
     "newPost": "Nouveau message",
     "postTitle": "Titre",
     "postBody": "Texte",
@@ -156,7 +157,10 @@
     "reportVideoSubmit": "Envoyer le signalement",
     "reportVideoSent": "Merci — votre signalement a été envoyé.",
     "reportVideoAlready": "Vous avez déjà signalé ce post.",
-    "reportVideoFailed": "Impossible d’envoyer le signalement. Réessayez plus tard."
+    "reportVideoFailed": "Impossible d’envoyer le signalement. Réessayez plus tard.",
+    "listingInFeed": "Annonce",
+    "feedEmptyFiltered": "Aucune annonce pour ce filtre.",
+    "feedListingsEmpty": "Aucune annonce dans le fil pour l’instant."
   },
   "listing": {
     "title": "Annonces",
@@ -181,7 +185,8 @@
     "sec_pets": "Animaux",
     "sec_business_industrial": "Pro & équipement",
     "comments": "Commentaires",
-    "deleteConfirm": "Supprimer cette annonce ? Cette action est irréversible."
+    "deleteConfirm": "Supprimer cette annonce ? Cette action est irréversible.",
+    "openCategoryBoard": "Ouvrir le tableau complet dans cette catégorie"
   },
   "job": {
     "title": "Emploi",
@@ -200,14 +205,10 @@
     "send": "Envoyer",
     "room": "Chat général",
     "loginToPost": "Connectez-vous pour écrire dans le chat.",
-    "composerHint": "Texte, lien (https://) ou YouTube, ou photo, courte vidéo ou audio.",
+    "composerHint": "Envoyez du texte, un lien web ou YouTube, ou ajoutez une photo.",
     "attachPhoto": "Image",
-    "attachVideo": "Vidéo",
-    "attachAudio": "Musique / audio",
     "clearAttachment": "Retirer le fichier",
-    "pendingImage": "Photo jointe",
-    "pendingVideo": "Vidéo jointe",
-    "pendingAudio": "Audio joint"
+    "pendingImage": "Photo jointe"
   },
   "common": {
     "skipToContent": "Aller au contenu principal",

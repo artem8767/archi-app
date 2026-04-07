@@ -3,7 +3,7 @@
     "title": "ARCHI"
   },
   "nav": {
-    "news": "Správy",
+    "news": "Nové",
     "chat": "Chat",
     "settings": "Nastavenia",
     "sell": "Predať",
@@ -17,8 +17,8 @@
   },
   "home": {
     "welcomeHeading": "<prefix>Vitajte v </prefix><brand></brand>",
-    "subtitle": "Správy, inzeráty a chat na jednom mieste.",
-    "unites": "Spájame ľudí okolo toho, na čom skutočne záleží: aktuálnych správ, zrozumiteľných inzerátov a živého dialógu. Jeden priestor v mnohých jazykoch—v prehliadači aj v aplikácii—pre tých, ktorí si vážia skutočný kontakt bez zbytočného hluku.",
+    "subtitle": "Príspevky, inzeráty a chat na jednom mieste.",
+    "unites": "Spájame ľudí okolo toho, na čom skutočne záleží: aktuálnych príspevkov, zrozumiteľných inzerátov a živého dialógu. Jeden priestor v mnohých jazykoch—v prehliadači aj v aplikácii—pre tých, ktorí si vážia skutočný kontakt bez zbytočného hluku.",
     "hudActions": "Inzercia · zverejnite ponuku",
     "adLinksMore": "Ďalšie inzeráty — kúpa, prenájom, práca (kdekoľvek)",
     "aboutLink": "O tejto aplikácii a webe",
@@ -29,12 +29,12 @@
   },
   "site": {
     "metaTitlePrefix": "O",
-    "kicker": "Správy · inzeráty · chat",
+    "kicker": "Nové · inzeráty · chat",
     "aboutHeadline": "<brand></brand><tail> — váš miestny kútik na internete.</tail>",
-    "introBody": "spája správy komunity, inzeráty, služby, prácu a verejný chat. Vyberte jazyk, používajte v prehliadači a pridajte na domovskú obrazovku—rovnaký účet aj na mobile, kde je to podporované.",
+    "introBody": "spája príspevky komunity, inzeráty, služby, prácu a verejný chat. Vyberte jazyk, používajte v prehliadači a pridajte na domovskú obrazovku—rovnaký účet aj na mobile, kde je to podporované.",
     "appVersionWeb": "Verzia webu: {version}.",
     "featuresTitle": "Čo tu môžete robiť",
-    "fNews": "Čítať a zdieľať správy",
+    "fNews": "Čítať príspevky v „Nové“ a zdieľať ich",
     "fAds": "Predávať, kupovať a prenajímať",
     "fServices": "Ponúkať služby alebo hľadať pomoc",
     "fJobs": "Inzerovať a prehliadať prácu",
@@ -119,6 +119,7 @@
     "notificationLevel": "Intenzita oznámení",
     "save": "Uložiť nastavenia",
     "mustLogin": "Prihláste sa na zmenu nastavení.",
+    "sectionInfo": "Aplikácia a dokumenty",
     "sectionBlockedUsers": "Blokovaní používatelia",
     "blockUserHint": "Nebudete vidieť príspevky, komentáre, správy v chate, inzeráty ani práce od zablokovaných. Nedostanú o tom upozornenie.",
     "blockUserEmailLabel": "E-mail používateľa",
@@ -133,7 +134,7 @@
     "blockUserVerifyFirst": "Na blokovanie potvrďte účet (kód z e-mailu)."
   },
   "news": {
-    "title": "Správy",
+    "title": "Nové",
     "newPost": "Nový príspevok",
     "postTitle": "Nadpis",
     "postBody": "Text",
@@ -156,7 +157,10 @@
     "reportVideoSubmit": "Odoslať hlásenie",
     "reportVideoSent": "Ďakujeme — hlásenie bolo odoslané.",
     "reportVideoAlready": "Tento príspevok ste už nahlásili.",
-    "reportVideoFailed": "Hlásenie sa nepodarilo odoslať. Skúste neskôr."
+    "reportVideoFailed": "Hlásenie sa nepodarilo odoslať. Skúste neskôr.",
+    "listingInFeed": "Inzerát",
+    "feedEmptyFiltered": "Pre tento filter žiadne inzeráty.",
+    "feedListingsEmpty": "V kanáli zatiaľ nie sú žiadne inzeráty."
   },
   "listing": {
     "title": "Inzeráty",
@@ -181,7 +185,8 @@
     "sec_pets": "Zvieratá",
     "sec_business_industrial": "Podnikanie a technika",
     "comments": "Komentáre",
-    "deleteConfirm": "Zmazať tento inzerát? Túto akciu nie je možné vrátiť späť."
+    "deleteConfirm": "Zmazať tento inzerát? Túto akciu nie je možné vrátiť späť.",
+    "openCategoryBoard": "Otvoriť celú nástenku v tejto kategórii"
   },
   "job": {
     "title": "Práca",
@@ -200,14 +205,10 @@
     "send": "Odoslať",
     "room": "Všeobecný chat",
     "loginToPost": "Prihláste sa, aby ste mohli písať.",
-    "composerHint": "Text, odkaz (https://) alebo YouTube, prípadne foto, krátke video či audio.",
+    "composerHint": "Pošlite text, vložte odkaz na web či YouTube alebo priložte fotku.",
     "attachPhoto": "Foto",
-    "attachVideo": "Video",
-    "attachAudio": "Hudba / audio",
     "clearAttachment": "Odstrániť súbor",
-    "pendingImage": "Foto v prílohe",
-    "pendingVideo": "Video v prílohe",
-    "pendingAudio": "Audio v prílohe"
+    "pendingImage": "Foto v prílohe"
   },
   "common": {
     "skipToContent": "Prejsť na obsah",

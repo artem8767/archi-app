@@ -3,7 +3,7 @@
     "title": "ARCHI"
   },
   "nav": {
-    "news": "Nachrichten",
+    "news": "Neues",
     "chat": "Plaudern",
     "settings": "Einstellungen",
     "sell": "Verkaufen",
@@ -17,8 +17,8 @@
   },
   "home": {
     "welcomeHeading": "<prefix>Willkommen bei </prefix><brand></brand>",
-    "subtitle": "Nachrichten, Anzeigen und Chat an einem Ort.",
-    "unites": "Wir bringen Menschen zusammen, worauf es ankommt: aktuelle Nachrichten, klare Anzeigen und echter Austausch. Ein Raum in vielen Sprachen—im Web und in der App—für alle, die echte Nähe ohne Lärm schätzen.",
+    "subtitle": "Beiträge, Anzeigen und Chat an einem Ort.",
+    "unites": "Wir bringen Menschen zusammen, worauf es ankommt: aktuelle Beiträge, klare Anzeigen und echter Austausch. Ein Raum in vielen Sprachen—im Web und in der App—für alle, die echte Nähe ohne Lärm schätzen.",
     "hudActions": "Anzeigen · Ihr Angebot einstellen",
     "adLinksMore": "Weitere Inserate — kaufen, mieten, Jobs (überall)",
     "aboutLink": "Über diese App und Website",
@@ -29,12 +29,12 @@
   },
   "site": {
     "metaTitlePrefix": "Über",
-    "kicker": "Nachrichten · Anzeigen · Chat",
+    "kicker": "Neues · Anzeigen · Chat",
     "aboutHeadline": "<brand></brand><tail> — Ihr lokaler Platz im Netz.</tail>",
-    "introBody": "vereint Community-Nachrichten, Kleinanzeigen, Dienstleistungen, Stellen und einen öffentlichen Chat. Sprache wählen, im Browser nutzen und als Verknüpfung auf den Startbildschirm legen—dasselbe Konto auf dem Handy, wo unterstützt.",
+    "introBody": "vereint Community-Beiträge, Kleinanzeigen, Dienstleistungen, Stellen und einen öffentlichen Chat. Sprache wählen, im Browser nutzen und als Verknüpfung auf den Startbildschirm legen—dasselbe Konto auf dem Handy, wo unterstützt.",
     "appVersionWeb": "Webversion: {version}.",
     "featuresTitle": "Was Sie hier tun können",
-    "fNews": "Nachrichten lesen und teilen",
+    "fNews": "Beiträge unter „Neues“ lesen und teilen",
     "fAds": "Verkaufen, kaufen und mieten",
     "fServices": "Dienstleistungen anbieten oder Hilfe finden",
     "fJobs": "Stellen inserieren und durchsuchen",
@@ -119,6 +119,7 @@
     "notificationLevel": "Intensität der Benachrichtigungen",
     "save": "Einstellungen speichern",
     "mustLogin": "Melden Sie sich an, um Einstellungen zu ändern.",
+    "sectionInfo": "App & Rechtliches",
     "sectionBlockedUsers": "Blockierte Nutzer",
     "blockUserHint": "Sie sehen keine Beiträge, Kommentare, Chat-Nachrichten, Inserate oder Jobs von blockierten Personen. Sie werden nicht benachrichtigt.",
     "blockUserEmailLabel": "E-Mail des Nutzers",
@@ -133,7 +134,7 @@
     "blockUserVerifyFirst": "Bestätigen Sie Ihr Konto (E-Mail-Code), um zu blockieren."
   },
   "news": {
-    "title": "Nachrichten",
+    "title": "Neues",
     "newPost": "Neuer Beitrag",
     "postTitle": "Titel",
     "postBody": "Textinhalt",
@@ -156,7 +157,10 @@
     "reportVideoSubmit": "Meldung senden",
     "reportVideoSent": "Danke — Ihre Meldung wurde gesendet.",
     "reportVideoAlready": "Sie haben diesen Beitrag bereits gemeldet.",
-    "reportVideoFailed": "Meldung konnte nicht gesendet werden. Bitte später erneut versuchen."
+    "reportVideoFailed": "Meldung konnte nicht gesendet werden. Bitte später erneut versuchen.",
+    "listingInFeed": "Inserat",
+    "feedEmptyFiltered": "Keine Anzeigen für diesen Filter.",
+    "feedListingsEmpty": "Noch keine Anzeigen im Feed."
   },
   "listing": {
     "title": "Anzeigen",
@@ -181,7 +185,8 @@
     "sec_pets": "Haustiere",
     "sec_business_industrial": "Gewerbe & Technik",
     "comments": "Kommentare",
-    "deleteConfirm": "Dieses Inserat löschen? Dies kann nicht rückgängig gemacht werden."
+    "deleteConfirm": "Dieses Inserat löschen? Dies kann nicht rückgängig gemacht werden.",
+    "openCategoryBoard": "Vollständiges Board in dieser Kategorie öffnen"
   },
   "job": {
     "title": "Stellenangebote",
@@ -200,14 +205,10 @@
     "send": "Senden",
     "room": "Allgemeiner Chat",
     "loginToPost": "Melden Sie sich an, um zu schreiben.",
-    "composerHint": "Text, Link (https://) oder YouTube, oder Foto, kurzes Video oder Audio.",
+    "composerHint": "Text senden, Web- oder YouTube-Link einfügen oder ein Foto anhängen.",
     "attachPhoto": "Foto",
-    "attachVideo": "Video",
-    "attachAudio": "Musik / Audio",
     "clearAttachment": "Datei entfernen",
-    "pendingImage": "Foto angehängt",
-    "pendingVideo": "Video angehängt",
-    "pendingAudio": "Audio angehängt"
+    "pendingImage": "Foto angehängt"
   },
   "common": {
     "skipToContent": "Zum Hauptinhalt springen",
