@@ -17,8 +17,6 @@ type Msg = {
   user: { id: string; name: string | null; email: string };
 };
 
-type PendingImage = { dataUrl: string };
-
 export function ChatPanel() {
   const t = useTranslations("chat");
   const tCommon = useTranslations("common");
@@ -26,7 +24,6 @@ export function ChatPanel() {
   const { user } = useSession();
   const [messages, setMessages] = useState<Msg[]>([]);
   const [text, setText] = useState("");
-  const [pending, setPending] = useState<PendingImage | null>(null);
   const [postError, setPostError] = useState<string | null>(null);
   const [replyTo, setReplyTo] = useState<{ label: string } | null>(null);
   const bottom = useRef<HTMLDivElement>(null);
@@ -39,7 +36,6 @@ export function ChatPanel() {
     if (!replyTo) return trimmed;
     return `${replyTo.label}, ${trimmed}`;
   }
-  const imgRef = useRef<HTMLInputElement>(null);
 
   const load = useCallback(async () => {
     const r = await fetch("/api/chat/messages");
@@ -65,50 +61,10 @@ export function ChatPanel() {
     bottom.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  async function readImageAsDataUrl(files: FileList | null) {
-    const f = files?.[0];
-    if (!f) return;
-    const dataUrl = await new Promise<string>((resolve, reject) => {
-      const r = new FileReader();
-      r.onload = () => resolve(r.result as string);
-      r.onerror = reject;
-      r.readAsDataURL(f);
-    });
-    setPending({ dataUrl });
-  }
-
   async function send(e: React.FormEvent) {
     e.preventDefault();
     if (!user) return;
     const trimmed = text.trim();
-
-    if (pending) {
-      const r = await fetch("/api/chat/messages", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({
-          kind: "image" as const,
-          text: withReplyPrefix(trimmed),
-          mediaData: pending.dataUrl,
-        }),
-      });
-      if (r.ok) {
-        setPostError(null);
-        setText("");
-        setPending(null);
-        setReplyTo(null);
-        load();
-      } else if (r.status === 422) {
-        const j = (await r.json()) as { code?: string };
-        setPostError(
-          j.code === "moderation" ? tCommon("moderationBlocked") : null,
-        );
-      } else {
-        setPostError(null);
-      }
-      return;
-    }
 
     if (!trimmed) return;
 
@@ -244,57 +200,17 @@ export function ChatPanel() {
         ))}
         <div ref={bottom} />
       </div>
-      <div className="shrink-0 border-t border-zone-edge/70 px-4 py-2.5">
-        <h1 className="text-base font-semibold text-zone-fog">{t("title")}</h1>
-        <p className="text-xs text-zone-muted">{t("room")}</p>
-        <p className="mt-1 text-[11px] leading-snug text-zone-muted/90">
-          {t("composerHint")}
-        </p>
-      </div>
       {user ? (
         <form
           onSubmit={send}
           className="shrink-0 border-t border-zone-edge/70 p-3"
         >
-          {pending ? (
-            <div className="mb-2 flex flex-wrap items-center gap-2 rounded-lg border border-archi-700/40 bg-zone-deep/50 p-2 text-xs text-zone-muted">
-              <span className="font-medium text-archi-400">
-                {t("pendingImage")}
-              </span>
-              <button
-                type="button"
-                onClick={() => setPending(null)}
-                className="rounded border border-zone-edge px-2 py-0.5 text-zone-fog hover:bg-zone-edge/30"
-              >
-                {t("clearAttachment")}
-              </button>
-            </div>
-          ) : null}
           {replyTo ? (
             <ReplyToBar
               label={replyTo.label}
               onCancel={() => setReplyTo(null)}
             />
           ) : null}
-          <div className="mb-2 flex flex-wrap gap-2">
-            <input
-              ref={imgRef}
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={(e) => {
-                void readImageAsDataUrl(e.target.files);
-                e.target.value = "";
-              }}
-            />
-            <button
-              type="button"
-              onClick={() => imgRef.current?.click()}
-              className="rounded-md border border-zone-edge/80 bg-zone-panel px-2.5 py-1.5 text-xs font-medium text-zone-fog hover:border-archi-600/50"
-            >
-              {t("attachPhoto")}
-            </button>
-          </div>
           {postError ? (
             <p className="mb-2 text-sm text-red-400/90" role="alert">
               {postError}
