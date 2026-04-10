@@ -3,7 +3,7 @@
 import { useFormatter, useTranslations } from "next-intl";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { dateTimeShort24h } from "@/lib/datetime-display";
 import { isListingSectionId } from "@/lib/marketplace-sections";
 import { CommentThread } from "./CommentThread";
@@ -66,9 +66,6 @@ export function NewsFeed() {
   const format = useFormatter();
   const [listings, setListings] = useState<ListingInFeed[]>([]);
   const [loading, setLoading] = useState(true);
-  const [listingCategory, setListingCategory] = useState<"all" | ListingCat>(
-    "all",
-  );
 
   const load = useCallback(async () => {
     const r = await fetch("/api/listings?limit=120");
@@ -80,16 +77,6 @@ export function NewsFeed() {
     );
     setListings(rows);
   }, []);
-
-  const filteredListings = useMemo(() => {
-    if (listingCategory === "all") return listings;
-    return listings.filter((item) => {
-      const c = LISTING_CAT.includes(item.category as ListingCat)
-        ? (item.category as ListingCat)
-        : null;
-      return c === listingCategory;
-    });
-  }, [listings, listingCategory]);
 
   useEffect(() => {
     load().finally(() => setLoading(false));
@@ -139,46 +126,13 @@ export function NewsFeed() {
         {t("title")}
       </h1>
 
-      <div className="rounded-xl border border-zone-edge/70 bg-zone-deep/40 p-4 md:p-5">
-        <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-archi-400/90 md:text-xs">
-          {tList("marketplaceSections")}
-        </p>
-        <div className="mt-3 flex flex-wrap gap-2">
-          <button
-            type="button"
-            onClick={() => setListingCategory("all")}
-            className={`rounded-lg border px-3 py-1.5 text-sm font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-archi-500 ${
-              listingCategory === "all"
-                ? "border-archi-500 bg-archi-900/50 text-archi-100"
-                : "border-zone-edge/80 bg-zone-panel/70 text-zone-muted hover:border-archi-700/50 hover:text-zone-fog"
-            }`}
-          >
-            {tList("allSections")}
-          </button>
-          {LISTING_CAT.map((cat) => (
-            <button
-              key={cat}
-              type="button"
-              onClick={() => setListingCategory(cat)}
-              className={`rounded-lg border px-3 py-1.5 text-sm font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-archi-500 ${
-                listingCategory === cat
-                  ? "border-archi-500 bg-archi-900/50 text-archi-100"
-                  : "border-zone-edge/80 bg-zone-panel/70 text-zone-muted hover:border-archi-700/50 hover:text-zone-fog"
-              }`}
-            >
-              {tNav(NAV_KEY[cat])}
-            </button>
-          ))}
-        </div>
-      </div>
-
       {loading ? (
         <p className="text-zone-muted">…</p>
       ) : listings.length === 0 ? (
         <p className="text-center text-zone-muted">{t("feedListingsEmpty")}</p>
       ) : (
         <ul className="space-y-8">
-          {filteredListings.map((item) => {
+          {listings.map((item) => {
             const cat = LISTING_CAT.includes(item.category as ListingCat)
               ? (item.category as ListingCat)
               : "sell";
@@ -254,11 +208,6 @@ export function NewsFeed() {
               </li>
             );
           })}
-          {filteredListings.length === 0 && listings.length > 0 ? (
-            <li className="list-none">
-              <p className="text-center text-zone-muted">{t("feedEmptyFiltered")}</p>
-            </li>
-          ) : null}
         </ul>
       )}
     </div>

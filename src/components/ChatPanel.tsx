@@ -169,7 +169,7 @@ export function ChatPanel() {
   }
 
   return (
-    <div className="pda-panel flex min-h-[min(72vh,640px)] flex-col overflow-hidden">
+    <div className="pda-panel flex min-h-[min(52vh,420px)] flex-col overflow-hidden">
       <div className="min-h-0 flex-1 overflow-y-auto px-4 py-3">
         {messages.map((m) => (
           <div key={m.id} className="pda-chat-bubble mb-3 text-sm">

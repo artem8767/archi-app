@@ -56,7 +56,7 @@ export function AppShell({
   const { user, loading } = useSession();
 
   return (
-    <div className="relative mx-auto flex min-h-screen max-w-6xl flex-col px-3 pb-6 pt-3 sm:px-6 sm:pb-24 sm:pt-4">
+    <div className="relative mx-auto flex min-h-screen max-w-6xl flex-col px-3 pb-2 pt-3 sm:px-6 sm:pb-4 sm:pt-4">
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-lg focus:bg-archi-600 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-black focus:outline-none focus:ring-2 focus:ring-archi-300 focus:ring-offset-2 focus:ring-offset-zone-void"
@@ -208,9 +208,9 @@ export function AppShell({
       <main className="flex-1" id="main-content">
         {children}
       </main>
-      <footer className="mt-10 border-t border-zone-edge/50 pt-6 text-center">
+      <footer className="mt-4 border-t border-zone-edge/50 pt-3 text-center">
         {developerCredit ? (
-          <p className="mt-3 text-xs text-zone-muted">
+          <p className="text-xs text-zone-muted">
             {developerCredit.url ? (
               <>
                 {tSite("developerFooterPrefix")}{" "}
