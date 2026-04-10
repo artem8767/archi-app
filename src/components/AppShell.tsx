@@ -134,7 +134,7 @@ export function AppShell({
       </div>
 
       <header className="sticky top-0 z-40 -mx-3 mb-8 hidden border-b border-zone-edge/80 bg-zone-deep/95 px-3 py-3 shadow-md shadow-black/20 ring-1 ring-white/[0.04] backdrop-blur-md sm:-mx-6 sm:mb-8 sm:block sm:px-6">
-        <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+        <div className="flex min-w-0 items-center gap-3 sm:gap-4">
           <Link
             href="/"
             translate="no"
@@ -149,7 +149,7 @@ export function AppShell({
           </Link>
           <nav
             aria-label={t("mainNavAria")}
-            className="flex max-w-full flex-wrap gap-1.5 pb-0.5 sm:gap-2"
+            className="flex min-h-[2.5rem] min-w-0 flex-1 flex-nowrap items-center gap-1.5 overflow-x-auto overscroll-x-contain pb-0.5 [scrollbar-width:thin] sm:gap-2"
           >
             {navKeys.map((key) => {
               const path = ROUTES[key];
@@ -158,7 +158,7 @@ export function AppShell({
                 <Link
                   key={key}
                   href={path}
-                  className={`rounded-md px-2 py-1.5 text-xs font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-archi-500 sm:px-2.5 sm:text-sm ${
+                  className={`shrink-0 rounded-md px-2 py-1.5 text-xs font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-archi-500 sm:px-2.5 sm:text-sm ${
                     active
                       ? "bg-archi-600 text-black"
                       : "bg-zone-panel/80 text-zone-muted ring-1 ring-zone-edge/80 transition hover:bg-zone-edge/50 hover:text-zone-fog hover:ring-archi-700/40"
@@ -169,7 +169,7 @@ export function AppShell({
               );
             })}
           </nav>
-          <div className="flex w-full flex-col gap-2 sm:w-auto sm:shrink-0 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end">
+          <div className="flex shrink-0 items-center gap-2">
             <Link
               href="/settings"
               className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-zone-edge/80 bg-zone-panel/90 text-zone-fog transition hover:border-archi-700/45 hover:bg-zone-edge/40 hover:text-archi-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-archi-500"
