@@ -13,6 +13,7 @@ import {
   isUiThemeId,
   type UiThemeId,
 } from "@/lib/ui-theme";
+import { getAppWebVersion } from "@/lib/app-version";
 function SettingsSection({
   title,
   children,
@@ -34,6 +35,8 @@ export function SettingsForm() {
   const t = useTranslations("settings");
   const tNav = useTranslations("nav");
   const tSite = useTranslations("site");
+  const tCommon = useTranslations("common");
+  const webVersion = getAppWebVersion();
   const { user, refresh } = useSession();
   const router = useRouter();
   const pathname = usePathname();
@@ -128,7 +131,16 @@ export function SettingsForm() {
   ]);
 
   if (!user) {
-    return <p className="text-zone-muted">{t("mustLogin")}</p>;
+    return (
+      <div className="pda-panel mx-auto max-w-3xl space-y-5 p-5 sm:p-6">
+        <p className="text-zone-muted">{t("mustLogin")}</p>
+        {webVersion ? (
+          <p className="text-center text-[11px] text-zone-muted/75 tabular-nums">
+            {tCommon("appVersion", { version: webVersion })}
+          </p>
+        ) : null}
+      </div>
+    );
   }
 
   return (
@@ -293,6 +305,12 @@ export function SettingsForm() {
       >
         {saved ? "✓" : t("save")}
       </button>
+
+      {webVersion ? (
+        <p className="text-center text-[11px] text-zone-muted/75 tabular-nums">
+          {tCommon("appVersion", { version: webVersion })}
+        </p>
+      ) : null}
     </div>
   );
 }

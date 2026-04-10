@@ -6,11 +6,9 @@ import { useSession } from "./SessionProvider";
 import { GoogleTranslateWidget } from "./GoogleTranslateWidget";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { HeaderAccountMenu } from "./HeaderAccountMenu";
-import { MobileAppNav } from "./MobileAppNav";
 import { LogoArci } from "./LogoArci";
-import { IconSettings } from "./icons/AppIcons";
+import { IconChat, IconNews, IconSettings } from "./icons/AppIcons";
 import { APP_BRAND_NAME } from "@/lib/brand";
-import { getAppWebVersion } from "@/lib/app-version";
 import type { SiteDeveloperCredit } from "@/lib/site-credits";
 
 const navKeys = [
@@ -49,51 +47,89 @@ export function AppShell({
   const tCommon = useTranslations("common");
   const tSite = useTranslations("site");
   const pathname = usePathname();
+
+  const mobileNavTabs = [
+    { href: "/news", key: "news" as const, Icon: IconNews },
+    { href: "/chat", key: "chat" as const, Icon: IconChat },
+    { href: "/settings", key: "settings" as const, Icon: IconSettings },
+  ] as const;
   const { user, loading } = useSession();
-  const webVersion = getAppWebVersion();
 
   return (
-    <div className="relative mx-auto flex min-h-screen max-w-6xl flex-col px-3 pb-28 pt-3 sm:px-6 sm:pb-24 sm:pt-4">
+    <div className="relative mx-auto flex min-h-screen max-w-6xl flex-col px-3 pb-6 pt-3 sm:px-6 sm:pb-24 sm:pt-4">
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-lg focus:bg-archi-600 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-black focus:outline-none focus:ring-2 focus:ring-archi-300 focus:ring-offset-2 focus:ring-offset-zone-void"
       >
         {tCommon("skipToContent")}
       </a>
-      <div className="sticky top-0 z-40 -mx-3 mb-4 flex items-center justify-between gap-2 border-b border-zone-edge/80 bg-zone-deep/95 px-3 py-2 backdrop-blur-md sm:mb-0 sm:hidden">
-        <Link
-          href="/"
-          translate="no"
-          data-notranslate-brand
-          className="notranslate shrink-0 rounded-lg px-1 py-0.5 ring-1 ring-archi-500/25 transition hover:opacity-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-archi-500"
-          aria-label={APP_BRAND_NAME}
-        >
-          <LogoArci size="sm" />
-        </Link>
-        <div className="flex min-w-0 flex-1 items-center justify-end gap-1.5">
-          {loading ? (
-            <span
-              className="inline-flex h-8 w-8 animate-pulse rounded-full bg-zone-edge"
-              aria-hidden
-            />
-          ) : user ? (
-            <HeaderAccountMenu />
-          ) : (
-            <>
-              <Link
-                href="/auth/login"
-                className="shrink-0 rounded-md bg-archi-600 px-2.5 py-1.5 text-xs font-medium text-black transition hover:bg-archi-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-archi-400"
-              >
-                {tAuth("login")}
-              </Link>
-              <Link
-                href="/auth/register"
-                className="shrink-0 rounded-md border border-archi-700/60 bg-zone-panel px-2.5 py-1.5 text-xs font-medium text-archi-200 transition hover:border-archi-500 hover:bg-zone-edge/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-archi-500"
-              >
-                {tAuth("register")}
-              </Link>
-            </>
-          )}
+      <div className="sticky top-0 z-40 -mx-3 mb-4 border-b border-zone-edge/80 bg-zone-deep/95 px-2 py-2 backdrop-blur-md sm:mb-0 sm:hidden">
+        <div className="flex items-center gap-1.5">
+          <Link
+            href="/"
+            translate="no"
+            data-notranslate-brand
+            className="notranslate shrink-0 rounded-lg px-1 py-0.5 ring-1 ring-archi-500/25 transition hover:opacity-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-archi-500"
+            aria-label={APP_BRAND_NAME}
+          >
+            <LogoArci size="sm" />
+          </Link>
+          <nav
+            aria-label={tCommon("mobileNavAria")}
+            className="flex min-w-0 flex-1 items-center justify-center gap-0.5"
+          >
+            {mobileNavTabs.map(({ href, key, Icon }) => {
+              const active =
+                pathname === href || pathname.startsWith(`${href}/`);
+              return (
+                <Link
+                  key={href}
+                  href={href}
+                  className={`flex h-10 min-w-[2.5rem] shrink-0 flex-col items-center justify-center rounded-lg px-1.5 py-1 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-archi-500 ${
+                    active
+                      ? "text-archi-400"
+                      : "text-zone-muted hover:text-zone-fog"
+                  }`}
+                  aria-current={active ? "page" : undefined}
+                  title={t(key)}
+                >
+                  <Icon
+                    className={`h-[1.15rem] w-[1.15rem] shrink-0 ${
+                      active ? "text-archi-400" : ""
+                    }`}
+                  />
+                  <span className="max-w-[3.25rem] truncate text-[0.6rem] font-medium leading-tight">
+                    {t(key)}
+                  </span>
+                </Link>
+              );
+            })}
+          </nav>
+          <div className="flex shrink-0 items-center justify-end gap-1">
+            {loading ? (
+              <span
+                className="inline-flex h-8 w-8 animate-pulse rounded-full bg-zone-edge"
+                aria-hidden
+              />
+            ) : user ? (
+              <HeaderAccountMenu />
+            ) : (
+              <>
+                <Link
+                  href="/auth/login"
+                  className="shrink-0 rounded-md bg-archi-600 px-2 py-1.5 text-[0.65rem] font-medium text-black transition hover:bg-archi-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-archi-400"
+                >
+                  {tAuth("login")}
+                </Link>
+                <Link
+                  href="/auth/register"
+                  className="shrink-0 rounded-md border border-archi-700/60 bg-zone-panel px-2 py-1.5 text-[0.65rem] font-medium text-archi-200 transition hover:border-archi-500 hover:bg-zone-edge/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-archi-500"
+                >
+                  {tAuth("register")}
+                </Link>
+              </>
+            )}
+          </div>
         </div>
       </div>
 
@@ -202,13 +238,7 @@ export function AppShell({
             )}
           </p>
         ) : null}
-        {webVersion ? (
-          <p className="mt-4 text-[11px] text-zone-muted/75 tabular-nums">
-            {tCommon("appVersion", { version: webVersion })}
-          </p>
-        ) : null}
       </footer>
-      <MobileAppNav />
       <GoogleTranslateWidget
         key={`${user?.autoTranslate ? "1" : "0"}-${user?.locale ?? "en"}`}
         enabled={!!user?.autoTranslate}
