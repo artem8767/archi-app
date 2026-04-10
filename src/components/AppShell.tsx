@@ -4,10 +4,9 @@ import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import { useSession } from "./SessionProvider";
 import { GoogleTranslateWidget } from "./GoogleTranslateWidget";
-import { LocaleSwitcher } from "./LocaleSwitcher";
 import { HeaderAccountMenu } from "./HeaderAccountMenu";
 import { LogoArci } from "./LogoArci";
-import { IconChat, IconNews, IconSettings } from "./icons/AppIcons";
+import { IconChat, IconNews } from "./icons/AppIcons";
 import { APP_BRAND_NAME } from "@/lib/brand";
 import type { SiteDeveloperCredit } from "@/lib/site-credits";
 
@@ -51,7 +50,6 @@ export function AppShell({
   const mobileNavTabs = [
     { href: "/news", key: "news" as const, Icon: IconNews },
     { href: "/chat", key: "chat" as const, Icon: IconChat },
-    { href: "/settings", key: "settings" as const, Icon: IconSettings },
   ] as const;
   const { user, loading } = useSession();
 
@@ -170,15 +168,6 @@ export function AppShell({
             })}
           </nav>
           <div className="flex shrink-0 items-center gap-2">
-            <Link
-              href="/settings"
-              className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-zone-edge/80 bg-zone-panel/90 text-zone-fog transition hover:border-archi-700/45 hover:bg-zone-edge/40 hover:text-archi-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-archi-500"
-              aria-label={t("settings")}
-              title={t("settings")}
-            >
-              <IconSettings className="h-[1.15rem] w-[1.15rem]" />
-            </Link>
-            <LocaleSwitcher />
             {loading ? (
               <span
                 className="inline-flex h-5 w-5 animate-pulse rounded-full bg-zone-edge"
