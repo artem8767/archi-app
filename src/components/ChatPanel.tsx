@@ -4,6 +4,7 @@ import { useFormatter, useTranslations } from "next-intl";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { looksLikeHttpUrl, parseYouTubeEmbed } from "@/lib/chat-media";
+import { timeShort24h } from "@/lib/datetime-display";
 import { ReplyToBar } from "./ReplyToBar";
 import { useSession } from "./SessionProvider";
 
@@ -223,7 +224,7 @@ export function ChatPanel() {
                 </span>
                 <span className="text-zone-muted/70">
                   {" "}
-                  {format.dateTime(new Date(m.createdAt), { timeStyle: "short" })}
+                  {format.dateTime(new Date(m.createdAt), timeShort24h)}
                 </span>
               </div>
               {user && user.id !== m.user.id ? (

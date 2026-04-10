@@ -4,6 +4,7 @@ import { useFormatter, useTranslations } from "next-intl";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { dateTimeShort24h } from "@/lib/datetime-display";
 import { isListingSectionId } from "@/lib/marketplace-sections";
 import { CommentThread } from "./CommentThread";
 
@@ -227,10 +228,7 @@ export function NewsFeed() {
                       </h3>
                       <p className="mt-1 text-sm text-zone-muted">
                         {item.user.name || item.user.email} ·{" "}
-                        {format.dateTime(new Date(item.createdAt), {
-                          dateStyle: "short",
-                          timeStyle: "short",
-                        })}
+                        {format.dateTime(new Date(item.createdAt), dateTimeShort24h)}
                       </p>
                       <p className="mt-3 line-clamp-5 whitespace-pre-wrap text-sm text-zone-fog/95">
                         {item.description}

@@ -3,6 +3,7 @@
 import { useFormatter, useTranslations } from "next-intl";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
+import { dateTimeShort24h } from "@/lib/datetime-display";
 import { useSession } from "./SessionProvider";
 import { CommentThread } from "./CommentThread";
 import { FilePickerInput } from "./FilePickerInput";
@@ -174,10 +175,7 @@ export function JobsBoard() {
                 <h3 className="text-xl font-semibold text-zone-fog">{job.vacancy}</h3>
                 <p className="mt-1 text-sm text-zone-muted">
                   {job.user.name || job.user.email} ·{" "}
-                  {format.dateTime(new Date(job.createdAt), {
-                    dateStyle: "short",
-                    timeStyle: "short",
-                  })}
+                  {format.dateTime(new Date(job.createdAt), dateTimeShort24h)}
                 </p>
                 <p className="mt-3 text-zone-fog/95">
                   {t("city")}: {job.city}

@@ -3,6 +3,7 @@
 import { useFormatter, useTranslations } from "next-intl";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
+import { dateTimeShort24h } from "@/lib/datetime-display";
 import {
   LISTING_SECTION_IDS,
   type ListingSectionId,
@@ -348,10 +349,7 @@ export function ListingBoard({ category }: { category: ListingCategory }) {
                   </h3>
                   <p className="mt-1 text-sm text-zone-muted">
                     {item.user.name || item.user.email} ·{" "}
-                    {format.dateTime(new Date(item.createdAt), {
-                      dateStyle: "short",
-                      timeStyle: "short",
-                    })}
+                    {format.dateTime(new Date(item.createdAt), dateTimeShort24h)}
                   </p>
                   <p className="mt-3 whitespace-pre-wrap text-zone-fog/95">
                     {item.description}

@@ -4,6 +4,7 @@ import { useFormatter, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { ReplyToBar } from "./ReplyToBar";
+import { dateTimeShort24h } from "@/lib/datetime-display";
 import { useSession } from "./SessionProvider";
 
 type Comment = {
@@ -95,10 +96,7 @@ export function CommentThread({
                   <span className="text-zone-muted">
                     {" "}
                     ·{" "}
-                    {format.dateTime(new Date(c.createdAt), {
-                      dateStyle: "short",
-                      timeStyle: "short",
-                    })}
+                    {format.dateTime(new Date(c.createdAt), dateTimeShort24h)}
                   </span>
                 </div>
                 {user && user.id !== c.user.id ? (
