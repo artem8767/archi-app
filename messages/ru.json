@@ -229,6 +229,6 @@
     "filePickerEmpty": "Файл не выбран",
     "filePickerSingle": "{name}",
     "filePickerMultiple": "Выбрано файлов: {count}",
-    "appVersion": "Версия сайта {version}"
+    "appVersion": "Версия приложения {version}"
   }
 }

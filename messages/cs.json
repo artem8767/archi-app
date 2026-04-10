@@ -229,6 +229,6 @@
     "filePickerEmpty": "Není vybrán žádný soubor",
     "filePickerSingle": "{name}",
     "filePickerMultiple": "Vybráno souborů: {count}",
-    "appVersion": "Verze webu {version}"
+    "appVersion": "Verze aplikace {version}"
   }
 }

@@ -229,6 +229,6 @@
     "filePickerEmpty": "Nie wybrano pliku",
     "filePickerSingle": "{name}",
     "filePickerMultiple": "Wybrano plików: {count}",
-    "appVersion": "Wersja strony {version}"
+    "appVersion": "Wersja aplikacji {version}"
   }
 }

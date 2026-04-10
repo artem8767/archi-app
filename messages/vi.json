@@ -229,6 +229,6 @@
     "filePickerEmpty": "Chưa chọn tệp",
     "filePickerSingle": "{name}",
     "filePickerMultiple": "Đã chọn {count} tệp",
-    "appVersion": "Phiên bản trang {version}"
+    "appVersion": "Phiên bản ứng dụng {version}"
   }
 }
